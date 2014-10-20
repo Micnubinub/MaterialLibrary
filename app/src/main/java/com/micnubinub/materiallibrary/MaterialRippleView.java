@@ -72,8 +72,8 @@ public class MaterialRippleView extends ViewGroup {
         post(new Runnable() {
             @Override
             public void run() {
-                getChildAt(0).setScaleX(scale);
-                getChildAt(0).setScaleY(scale);
+                MaterialRippleView.this.setScaleX(scale);
+                MaterialRippleView.this.setScaleY(scale);
                 invalidatePoster();
             }
         });
@@ -222,9 +222,10 @@ public class MaterialRippleView extends ViewGroup {
         height = h;
         paddingX = (int) ((w - (w / scaleTo)) / 2);
         paddingY = (int) ((h - (h / scaleTo)) / 2);
-        getChildAt(0).setPivotX(w / 2);
-        getChildAt(0).setPivotY(h / 2);
+        this.setPivotX(w / 2);
+        this.setPivotY(h / 2);
     }
+
 }
 
 

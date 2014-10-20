@@ -29,4 +29,14 @@
         <attr name="rv_ripplePadding" format="dimension" />
         <attr name="rv_zoom" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="MaterialTwoLineListItem">
+        <attr name="secondaryTextColor" format="integer" />
+        <attr name="primaryTextColor" format="integer" />
+        <attr name="secondaryTextSize" format="integer" />
+        <attr name="primaryTextSize" format="integer" />
+        <attr name="secondaryTextMaxLines" format="integer" />
+        <attr name="secondaryText" format="string" />
+        <attr name="primaryText" format="string" />
+    </declare-styleable>
 </resources>

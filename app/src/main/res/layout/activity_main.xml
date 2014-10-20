@@ -22,29 +22,10 @@
             android:textSize="22sp" />
     </com.micnubinub.materiallibrary.MaterialRippleView>
 
-    <com.micnubinub.materiallibrary.MaterialRippleView
-        android:layout_width="200dp"
-        android:layout_height="75dp">
+    <com.micnubinub.materiallibrary.MaterialTwoLineListItem
+        android:layout_width="fill_parent"
+        android:layout_height="72dp" />
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="Button"
-            android:textColor="@color/dark_grey"
-            android:textSize="22sp" />
-    </com.micnubinub.materiallibrary.MaterialRippleView>
-
-    <com.micnubinub.materiallibrary.MaterialRippleView
-        android:layout_width="200dp"
-        android:layout_height="75dp">
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="Button"
-            android:textColor="@color/dark_grey"
-            android:textSize="22sp" />
-    </com.micnubinub.materiallibrary.MaterialRippleView>
 
     <com.micnubinub.materiallibrary.RippleView
         android:layout_width="200dp"
