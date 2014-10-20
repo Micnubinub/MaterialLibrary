@@ -15,8 +15,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 
-
-
 /**
  * Created by root on 30/09/14.
  */
