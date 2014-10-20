@@ -18,7 +18,11 @@
             android:textSize="22sp" />
     </com.micnubinub.materiallibrary.MaterialRippleView>
 
-    <com.micnubinub.materiallibrary.MaterialTwoLineText
+    <com.micnubinub.materiallibrary.MaterialTwoLineTextIcon
+        android:layout_width="fill_parent"
+        android:layout_height="72dp" />
+
+    <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatar
         android:layout_width="fill_parent"
         android:layout_height="72dp" />
 

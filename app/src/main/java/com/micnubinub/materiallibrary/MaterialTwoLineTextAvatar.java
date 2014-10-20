@@ -5,9 +5,14 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -23,9 +28,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by root on 20/10/14.
+ * Created by root on 21/10/14.
  */
-public class MaterialTwoLineTextIcon extends ViewGroup {
+public class MaterialTwoLineTextAvatar extends ViewGroup {
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static int duration = 750;
@@ -78,12 +83,12 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         }
     };
 
-    public MaterialTwoLineTextIcon(Context context) {
+    public MaterialTwoLineTextAvatar(Context context) {
         super(context);
         init();
     }
 
-    public MaterialTwoLineTextIcon(Context context, AttributeSet attrs) {
+    public MaterialTwoLineTextAvatar(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         try {
@@ -102,7 +107,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
     }
 
-    public MaterialTwoLineTextIcon(Context context, AttributeSet attrs, int defStyle) {
+    public MaterialTwoLineTextAvatar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
@@ -170,12 +175,12 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
     public void setIcon(Drawable icon) {
         if (imageView != null)
-            imageView.setImageDrawable(icon);
+            imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
     }
 
     public void setIcon(Bitmap icon) {
         if (imageView != null)
-            imageView.setImageBitmap(icon);
+            imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
     }
 
     public void setSecondaryTextColor(int color) {
@@ -213,8 +218,8 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         post(new Runnable() {
             @Override
             public void run() {
-                MaterialTwoLineTextIcon.this.setScaleX(scale);
-                MaterialTwoLineTextIcon.this.setScaleY(scale);
+                MaterialTwoLineTextAvatar.this.setScaleX(scale);
+                MaterialTwoLineTextAvatar.this.setScaleY(scale);
                 invalidatePoster();
             }
         });
@@ -288,7 +293,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
 
     public void setDuration(int duration) {
-        MaterialTwoLineTextIcon.duration = duration;
+        MaterialTwoLineTextAvatar.duration = duration;
         animator.setDuration(duration);
     }
 
@@ -380,7 +385,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
 
     }
-/*
+
     public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable == null) // Don't do anything without a proper drawable
             return null;
@@ -391,16 +396,19 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
-// Return the created Bitmap
         return bitmap;
     }
 
-
-    public static Bitmap getCircleBitmap(Resources res, int sourceResId, int width) {
+    public Bitmap getCircleBitmap(final Drawable drawable, final int width) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeResource(res, sourceResId, options);
+        Bitmap bitmap = drawableToBitmap(drawable);
+
+        return getCircleBitmap(bitmap, width);
+    }
+
+    public Bitmap getCircleBitmap(Bitmap bitmap, final int width) {
         bitmap.setHasAlpha(true);
         bitmap = Bitmap.createScaledBitmap(bitmap, width, width, true);
         Bitmap output = Bitmap.createBitmap(width,
@@ -416,5 +424,6 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         bitmap.recycle();
         return output;
     }
-    */
+
+
 }
