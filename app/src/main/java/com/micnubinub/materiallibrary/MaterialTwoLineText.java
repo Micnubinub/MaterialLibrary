@@ -22,7 +22,7 @@ import java.util.TimerTask;
 /**
  * Created by root on 20/10/14.
  */
-public class MaterialTwoLineListItem extends ViewGroup {
+public class MaterialTwoLineText extends ViewGroup {
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static int duration = 750;
@@ -74,15 +74,16 @@ public class MaterialTwoLineListItem extends ViewGroup {
         }
     };
 
-    public MaterialTwoLineListItem(Context context) {
+    public MaterialTwoLineText(Context context) {
         super(context);
         init();
     }
-    public MaterialTwoLineListItem(Context context, AttributeSet attrs) {
+
+    public MaterialTwoLineText(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         try {
-            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineListItem, 0, 0);
+            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
             setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, getResources().getColor(R.color.dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
@@ -96,10 +97,11 @@ public class MaterialTwoLineListItem extends ViewGroup {
         init();
 
     }
-    public MaterialTwoLineListItem(Context context, AttributeSet attrs, int defStyle) {
+
+    public MaterialTwoLineText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         try {
-            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineListItem, 0, 0);
+            final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
             setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, getResources().getColor(R.color.dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
@@ -201,8 +203,8 @@ public class MaterialTwoLineListItem extends ViewGroup {
         post(new Runnable() {
             @Override
             public void run() {
-                MaterialTwoLineListItem.this.setScaleX(scale);
-                MaterialTwoLineListItem.this.setScaleY(scale);
+                MaterialTwoLineText.this.setScaleX(scale);
+                MaterialTwoLineText.this.setScaleY(scale);
                 invalidatePoster();
             }
         });
@@ -276,7 +278,7 @@ public class MaterialTwoLineListItem extends ViewGroup {
 
 
     public void setDuration(int duration) {
-        MaterialTwoLineListItem.duration = duration;
+        MaterialTwoLineText.duration = duration;
         animator.setDuration(duration);
     }
 
