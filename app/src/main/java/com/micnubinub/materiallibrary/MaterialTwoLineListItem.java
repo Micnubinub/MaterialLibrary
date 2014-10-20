@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -83,8 +83,8 @@ public class MaterialTwoLineListItem extends ViewGroup {
 
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineListItem, 0, 0);
-            setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, R.color.dark_dark_grey));
-            setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, R.color.dark_grey));
+            setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
+            setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, getResources().getColor(R.color.dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
             setSecondaryTextSize(a.getInteger(R.attr.primaryTextSize, 16));
             setSecondaryTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
@@ -100,8 +100,8 @@ public class MaterialTwoLineListItem extends ViewGroup {
         super(context, attrs, defStyle);
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineListItem, 0, 0);
-            setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, R.color.dark_dark_grey));
-            setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, R.color.dark_grey));
+            setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
+            setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, getResources().getColor(R.color.dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
             setSecondaryTextSize(a.getInteger(R.attr.primaryTextSize, 16));
             setSecondaryTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
@@ -120,17 +120,23 @@ public class MaterialTwoLineListItem extends ViewGroup {
 
     private void init() {
         //Todo consider 16 and 14 (in the guidelines)
+        final int padding = dpToPixels(16);
+        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         primaryTextView = new TextView(getContext());
-        primaryTextView.setTextColor(primaryTextColor);
+        primaryTextView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
         primaryTextView.setTypeface(null, Typeface.BOLD);
         primaryTextView.setTextSize(18);
-        setPadding(primaryTextView, 16, -1);
+        primaryTextView.setLayoutParams(params);
+        primaryTextView.setEllipsize(TextUtils.TruncateAt.END);
+        primaryTextView.setPadding(padding, padding / 2, padding, padding / 2);
 
         secondaryTextView = new TextView(getContext());
-        secondaryTextView.setTextColor(secondaryTextColor);
+        secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));
         secondaryTextView.setTextSize(16);
-        setPadding(secondaryTextView, 16, 1);
+        secondaryTextView.setLayoutParams(params);
+        secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
+        secondaryTextView.setPadding(padding, padding / 2, padding, padding);
 
         primaryTextView.setText("Primary");
         secondaryTextView.setText("Secondary");
@@ -142,32 +148,15 @@ public class MaterialTwoLineListItem extends ViewGroup {
         animator.setDuration(duration);
         paint.setColor(0x25000000);
 
-        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        addView(primaryTextView, params);
-        addView(secondaryTextView, params);
+
+        addView(primaryTextView);
+        addView(secondaryTextView);
     }
 
-    private void setPadding(final View view, final int dp, int div) {
-        final int padding = dpToPixels(dp);
-        switch (div) {
-            case 1:
-                view.setPadding(padding, padding, padding, padding / 2);
-                break;
-            case 0:
-                view.setPadding(padding, padding, padding, padding);
-                break;
-            case -1:
-                view.setPadding(padding, padding / 2, padding, padding);
-                break;
-        }
-
-
-    }
 
     public void setSecondaryTextColor(int color) {
         secondaryTextColor = color;
         if (secondaryTextView != null)
-
             secondaryTextView.setTextColor(color);
     }
 
@@ -208,18 +197,6 @@ public class MaterialTwoLineListItem extends ViewGroup {
         );
     }
 
-    private void postAnimatedValueReset(int delay) {
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (!touchDown)
-                    animated_value = 0;
-                invalidatePoster();
-            }
-        }, delay);
-    }
-
     private void scale(final float scale) {
         post(new Runnable() {
             @Override
@@ -256,17 +233,15 @@ public class MaterialTwoLineListItem extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Toast.makeText(getContext(), "down", Toast.LENGTH_SHORT).show();
 
                 if (scaleOnTouch)
                     scaleLater();
-
 
                 clickedX = (int) event.getX();
                 clickedY = (int) event.getY();
                 r = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
 
-                if (animator.isRunning() || animator.isStarted())
+                if (animator.isRunning())
                     animator.cancel();
                 animator.start();
 
@@ -274,7 +249,6 @@ public class MaterialTwoLineListItem extends ViewGroup {
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                Toast.makeText(getContext(), "up", Toast.LENGTH_SHORT).show();
 
                 if (scaleOnTouch)
                     scale(1);
