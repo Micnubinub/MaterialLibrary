@@ -37,10 +37,10 @@ public class MaterialTwoLineListItem extends ViewGroup {
 
     private void init() {
         primaryText = new TextView(getContext());
-
+        primaryText.setTextColor(primaryTextColor);
 
         secondaryText = new TextView(getContext());
-
+        secondaryText.setTextColor(secondaryTextColor);
     }
 
     public void setSecondaryTextColor(int color) {
