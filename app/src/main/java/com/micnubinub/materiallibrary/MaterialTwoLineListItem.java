@@ -1,29 +1,83 @@
 package com.micnubinub.materiallibrary;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by root on 20/10/14.
  */
 public class MaterialTwoLineListItem extends ViewGroup {
+    private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
+    private static int duration = 750;
+    private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView primaryTextView, secondaryTextView;
     private int secondaryTextSize, primaryTextSize,
             primaryTextColor, secondaryTextColor, secondaryTextMaxLines;
     private String primaryText, secondaryText;
+    private long tic;
+    private int width;
+    private int height;
+    private int r;
+    private int paddingX, paddingY;
+    private float animated_value = 0;
+    private ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            invalidatePoster();
+        }
+    };
+    private float scaleTo = 1.065f;
+    private int clickedX, clickedY;
+    private boolean scaleOnTouch = true;
+    private boolean touchDown = false;
+    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animator) {
+            tic = System.currentTimeMillis();
+        }
 
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            if (!touchDown)
+                animated_value = 0;
+
+            invalidatePoster();
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+
+        }
+    };
 
     public MaterialTwoLineListItem(Context context) {
         super(context);
         init();
     }
-
     public MaterialTwoLineListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -42,7 +96,6 @@ public class MaterialTwoLineListItem extends ViewGroup {
         init();
 
     }
-
     public MaterialTwoLineListItem(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         try {
@@ -64,6 +117,7 @@ public class MaterialTwoLineListItem extends ViewGroup {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 
+
     private void init() {
         //Todo consider 16 and 14 (in the guidelines)
 
@@ -80,6 +134,13 @@ public class MaterialTwoLineListItem extends ViewGroup {
 
         primaryTextView.setText("Primary");
         secondaryTextView.setText("Secondary");
+
+        setWillNotDraw(false);
+        animator.setInterpolator(interpolator);
+        animator.addUpdateListener(animatorUpdateListener);
+        animator.addListener(animatorListener);
+        animator.setDuration(duration);
+        paint.setColor(0x25000000);
 
         final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         addView(primaryTextView, params);
@@ -128,7 +189,6 @@ public class MaterialTwoLineListItem extends ViewGroup {
             primaryTextView.setTextSize(sp);
     }
 
-
     public void setPrimaryTextColor(int color) {
         primaryTextColor = color;
         if (primaryTextView != null)
@@ -146,6 +206,153 @@ public class MaterialTwoLineListItem extends ViewGroup {
                 getMeasuredWidth() - getPaddingRight(),
                 getMeasuredHeight() - getPaddingBottom()
         );
+    }
+
+    private void postAnimatedValueReset(int delay) {
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!touchDown)
+                    animated_value = 0;
+                invalidatePoster();
+            }
+        }, delay);
+    }
+
+    private void scale(final float scale) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                MaterialTwoLineListItem.this.setScaleX(scale);
+                MaterialTwoLineListItem.this.setScaleY(scale);
+                invalidatePoster();
+            }
+        });
+
+    }
+
+    private void scaleLater() {
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (touchDown)
+                    scale(scaleTo);
+                else
+                    scale(1);
+            }
+        }, 175);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+
+        return false;
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Toast.makeText(getContext(), "down", Toast.LENGTH_SHORT).show();
+
+                if (scaleOnTouch)
+                    scaleLater();
+
+
+                clickedX = (int) event.getX();
+                clickedY = (int) event.getY();
+                r = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
+
+                if (animator.isRunning() || animator.isStarted())
+                    animator.cancel();
+                animator.start();
+
+                touchDown = true;
+                break;
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+                Toast.makeText(getContext(), "up", Toast.LENGTH_SHORT).show();
+
+                if (scaleOnTouch)
+                    scale(1);
+
+                touchDown = false;
+
+                if (!animator.isRunning()) {
+                    animated_value = 0;
+                    invalidatePoster();
+                }
+                break;
+
+        }
+        return true;
+    }
+
+
+    public void setRippleColor(int color) {
+        paint.setColor(color);
+    }
+
+    public void setRippleAlpha(int alpha) {
+        paint.setAlpha(alpha);
+    }
+
+
+    public void setDuration(int duration) {
+        MaterialTwoLineListItem.duration = duration;
+        animator.setDuration(duration);
+    }
+
+    public void setScaleTo(float scaleTo) {
+        this.scaleTo = scaleTo;
+    }
+
+    public void setScaleOnTouch(boolean scaleOnTouch) {
+        this.scaleOnTouch = scaleOnTouch;
+    }
+
+    private void invalidatePoster() {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                invalidate();
+            }
+        });
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        canvas.drawCircle(clickedX, clickedY, r * animated_value, paint);
+    }
+
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+    }
+
+    @Override
+    public void addView(View child, int index, LayoutParams params) {
+        if (getChildCount() >= 2)
+            return;
+        super.addView(child, index, params);
+    }
+
+
+    @Override
+    protected void onSizeChanged(final int w, final int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        width = w;
+        height = h;
+        paddingX = (int) ((w - (w / scaleTo)) / 2);
+        paddingY = (int) ((h - (h / scaleTo)) / 2);
+        this.setPivotX(w / 2);
+        this.setPivotY(h / 2);
     }
 
     @Override

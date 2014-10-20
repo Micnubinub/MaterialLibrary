@@ -23,7 +23,7 @@
     </com.micnubinub.materiallibrary.MaterialRippleView>
 
     <com.micnubinub.materiallibrary.MaterialTwoLineListItem
-        android:layout_width="fill_parent"
+        android:layout_width="320dp"
         android:layout_height="72dp" />
 
 

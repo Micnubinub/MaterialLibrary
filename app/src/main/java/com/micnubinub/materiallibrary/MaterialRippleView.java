@@ -1,11 +1,11 @@
 package com.micnubinub.materiallibrary;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +18,12 @@ import java.util.TimerTask;
  * Created by root on 17/10/14.
  */
 public class MaterialRippleView extends ViewGroup {
+
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
-    private static int duration = 800;
+    private static int duration = 750;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
+    private long tic;
     private int width;
     private int height;
     private int r;
@@ -34,11 +36,35 @@ public class MaterialRippleView extends ViewGroup {
             invalidatePoster();
         }
     };
-
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
     private boolean scaleOnTouch = true;
     private boolean touchDown = false;
+    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animator) {
+            tic = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            if (!touchDown)
+                animated_value = 0;
+
+            invalidatePoster();
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+
+        }
+    };
 
     public MaterialRippleView(Context context) {
         super(context);
@@ -62,7 +88,6 @@ public class MaterialRippleView extends ViewGroup {
             public void run() {
                 if (!touchDown)
                     animated_value = 0;
-
                 invalidatePoster();
             }
         }, delay);
@@ -95,18 +120,19 @@ public class MaterialRippleView extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
-                if (scaleOnTouch) {
+                if (scaleOnTouch)
                     scaleLater();
-                }
+
 
                 clickedX = (int) event.getX();
                 clickedY = (int) event.getY();
                 r = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
 
-                if (animator.isRunning())
+                if (animator.isRunning() || animator.isStarted())
                     animator.cancel();
                 animator.start();
 
@@ -115,23 +141,20 @@ public class MaterialRippleView extends ViewGroup {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
 
-                if (scaleOnTouch) {
+
+                if (scaleOnTouch)
                     scale(1);
-                }
 
                 touchDown = false;
 
-                if (animator.isRunning())
-                    postAnimatedValueReset((int) (animator.getDuration() - animator.getCurrentPlayTime() + 15));
-                else {
+                if (!animator.isRunning()) {
                     animated_value = 0;
                     invalidatePoster();
                 }
-
                 break;
 
         }
-        return super.onInterceptTouchEvent(event);
+        return false;
 
     }
 
@@ -147,6 +170,7 @@ public class MaterialRippleView extends ViewGroup {
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);
         animator.addUpdateListener(animatorUpdateListener);
+        animator.addListener(animatorListener);
         animator.setDuration(duration);
         paint.setColor(0x25000000);
     }
@@ -169,7 +193,6 @@ public class MaterialRippleView extends ViewGroup {
             @Override
             public void run() {
                 invalidate();
-                Log.e("invalidate", String.format("r : %f", animated_value));
             }
         });
     }
@@ -182,7 +205,7 @@ public class MaterialRippleView extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        getChildAt(0).layout(paddingX, paddingY, getMeasuredWidth() - paddingX, getMeasuredHeight() - paddingY);
+        getChildAt(0).layout(0, 0, getMeasuredWidth(), getMeasuredHeight());
     }
 
     @Override
