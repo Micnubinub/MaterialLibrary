@@ -130,6 +130,7 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
 
 
     private void init() {
+        this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, dpToPixels(72)));
         //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
