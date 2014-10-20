@@ -20,7 +20,7 @@ import java.util.TimerTask;
 public class MaterialRippleView extends ViewGroup {
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
-    private static int duration = 750;
+    private static int duration = 800;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private int width;
     private int height;
@@ -90,7 +90,7 @@ public class MaterialRippleView extends ViewGroup {
                 else
                     scale(1);
             }
-        }, 100);
+        }, 175);
     }
 
     @Override

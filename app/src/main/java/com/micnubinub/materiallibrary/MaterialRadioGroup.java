@@ -97,31 +97,7 @@ public class MaterialRadioGroup extends ViewGroup {
                 resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
 
     }
-
-    @Override
-    public void addView(View child) {
-        addListener((MaterialRadioButton) child);
-        super.addView(child);
-    }
-
-    @Override
-    public void addView(View child, int index) {
-        addListener((MaterialRadioButton) child);
-        super.addView(child, index);
-    }
-
-    @Override
-    public void addView(View child, int width, int height) {
-        addListener((MaterialRadioButton) child);
-        super.addView(child, width, height);
-
-    }
-
-    @Override
-    public void addView(View child, LayoutParams params) {
-        addListener((MaterialRadioButton) child);
-        super.addView(child, params);
-    }
+    //Todo check if everything works fine, cause you removed all the other addView(...)s
 
     @Override
     public void addView(View child, int index, LayoutParams params) {
