@@ -370,15 +370,16 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
         imageView.layout(getPaddingLeft(),
                 getPaddingTop(),
-                getMeasuredHeight() - getPaddingBottom(),
-                getPaddingLeft() + imageView.getMeasuredWidth());
+                getPaddingLeft() + imageView.getMeasuredWidth(),
+                getMeasuredHeight() - getPaddingBottom()
+        );
 
         primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), getPaddingTop(),
                 getMeasuredWidth() - getPaddingRight(),
                 primaryTextView.getMeasuredHeight() + getPaddingTop());
 
         secondaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingBottom() - secondaryTextView.getMeasuredHeight(),
+                getMeasuredHeight() - getPaddingTop() - secondaryTextView.getMeasuredHeight(),
                 getMeasuredWidth() - getPaddingRight(),
                 getMeasuredHeight() - getPaddingBottom()
         );

@@ -5,9 +5,14 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -23,15 +28,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by root on 20/10/14.
+ * Created by root on 21/10/14.
  */
-public class MaterialTwoLineTextIcon extends ViewGroup {
+public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static int duration = 750;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView primaryTextView, secondaryTextView;
-    private ImageView imageView;
+    private ImageView avatar, icon;
     private int secondaryTextSize, primaryTextSize,
             primaryTextColor, secondaryTextColor, secondaryTextMaxLines;
     private String primaryText, secondaryText;
@@ -78,12 +83,12 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         }
     };
 
-    public MaterialTwoLineTextIcon(Context context) {
+    public MaterialTwoLineTextAvatarWithIcon(Context context) {
         super(context);
         init();
     }
 
-    public MaterialTwoLineTextIcon(Context context, AttributeSet attrs) {
+    public MaterialTwoLineTextAvatarWithIcon(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         try {
@@ -102,7 +107,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
     }
 
-    public MaterialTwoLineTextIcon(Context context, AttributeSet attrs, int defStyle) {
+    public MaterialTwoLineTextAvatarWithIcon(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
@@ -146,12 +151,18 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
 
 
-        imageView = new ImageView(getContext());
-        imageView.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        imageView.setPadding(padding, padding, padding, padding);
+        avatar = new ImageView(getContext());
+        avatar.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
+        avatar.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        avatar.setPadding(padding, padding, padding, padding);
 
-        setIcon(getResources().getDrawable(R.drawable.test));
+        icon = new ImageView(getContext());
+        icon.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
+        icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        icon.setPadding(padding, padding, padding, padding);
+
+        setLeftIcon(getResources().getDrawable(R.drawable.test));
+        setRightIcon(getResources().getDrawable(R.drawable.test));
         primaryTextView.setText("Primary");
         secondaryTextView.setText("Secondary");
 
@@ -165,17 +176,28 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
         addView(primaryTextView);
         addView(secondaryTextView);
-        addView(imageView);
+        addView(avatar);
+        addView(icon);
     }
 
-    public void setIcon(Drawable icon) {
-        if (imageView != null)
-            imageView.setImageDrawable(icon);
+    public void setLeftIcon(Drawable leftIcon) {
+        if (avatar != null)
+            avatar.setImageBitmap(getCircleBitmap(leftIcon, dpToPixels(40)));
     }
 
-    public void setIcon(Bitmap icon) {
-        if (imageView != null)
-            imageView.setImageBitmap(icon);
+    public void setLeftIcon(Bitmap leftIcon) {
+        if (avatar != null)
+            avatar.setImageBitmap(getCircleBitmap(leftIcon, dpToPixels(40)));
+    }
+
+    public void setRightIcon(Drawable rightIcon) {
+        if (icon != null)
+            icon.setImageDrawable(rightIcon);
+    }
+
+    public void setRightIcon(Bitmap icon) {
+        if (this.icon != null)
+            this.icon.setImageBitmap(icon);
     }
 
     public void setSecondaryTextColor(int color) {
@@ -213,8 +235,8 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         post(new Runnable() {
             @Override
             public void run() {
-                MaterialTwoLineTextIcon.this.setScaleX(scale);
-                MaterialTwoLineTextIcon.this.setScaleY(scale);
+                MaterialTwoLineTextAvatarWithIcon.this.setScaleX(scale);
+                MaterialTwoLineTextAvatarWithIcon.this.setScaleY(scale);
                 invalidatePoster();
             }
         });
@@ -288,7 +310,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
 
     public void setDuration(int duration) {
-        MaterialTwoLineTextIcon.duration = duration;
+        MaterialTwoLineTextAvatarWithIcon.duration = duration;
         animator.setDuration(duration);
     }
 
@@ -324,7 +346,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
-        if (getChildCount() >= 3)
+        if (getChildCount() >= 4)
             return;
         super.addView(child, index, params);
     }
@@ -363,25 +385,30 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        imageView.layout(getPaddingLeft(),
+        avatar.layout(getPaddingLeft(),
                 getPaddingTop(),
-                getPaddingLeft() + imageView.getMeasuredWidth(),
+                getPaddingLeft() + avatar.getMeasuredWidth(),
                 getMeasuredHeight() - getPaddingBottom()
         );
 
-        primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), getPaddingTop(),
-                getMeasuredWidth() - getPaddingRight(),
+        primaryTextView.layout(getPaddingLeft() + avatar.getMeasuredWidth(), getPaddingTop(),
+                getMeasuredWidth() - getPaddingRight() - icon.getMeasuredWidth(),
                 primaryTextView.getMeasuredHeight() + getPaddingTop());
 
-        secondaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
+        secondaryTextView.layout(getPaddingLeft() + avatar.getMeasuredWidth(),
                 getMeasuredHeight() - getPaddingTop() - secondaryTextView.getMeasuredHeight(),
-                getMeasuredWidth() - getPaddingRight(),
+                getMeasuredWidth() - getPaddingRight() - icon.getMeasuredWidth(),
                 getMeasuredHeight() - getPaddingBottom()
         );
+
+        icon.layout(getMeasuredWidth() - icon.getMeasuredWidth() - getPaddingRight(),
+                getPaddingTop(),
+                getMeasuredWidth() - getPaddingRight(),
+                getMeasuredHeight() - getPaddingBottom());
 
 
     }
-/*
+
     public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable == null) // Don't do anything without a proper drawable
             return null;
@@ -392,16 +419,19 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
-// Return the created Bitmap
         return bitmap;
     }
 
-
-    public static Bitmap getCircleBitmap(Resources res, int sourceResId, int width) {
+    public Bitmap getCircleBitmap(final Drawable drawable, final int width) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeResource(res, sourceResId, options);
+        Bitmap bitmap = drawableToBitmap(drawable);
+
+        return getCircleBitmap(bitmap, width);
+    }
+
+    public Bitmap getCircleBitmap(Bitmap bitmap, final int width) {
         bitmap.setHasAlpha(true);
         bitmap = Bitmap.createScaledBitmap(bitmap, width, width, true);
         Bitmap output = Bitmap.createBitmap(width,
@@ -417,5 +447,4 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         bitmap.recycle();
         return output;
     }
-    */
 }

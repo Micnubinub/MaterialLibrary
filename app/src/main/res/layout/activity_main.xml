@@ -26,6 +26,9 @@
         android:layout_width="fill_parent"
         android:layout_height="72dp" />
 
+    <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatarWithIcon
+        android:layout_width="fill_parent"
+        android:layout_height="72dp" />
 
     <com.micnubinub.materiallibrary.RippleView
         android:layout_width="200dp"
