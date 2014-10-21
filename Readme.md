@@ -1,12 +1,12 @@
-Credit : Lindelwe Michael Ncube (micnubinub : https://github.com/Micnubinub/)
+##Credit : Lindelwe Michael Ncube (micnubinub : https://github.com/Micnubinub/)
 
-Credit : Robin Chutaux (traex : https://github.com/traex)
+##Credit : Robin Chutaux (traex : https://github.com/traex)
 
-How to use:
+###How to use:
 
-Material Switch:
+##Material Switch:
 
-  in XML:
+  #in XML:
     ``` xml
     <com.micnubinub.materiallibrary.MaterialSwitch
         android:id="@+id/material_switch"
@@ -14,7 +14,7 @@ Material Switch:
         android:layout_height="60dp"
         app:text="Material Switch" />
 
-  in Java:
+  #in Java:
     ``` java
     MaterialSwitch materialSwitch = (MaterialSwitch) findViewById(R.id.material_switch);
     materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedListener() {
@@ -25,10 +25,10 @@ Material Switch:
         });
 
 
-Material RadioGroup:
+##Material RadioGroup:
 
-  in XML:
-    ``` xml
+  #in XML:
+    ```
     <com.micnubinub.materiallibrary.MaterialRadioGroup
             android:id="@+id/material_radio_group"
             android:layout_width="fill_parent"
@@ -50,9 +50,10 @@ Material RadioGroup:
                 app:text="Radio Button2" />
 
     </com.micnubinub.materiallibrary.MaterialRadioGroup>
+```
 
-  in Java:
-    ``` java
+  #in Java:
+    ```
     MaterialRadioGroup materialRadioGroup = (MaterialRadioGroup) findViewById(R.id.material_radio_group);
             materialRadioGroup.setOnSelectionChanged(new MaterialRadioGroup.OnSelectionChangedListener() {
                 @Override
@@ -60,4 +61,4 @@ Material RadioGroup:
                     //Do your stuff here
                 }
             });
-
+```
