@@ -1,4 +1,5 @@
 Credit : Lindelwe Michael Ncube (micnubinub : https://github.com/Micnubinub/)
+
 Credit : Robin Chutaux (traex : https://github.com/traex)
 
 How to use:
@@ -6,7 +7,7 @@ How to use:
 Material Switch:
 
   in XML:
-
+    ``` xml
     <com.micnubinub.materiallibrary.MaterialSwitch
         android:id="@+id/material_switch"
         android:layout_width="fill_parent"
@@ -14,7 +15,7 @@ Material Switch:
         app:text="Material Switch" />
 
   in Java:
-
+    ``` java
     MaterialSwitch materialSwitch = (MaterialSwitch) findViewById(R.id.material_switch);
     materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedListener() {
         @Override
@@ -27,7 +28,7 @@ Material Switch:
 Material RadioGroup:
 
   in XML:
-
+    ``` xml
     <com.micnubinub.materiallibrary.MaterialRadioGroup
             android:id="@+id/material_radio_group"
             android:layout_width="fill_parent"
@@ -51,7 +52,7 @@ Material RadioGroup:
     </com.micnubinub.materiallibrary.MaterialRadioGroup>
 
   in Java:
-
+    ``` java
     MaterialRadioGroup materialRadioGroup = (MaterialRadioGroup) findViewById(R.id.material_radio_group);
             materialRadioGroup.setOnSelectionChanged(new MaterialRadioGroup.OnSelectionChangedListener() {
                 @Override
