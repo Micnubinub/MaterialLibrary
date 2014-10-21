@@ -52,27 +52,10 @@
                 android:layout_width="200dp"
                 android:layout_height="75dp" />
 
-            <com.micnubinub.materiallibrary.MaterialTwoLineTextIcon
+            <ListView
+                android:id="@+id/list"
                 android:layout_width="fill_parent"
-                android:layout_height="72dp" />
-
-            <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatar
-                android:layout_width="fill_parent"
-                android:layout_height="72dp" />
-
-            <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatarWithIcon
-        android:layout_width="fill_parent"
-        android:layout_height="72dp" />
-
-    <com.micnubinub.materiallibrary.RippleView
-        android:layout_width="200dp"
-        android:layout_height="75dp">
-
-        <com.micnubinub.materiallibrary.MaterialRadioButton
-            android:layout_width="fill_parent"
-            android:layout_height="55dp"
-            app:text="Button2" />
-    </com.micnubinub.materiallibrary.RippleView>
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -94,9 +94,19 @@ public class MaterialTwoLineText extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
     }
+
 
     public MaterialTwoLineText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -111,8 +121,29 @@ public class MaterialTwoLineText extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
+    }
+
+    public void setPrimaryText(String text) {
+        primaryText = text;
+        primaryTextView.setText(text);
+        invalidatePoster();
+    }
+
+    public void setSecondaryText(String text) {
+        secondaryText = text;
+        secondaryTextView.setText(text);
+        invalidatePoster();
     }
 
     public int dpToPixels(int dp) {
@@ -143,7 +174,7 @@ public class MaterialTwoLineText extends ViewGroup {
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
 
         primaryTextView.setText("Primary");
-        secondaryTextView.setText("Secondary text dkjsgjkabsjkdgbkasjbgas sdg sj dgjsgjs gj sgdjj jsdgj sdg");
+        secondaryTextView.setText("Secondary text dkjsgjkab sjkdg bka sjb gas sdg sj dgjsgjs gj sgdjj jsdgj sdg");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);

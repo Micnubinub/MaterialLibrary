@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -156,7 +155,6 @@ public class MaterialRadioButton extends ViewGroup {
 
     public void setText(String text) {
         if (text != null && text.length() > 0) {
-
             if (textView == null)
                 textView = new TextView(getContext());
             PADDING = dpToPixels(5);
@@ -176,7 +174,7 @@ public class MaterialRadioButton extends ViewGroup {
     }
 
     private void init(Context context) {
-        width = dpToPixels(26);
+        width = dpToPixels(32);
         radioButton = new RadioButton(context);
         PADDING = dpToPixels(2);
 
@@ -246,8 +244,6 @@ public class MaterialRadioButton extends ViewGroup {
 
         public RadioButton(Context context) {
             super(context);
-            //Todo draw shadow
-            //  setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             invalidate();
         }
 
@@ -266,30 +262,30 @@ public class MaterialRadioButton extends ViewGroup {
         }
 
         private void animateOff(Canvas canvas) {
-            paint.setShadowLayer(7, 0, 0, Color.argb(255, 90, 90, 90));
+            //paint.setShadowLayer(7, 0, 0, Color.argb(255, 90, 90, 90));
             setPaintColor(color_hole);
             if (updating) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                paint.setShadowLayer(0, 0, 0, 0);
+                // paint.setShadowLayer(0, 0, 0, 0);
                 setPaintColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r * animated_value, paint);
             } else {
-                paint.setShadowLayer(0, 0, 0, 0);
+                //paint.setShadowLayer(0, 0, 0, 0);
                 canvas.drawCircle(cx, cy, hole_r, paint);
             }
         }
 
         private void animateOn(Canvas canvas) {
-            paint.setShadowLayer(7, 0, 0, Color.argb(255, 90, 90, 90));
+            //paint.setShadowLayer(7, 0, 0, Color.argb(255, 90, 90, 90));
             setPaintColor(color_hole);
             if (updating) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                paint.setShadowLayer(0, 0, 0, 0);
+                //paint.setShadowLayer(0, 0, 0, 0);
                 setPaintColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r * animated_value, paint);
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                paint.setShadowLayer(0, 0, 0, 0);
+                // paint.setShadowLayer(0, 0, 0, 0);
                 setPaintColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r, paint);
 

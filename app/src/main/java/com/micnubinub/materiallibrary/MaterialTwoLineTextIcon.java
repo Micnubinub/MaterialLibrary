@@ -98,9 +98,19 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
     }
+
 
     public MaterialTwoLineTextIcon(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -115,8 +125,27 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "empty";
+
+        if (primaryText == null)
+            primaryText = "empty";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
+    }
+
+    public void setPrimaryText(String text) {
+        primaryText = text;
+        primaryTextView.setText(text);
+    }
+
+    public void setSecondaryText(String text) {
+        secondaryText = text;
+        secondaryTextView.setText(text);
     }
 
     public int dpToPixels(int dp) {
@@ -146,7 +175,6 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         secondaryTextView.setLayoutParams(params);
         secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
-
 
         imageView = new ImageView(getContext());
         imageView.setLayoutParams(new LayoutParams(imageWidth, imageWidth));

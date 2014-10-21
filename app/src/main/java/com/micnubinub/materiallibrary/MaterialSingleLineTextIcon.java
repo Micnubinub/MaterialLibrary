@@ -5,14 +5,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -28,9 +23,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by root on 21/10/14.
+ * Created by root on 20/10/14.
  */
-public class MaterialThreeLineTextAvatar extends ViewGroup {
+public class MaterialSingleLineTextIcon extends ViewGroup {
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static int duration = 750;
@@ -83,12 +78,12 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         }
     };
 
-    public MaterialThreeLineTextAvatar(Context context) {
+    public MaterialSingleLineTextIcon(Context context) {
         super(context);
         init();
     }
 
-    public MaterialThreeLineTextAvatar(Context context, AttributeSet attrs) {
+    public MaterialSingleLineTextIcon(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         try {
@@ -103,7 +98,6 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
-        init();
 
         if (secondaryText == null)
             secondaryText = "";
@@ -118,7 +112,7 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
     }
 
 
-    public MaterialThreeLineTextAvatar(Context context, AttributeSet attrs, int defStyle) {
+    public MaterialSingleLineTextIcon(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
@@ -133,10 +127,10 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         }
 
         if (secondaryText == null)
-            secondaryText = "";
+            secondaryText = "empty";
 
         if (primaryText == null)
-            primaryText = "";
+            primaryText = "empty";
 
         init();
 
@@ -152,7 +146,6 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
     public void setSecondaryText(String text) {
         secondaryText = text;
         secondaryTextView.setText(text);
-
     }
 
     public int dpToPixels(int dp) {
@@ -161,7 +154,6 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
 
 
     private void init() {
-
         //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
@@ -179,11 +171,10 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         secondaryTextView = new TextView(getContext());
         secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));
         secondaryTextView.setTextSize(16);
-        secondaryTextView.setMaxLines(2);
+        secondaryTextView.setMaxLines(1);
         secondaryTextView.setLayoutParams(params);
         secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
-
 
         imageView = new ImageView(getContext());
         imageView.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
@@ -192,7 +183,7 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
 
         setIcon(getResources().getDrawable(R.drawable.test));
         primaryTextView.setText("Primary");
-        secondaryTextView.setText("Secondary: this is a two line text test");
+        secondaryTextView.setText("Secondary");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);
@@ -209,12 +200,12 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
 
     public void setIcon(Drawable icon) {
         if (imageView != null)
-            imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
+            imageView.setImageDrawable(icon);
     }
 
     public void setIcon(Bitmap icon) {
         if (imageView != null)
-            imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
+            imageView.setImageBitmap(icon);
     }
 
     public void setSecondaryTextColor(int color) {
@@ -252,8 +243,8 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         post(new Runnable() {
             @Override
             public void run() {
-                MaterialThreeLineTextAvatar.this.setScaleX(scale);
-                MaterialThreeLineTextAvatar.this.setScaleY(scale);
+                MaterialSingleLineTextIcon.this.setScaleX(scale);
+                MaterialSingleLineTextIcon.this.setScaleY(scale);
                 invalidatePoster();
             }
         });
@@ -327,7 +318,7 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
 
 
     public void setDuration(int duration) {
-        MaterialThreeLineTextAvatar.duration = duration;
+        MaterialSingleLineTextIcon.duration = duration;
         animator.setDuration(duration);
     }
 
@@ -420,7 +411,7 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
 
 
     }
-
+/*
     public Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable == null) // Don't do anything without a proper drawable
             return null;
@@ -431,19 +422,16 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
+// Return the created Bitmap
         return bitmap;
     }
 
-    public Bitmap getCircleBitmap(final Drawable drawable, final int width) {
+
+    public static Bitmap getCircleBitmap(Resources res, int sourceResId, int width) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = drawableToBitmap(drawable);
-
-        return getCircleBitmap(bitmap, width);
-    }
-
-    public Bitmap getCircleBitmap(Bitmap bitmap, final int width) {
+        Bitmap bitmap = BitmapFactory.decodeResource(res, sourceResId, options);
         bitmap.setHasAlpha(true);
         bitmap = Bitmap.createScaledBitmap(bitmap, width, width, true);
         Bitmap output = Bitmap.createBitmap(width,
@@ -459,6 +447,5 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         bitmap.recycle();
         return output;
     }
-
-
+    */
 }

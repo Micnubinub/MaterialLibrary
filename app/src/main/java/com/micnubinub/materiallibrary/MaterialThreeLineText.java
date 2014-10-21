@@ -94,9 +94,19 @@ public class MaterialThreeLineText extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
     }
+
 
     public MaterialThreeLineText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -111,8 +121,28 @@ public class MaterialThreeLineText extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
+    }
+
+    public void setPrimaryText(String text) {
+        primaryText = text;
+        primaryTextView.setText(text);
+        invalidate();
+    }
+
+    public void setSecondaryText(String text) {
+        secondaryText = text;
+        secondaryTextView.setText(text);
+        invalidate();
     }
 
     public int dpToPixels(int dp) {

@@ -15,7 +15,7 @@ import android.view.View;
 public class MaterialSeekBar extends View {
     private static boolean drawShadow;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private int maxLineLength;
+    private int lineRight;
     private float line_pos, shadowRadius, scaleTo = 1.22f;
     private int r, rDown, rUp, width, scrubberColor, progressColor, shadowColor, progressBackgroundColor;
     private int max;
@@ -64,9 +64,8 @@ public class MaterialSeekBar extends View {
                     case MotionEvent.ACTION_DOWN:
                     case MotionEvent.ACTION_MOVE:
                         final int touch = (int) (event.getX());
-                        if (touch < width - rUp && touch > rUp)
-                            setProgress(max * (event.getX() / (float) width));
-
+                        if (touch < lineRight && touch > rUp)
+                            setProgress(max * ((event.getX() - rUp) / (float) (width - 2 * rUp)));
 
                         r = rUp;
                         break;
@@ -88,13 +87,15 @@ public class MaterialSeekBar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        scrubberPosition = rUp + ((width - getPaddingRight() - getPaddingLeft()) * progress / (float) max);
+        scrubberPosition = ((width - getPaddingRight() - getPaddingLeft()) * progress / (float) max);
+        scrubberPosition = scrubberPosition < rUp ? rUp : scrubberPosition;
+        scrubberPosition = scrubberPosition > lineRight ? lineRight : scrubberPosition;
 
         setPaintColor(progressBackgroundColor);
-        canvas.drawLine(scrubberPosition, line_pos, (float) (width - getPaddingRight()), line_pos, paint);
+        canvas.drawLine(scrubberPosition, line_pos, lineRight, line_pos, paint);
 
         setPaintColor(progressColor);
-        canvas.drawLine(getPaddingLeft() + rUp, line_pos, scrubberPosition, line_pos, paint);
+        canvas.drawLine(rUp, line_pos, scrubberPosition, line_pos, paint);
 
         setPaintColor(scrubberColor);
         /*
@@ -113,9 +114,10 @@ public class MaterialSeekBar extends View {
         line_pos = h / 2;
         rDown = ((int) (Math.min((w - getPaddingLeft() - getPaddingRight()), (h - getPaddingBottom() - getPaddingTop())) / scaleTo)) / 2;
         rUp = Math.min((w - getPaddingLeft() - getPaddingRight()), (h - getPaddingBottom() - getPaddingTop())) / 2;
-        maxLineLength = w - getPaddingLeft() - getPaddingRight() - rUp - rUp;
+
+        lineRight = w - rUp;
         r = rDown;
-        paint.setStrokeWidth(rDown / 3);
+        paint.setStrokeWidth(rDown / 2.3f);
         shadowRadius = 0.2f * rDown;
         width = w;
 

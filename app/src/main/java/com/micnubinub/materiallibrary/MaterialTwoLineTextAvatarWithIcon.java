@@ -103,9 +103,19 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
     }
+
 
     public MaterialTwoLineTextAvatarWithIcon(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -120,8 +130,27 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
+    }
+
+    public void setPrimaryText(String text) {
+        primaryText = text;
+        primaryTextView.setText(text);
+    }
+
+    public void setSecondaryText(String text) {
+        secondaryText = text;
+        secondaryTextView.setText(text);
     }
 
     public int dpToPixels(int dp) {
@@ -165,8 +194,6 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
 
         setLeftIcon(getResources().getDrawable(R.drawable.test));
         setRightIcon(getResources().getDrawable(R.drawable.test));
-        primaryTextView.setText("Primary");
-        secondaryTextView.setText("Secondary");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);

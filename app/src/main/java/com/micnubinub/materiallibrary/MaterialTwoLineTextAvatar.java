@@ -90,7 +90,6 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
 
     public MaterialTwoLineTextAvatar(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
@@ -103,9 +102,19 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
     }
+
 
     public MaterialTwoLineTextAvatar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -120,14 +129,32 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
             a.recycle();
         } catch (Exception e) {
         }
+
+        if (secondaryText == null)
+            secondaryText = "";
+
+        if (primaryText == null)
+            primaryText = "";
+
         init();
 
+        setPrimaryText(primaryText);
+        setSecondaryText(secondaryText);
+    }
+
+    public void setPrimaryText(String text) {
+        primaryText = text;
+        primaryTextView.setText(text);
+    }
+
+    public void setSecondaryText(String text) {
+        secondaryText = text;
+        secondaryTextView.setText(text);
     }
 
     public int dpToPixels(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
-
 
     private void init() {
 
@@ -153,7 +180,6 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
         secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
 
-
         imageView = new ImageView(getContext());
         imageView.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -169,7 +195,6 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
         animator.addListener(animatorListener);
         animator.setDuration(duration);
         paint.setColor(0x25000000);
-
 
         addView(primaryTextView);
         addView(secondaryTextView);
