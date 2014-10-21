@@ -6,13 +6,24 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.micnubinub.materiallibrary.MaterialSwitch
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        app:text="Material Switch" />
+        android:layout_height="wrap_content">
 
-    <com.micnubinub.materiallibrary.MaterialRadioGroup
-        android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.micnubinub.materiallibrary.MaterialSwitch
+                android:id="@+id/material_switch"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                app:text="Material Switch" />
+
+            <com.micnubinub.materiallibrary.MaterialRadioGroup
+                android:id="@+id/material_radio_group"
+                android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
         <com.micnubinub.materiallibrary.MaterialRadioButton
@@ -34,30 +45,22 @@
 
     <com.micnubinub.materiallibrary.MaterialSeekBar
         android:layout_width="fill_parent"
-        android:layout_height="35dp" />
+        android:layout_height="25dp" />
 
-    <com.micnubinub.materiallibrary.MaterialRippleView
-        android:id="@+id/ripple"
-        android:layout_width="200dp"
-        android:layout_height="75dp">
+            <com.micnubinub.materiallibrary.MaterialButton
+                android:id="@+id/ripple"
+                android:layout_width="200dp"
+                android:layout_height="75dp" />
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="Button"
-            android:textColor="@color/dark_grey"
-            android:textSize="22sp" />
-    </com.micnubinub.materiallibrary.MaterialRippleView>
+            <com.micnubinub.materiallibrary.MaterialTwoLineTextIcon
+                android:layout_width="fill_parent"
+                android:layout_height="72dp" />
 
-    <com.micnubinub.materiallibrary.MaterialTwoLineTextIcon
-        android:layout_width="fill_parent"
-        android:layout_height="72dp" />
+            <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatar
+                android:layout_width="fill_parent"
+                android:layout_height="72dp" />
 
-    <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatar
-        android:layout_width="fill_parent"
-        android:layout_height="72dp" />
-
-    <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatarWithIcon
+            <com.micnubinub.materiallibrary.MaterialTwoLineTextAvatarWithIcon
         android:layout_width="fill_parent"
         android:layout_height="72dp" />
 
@@ -70,4 +73,6 @@
             android:layout_height="55dp"
             app:text="Button2" />
     </com.micnubinub.materiallibrary.RippleView>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

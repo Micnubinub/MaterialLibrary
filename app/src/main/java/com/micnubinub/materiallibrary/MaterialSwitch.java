@@ -21,7 +21,6 @@ import android.widget.TextView;
  * Created by root on 24/08/14.
  */
 public class MaterialSwitch extends ViewGroup {
-
     private static int PADDING = 10;
     private static Resources res;
     private static int duration = 600;
@@ -206,7 +205,7 @@ public class MaterialSwitch extends ViewGroup {
 
         materialSwitch = new Switch(context);
 
-        materialSwitch.setLayoutParams(new LayoutParams(dpToPixels(42, res), dpToPixels(25, res)));
+        materialSwitch.setLayoutParams(new LayoutParams(dpToPixels(35, res), dpToPixels(25, res)));
         materialSwitch.setPadding(PADDING, PADDING, PADDING, PADDING);
         setPadding(PADDING, PADDING, PADDING, PADDING);
 

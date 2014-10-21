@@ -30,7 +30,7 @@ public class MaterialRadioGroup extends ViewGroup {
             }
 
             if (selectionChanged != null)
-                selectionChanged.onSelectionChanged(selectedRadioButton);
+                selectionChanged.onSelectionChanged((MaterialRadioButton) getChildAt(selectedRadioButton), selectedRadioButton);
         }
     };
 
@@ -118,6 +118,6 @@ public class MaterialRadioGroup extends ViewGroup {
     }
 
     public interface OnSelectionChangedListener {
-        public void onSelectionChanged(int selectedChild);
+        public void onSelectionChanged(MaterialRadioButton radioButton, int selectedChild);
     }
 }

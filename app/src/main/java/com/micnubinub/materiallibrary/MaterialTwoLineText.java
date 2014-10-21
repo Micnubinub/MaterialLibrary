@@ -129,6 +129,7 @@ public class MaterialTwoLineText extends ViewGroup {
         primaryTextView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
         primaryTextView.setTypeface(null, Typeface.BOLD);
         primaryTextView.setTextSize(18);
+        primaryTextView.setMaxLines(1);
         primaryTextView.setLayoutParams(params);
         primaryTextView.setEllipsize(TextUtils.TruncateAt.END);
         primaryTextView.setPadding(padding, padding / 2, padding, padding / 2);
@@ -136,12 +137,13 @@ public class MaterialTwoLineText extends ViewGroup {
         secondaryTextView = new TextView(getContext());
         secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));
         secondaryTextView.setTextSize(16);
+        secondaryTextView.setMaxLines(1);
         secondaryTextView.setLayoutParams(params);
         secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
 
         primaryTextView.setText("Primary");
-        secondaryTextView.setText("Secondary");
+        secondaryTextView.setText("Secondary text dkjsgjkabsjkdgbkasjbgas sdg sj dgjsgjs gj sgdjj jsdgj sdg");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);

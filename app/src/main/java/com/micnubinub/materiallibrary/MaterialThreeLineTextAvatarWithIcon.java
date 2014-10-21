@@ -30,7 +30,7 @@ import java.util.TimerTask;
 /**
  * Created by root on 21/10/14.
  */
-public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
+public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static int duration = 750;
@@ -83,12 +83,12 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
         }
     };
 
-    public MaterialTwoLineTextAvatarWithIcon(Context context) {
+    public MaterialThreeLineTextAvatarWithIcon(Context context) {
         super(context);
         init();
     }
 
-    public MaterialTwoLineTextAvatarWithIcon(Context context, AttributeSet attrs) {
+    public MaterialThreeLineTextAvatarWithIcon(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         try {
@@ -107,7 +107,7 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
 
     }
 
-    public MaterialTwoLineTextAvatarWithIcon(Context context, AttributeSet attrs, int defStyle) {
+    public MaterialThreeLineTextAvatarWithIcon(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
@@ -133,7 +133,7 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
         //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
-        final ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         primaryTextView = new TextView(getContext());
         primaryTextView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
@@ -147,7 +147,7 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
         secondaryTextView = new TextView(getContext());
         secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));
         secondaryTextView.setTextSize(16);
-        secondaryTextView.setMaxLines(1);
+        secondaryTextView.setMaxLines(2);
         secondaryTextView.setLayoutParams(params);
         secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
@@ -237,8 +237,8 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
         post(new Runnable() {
             @Override
             public void run() {
-                MaterialTwoLineTextAvatarWithIcon.this.setScaleX(scale);
-                MaterialTwoLineTextAvatarWithIcon.this.setScaleY(scale);
+                MaterialThreeLineTextAvatarWithIcon.this.setScaleX(scale);
+                MaterialThreeLineTextAvatarWithIcon.this.setScaleY(scale);
                 invalidatePoster();
             }
         });
@@ -312,7 +312,7 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
 
 
     public void setDuration(int duration) {
-        MaterialTwoLineTextAvatarWithIcon.duration = duration;
+        MaterialThreeLineTextAvatarWithIcon.duration = duration;
         animator.setDuration(duration);
     }
 
@@ -347,7 +347,7 @@ public class MaterialTwoLineTextAvatarWithIcon extends ViewGroup {
     }
 
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+    public void addView(View child, int index, LayoutParams params) {
         if (getChildCount() >= 4)
             return;
         super.addView(child, index, params);

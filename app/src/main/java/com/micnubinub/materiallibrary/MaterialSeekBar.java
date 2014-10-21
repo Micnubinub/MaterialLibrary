@@ -2,7 +2,6 @@ package com.micnubinub.materiallibrary;
 
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -14,11 +13,10 @@ import android.view.View;
  * Created by root on 24/08/14.
  */
 public class MaterialSeekBar extends View {
-    private static Resources res;
     private static boolean drawShadow;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int maxLineLength;
-    private float line_pos, shadowRadius;
+    private float line_pos, shadowRadius, scaleTo = 1.22f;
     private int r, rDown, rUp, width, scrubberColor, progressColor, shadowColor, progressBackgroundColor;
     private int max;
     private float progress, scrubberPosition;
@@ -48,16 +46,15 @@ public class MaterialSeekBar extends View {
     }
 
     private void init(Context context) {
-        res = context.getResources();
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        //setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setMax(100);
         drawShadow(true);
-        setScrubberColor(res.getColor(R.color.material_green_light));
-        setProgressColor(res.getColor(R.color.material_green_light));
-        setShadowColor(res.getColor(R.color.black));
-        setProgressBackgroundColor(res.getColor(R.color.lite_grey));
+        setScrubberColor(getResources().getColor(R.color.material_green_light));
+        setProgressColor(getResources().getColor(R.color.material_green_light));
+        //setShadowColor(res.getColor(R.color.black));
+        setProgressBackgroundColor(getResources().getColor(R.color.lite_grey));
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -100,23 +97,25 @@ public class MaterialSeekBar extends View {
         canvas.drawLine(getPaddingLeft() + rUp, line_pos, scrubberPosition, line_pos, paint);
 
         setPaintColor(scrubberColor);
+        /*
         if (drawShadow) {
             paint.setShadowLayer(shadowRadius, 0, 0, shadowColor);
             canvas.drawCircle(scrubberPosition, line_pos, r, paint);
             paint.setShadowLayer(0, 0, 0, 0);
-        } else
-            canvas.drawCircle(scrubberPosition, line_pos, r, paint);
+        } else*/
+        canvas.drawCircle(scrubberPosition, line_pos, r, paint);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        paint.setStrokeWidth(0.15f * Math.min(w, h));
+
         line_pos = h / 2;
-        rDown = (int) (Math.min((w - getPaddingLeft() - getPaddingRight()), (h - getPaddingBottom() - getPaddingTop())) / 2.5f);
-        rUp = (int) (Math.min((w - getPaddingLeft() - getPaddingRight()), (h - getPaddingBottom() - getPaddingTop())) / 1.8);
+        rDown = ((int) (Math.min((w - getPaddingLeft() - getPaddingRight()), (h - getPaddingBottom() - getPaddingTop())) / scaleTo)) / 2;
+        rUp = Math.min((w - getPaddingLeft() - getPaddingRight()), (h - getPaddingBottom() - getPaddingTop())) / 2;
         maxLineLength = w - getPaddingLeft() - getPaddingRight() - rUp - rUp;
         r = rDown;
+        paint.setStrokeWidth(rDown / 3);
         shadowRadius = 0.2f * rDown;
         width = w;
 
@@ -142,14 +141,14 @@ public class MaterialSeekBar extends View {
         return Math.round(progress);
     }
 
-    public void setProgress(float progress) {
-        progress = progress > max ? max : progress;
-        progress = progress < 0 ? 0 : progress;
+    public void setProgress(int progress) {
         this.progress = progress;
         notifyListener();
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(float progress) {
+        progress = progress > max ? max : progress;
+        progress = progress < 0 ? 0 : progress;
         this.progress = progress;
         notifyListener();
     }
