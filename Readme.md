@@ -7,12 +7,12 @@
 ##Material Switch:
 
 #In XML:
-    ```
-    <com.micnubinub.materiallibrary.MaterialSwitch
-        android:id="@+id/material_switch"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        app:text="Material Switch" />
+```xml
+<com.micnubinub.materiallibrary.MaterialSwitch
+android:id="@+id/material_switch"
+android:layout_width="fill_parent"
+android:layout_height="60dp"
+app:text="Material Switch" />
 ```
 #in Java:
     ```
