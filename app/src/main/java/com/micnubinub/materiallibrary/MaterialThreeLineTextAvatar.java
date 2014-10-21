@@ -383,17 +383,15 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int measuredHeight = 0;
         int measuredWidth = 0;
 
         for (int i = 0; i < getChildCount(); i++) {
 
             final View child = getChildAt(i);
             measureChild(child, widthMeasureSpec, heightMeasureSpec);
-            measuredHeight += child.getMeasuredHeight();
             measuredWidth = Math.max(child.getMeasuredWidth(), measuredWidth);
         }
-
+        final int measuredHeight = Math.max(primaryTextView.getMeasuredHeight() + secondaryTextView.getMeasuredHeight(), imageView.getMeasuredHeight());
         setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
                 resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
 

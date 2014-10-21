@@ -169,7 +169,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
 
 
         addView(textView);
-
         addView(imageView);
     }
 
@@ -350,7 +349,7 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        final int imageViewPaddingTop = getMeasuredHeight() - imageView.getMeasuredHeight() / 2;
+        final int imageViewPaddingTop = (getMeasuredHeight() - imageView.getMeasuredHeight()) / 2;
         imageView.layout(getPaddingLeft(),
                 imageViewPaddingTop,
                 getPaddingLeft() + imageView.getMeasuredWidth(),
@@ -358,7 +357,7 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         );
 
         //Todo check alll the views for t(+get PaddingTiop)
-        final int textViewPaddingTop = getMeasuredHeight() - textView.getMeasuredHeight() / 2;
+        final int textViewPaddingTop = (getMeasuredHeight() - textView.getMeasuredHeight()) / 2;
         textView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), textViewPaddingTop,
                 getMeasuredWidth() - getPaddingRight(),
                 textView.getMeasuredHeight() - textViewPaddingTop);

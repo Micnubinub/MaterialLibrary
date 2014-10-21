@@ -52,10 +52,15 @@
                 android:layout_width="200dp"
                 android:layout_height="75dp" />
 
+            <com.micnubinub.materiallibrary.MaterialSingleLineTextAvatar
+                android:layout_width="fill_parent"
+                android:layout_height="55dp"
+                app:text="fsdfsdvsdsvsdv" />
+
             <ListView
                 android:id="@+id/list"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="150dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 
         @Override
         public int getCount() {
-            return 15;
+            return 8;
         }
 
         @Override
@@ -62,31 +62,52 @@ public class MainActivity extends Activity {
                     break;
 
                 case 1:
-
+                    view = new MaterialTwoLineTextAvatar(context);
+                    ((MaterialTwoLineTextAvatar) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatar) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatar) view).setIcon(getResources().getDrawable(R.drawable.back));
                     break;
 
                 case 2:
-
-
+                    view = new MaterialTwoLineTextAvatarWithIcon(context);
+                    ((MaterialTwoLineTextAvatarWithIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatarWithIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatarWithIcon) view).setLeftIcon(getResources().getDrawable(R.drawable.barcode));
+                    ((MaterialTwoLineTextAvatarWithIcon) view).setRightIcon(getResources().getDrawable(R.drawable.cloud_download));
                     break;
 
                 case 3:
-
-
+                    view = new MaterialTwoLineTextIcon(context);
+                    ((MaterialTwoLineTextIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextIcon) view).setIcon(getResources().getDrawable(R.drawable.block));
                     break;
 
                 case 4:
-
+                    view = new MaterialTwoLineText(context);
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
 
                     break;
 
                 case 5:
-
+                    view = new MaterialTwoLineText(context);
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
 
                     break;
 
                 case 6:
+                    view = new MaterialTwoLineText(context);
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
 
+                    break;
+
+                case 7:
+                    view = new MaterialTwoLineText(context);
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
 
                     break;
 
