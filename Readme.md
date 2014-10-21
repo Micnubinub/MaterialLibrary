@@ -9,19 +9,19 @@
 #In XML:
 ```xml
 <com.micnubinub.materiallibrary.MaterialSwitch
-android:id="@+id/material_switch"
-android:layout_width="fill_parent"
-android:layout_height="60dp"
-app:text="Material Switch" />
+    android:id="@+id/material_switch"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp"
+    app:text="Material Switch" />
 ```
 #in Java:
 ```java
 MaterialSwitch materialSwitch = (MaterialSwitch) findViewById(R.id.material_switch);
 materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedListener() {
-@Override
-public void onCheckedChange(MaterialSwitch materialSwitch, boolean isChecked) {
-//Do your stuff here
-}
+    @Override
+    public void onCheckedChange(MaterialSwitch materialSwitch, boolean isChecked) {
+        //Do your stuff here
+    }
 });
 ```
 
