@@ -15,14 +15,14 @@ android:layout_height="60dp"
 app:text="Material Switch" />
 ```
 #in Java:
-    ```
-    MaterialSwitch materialSwitch = (MaterialSwitch) findViewById(R.id.material_switch);
-    materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedListener() {
-        @Override
-        public void onCheckedChange(MaterialSwitch materialSwitch, boolean isChecked) {
-                //Do your stuff here
-            }
-        });
+```java
+MaterialSwitch materialSwitch = (MaterialSwitch) findViewById(R.id.material_switch);
+materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedListener() {
+@Override
+public void onCheckedChange(MaterialSwitch materialSwitch, boolean isChecked) {
+//Do your stuff here
+}
+});
 ```
 
 ##Material RadioGroup:
