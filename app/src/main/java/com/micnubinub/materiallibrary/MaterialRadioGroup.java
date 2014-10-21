@@ -78,18 +78,15 @@ public class MaterialRadioGroup extends ViewGroup {
         //Todo  measureChildWithMargins()
         //Todo xmlns:custom="http://schemas.android.com/apk/res/com.packa..."
 
-        measureChildren(widthMeasureSpec, heightMeasureSpec);
 
         int measuredHeight = 0;
         int measuredWidth = 0;
 
         for (int i = 0; i < getChildCount(); i++) {
             final View child = getChildAt(i);
-            if (child.getVisibility() != GONE) {
-                //   child.measure(widthMeasureSpec, heightMeasureSpec);
+            if (child.getVisibility() != GONE && child != null) {
                 measureChild(child, widthMeasureSpec, heightMeasureSpec);
                 measuredHeight += child.getMeasuredHeight();
-                // measuredHeight = Math.max(measuredHeight, child.getMeasuredHeight());
                 measuredWidth = Math.max(measuredWidth, child.getMeasuredWidth());
             }
         }

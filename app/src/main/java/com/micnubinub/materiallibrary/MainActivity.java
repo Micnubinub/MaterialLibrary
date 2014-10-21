@@ -58,20 +58,20 @@ public class MainActivity extends Activity {
                 case 0:
                     view = new MaterialTwoLineText(context);
                     ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineText) view).setSecondaryText(String.format("Primary %d", i));
                     break;
 
                 case 1:
                     view = new MaterialTwoLineTextAvatar(context);
                     ((MaterialTwoLineTextAvatar) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineTextAvatar) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatar) view).setSecondaryText(String.format("Primary %d", i));
                     ((MaterialTwoLineTextAvatar) view).setIcon(getResources().getDrawable(R.drawable.back));
                     break;
 
                 case 2:
                     view = new MaterialTwoLineTextAvatarWithIcon(context);
                     ((MaterialTwoLineTextAvatarWithIcon) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineTextAvatarWithIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatarWithIcon) view).setSecondaryText(String.format("Primary %d", i));
                     ((MaterialTwoLineTextAvatarWithIcon) view).setLeftIcon(getResources().getDrawable(R.drawable.barcode));
                     ((MaterialTwoLineTextAvatarWithIcon) view).setRightIcon(getResources().getDrawable(R.drawable.cloud_download));
                     break;
@@ -79,35 +79,40 @@ public class MainActivity extends Activity {
                 case 3:
                     view = new MaterialTwoLineTextIcon(context);
                     ((MaterialTwoLineTextIcon) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineTextIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextIcon) view).setSecondaryText(String.format("Primary %d", i));
                     ((MaterialTwoLineTextIcon) view).setIcon(getResources().getDrawable(R.drawable.block));
                     break;
 
                 case 4:
-                    view = new MaterialTwoLineText(context);
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    view = new MaterialThreeLineText(context);
+                    ((MaterialThreeLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialThreeLineText) view).setSecondaryText(String.format("Primary s dfsfmam dm am dmaw m amwdmawm dma wmd amw ma m cms md mwe v %d", i));
 
                     break;
 
                 case 5:
-                    view = new MaterialTwoLineText(context);
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    view = new MaterialThreeLineTextIcon(context);
+                    ((MaterialThreeLineTextIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialThreeLineTextIcon) view).setSecondaryText(String.format("Primary s dfsfmam dm am dmaw m amwdmawm dma wmd amw ma m cms md mwe v %d", i));
+                    ((MaterialThreeLineTextIcon) view).setIcon(getResources().getDrawable(R.drawable.comment));
+
 
                     break;
 
                 case 6:
-                    view = new MaterialTwoLineText(context);
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    view = new MaterialThreeLineTextAvatar(context);
+                    ((MaterialThreeLineTextAvatar) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialThreeLineTextAvatar) view).setSecondaryText(String.format("Primary s dfsfmam dm am dmaw m amwdmawm dma wmd amw ma m cms md mwe v %d", i));
+                    ((MaterialThreeLineTextAvatar) view).setIcon(getResources().getDrawable(R.drawable.comment));
 
                     break;
 
                 case 7:
-                    view = new MaterialTwoLineText(context);
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineText) view).setPrimaryText(String.format("Primary %d", i));
+                    view = new MaterialThreeLineTextAvatarWithIcon(context);
+                    ((MaterialThreeLineTextAvatarWithIcon) view).setPrimaryText(String.format("Primary %d", i));
+                    ((MaterialThreeLineTextAvatarWithIcon) view).setSecondaryText(String.format("Primary s dfsfmam dm am dmaw m amwdmawm dma wmd amw ma m cms md mwe v %d", i));
+                    ((MaterialThreeLineTextAvatarWithIcon) view).setLeftIcon(getResources().getDrawable(R.drawable.blank_page));
+                    ((MaterialThreeLineTextAvatarWithIcon) view).setRightIcon(getResources().getDrawable(R.drawable.check_mark));
 
                     break;
 

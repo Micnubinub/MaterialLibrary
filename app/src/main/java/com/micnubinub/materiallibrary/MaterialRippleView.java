@@ -19,20 +19,19 @@ import java.util.TimerTask;
  */
 public class MaterialRippleView extends ViewGroup {
 
-    private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
-    private static int duration = 750;
-    private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-    private long tic;
+    private static final Paint ripplePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private static final AccelerateInterpolator rippleInterpolator = new AccelerateInterpolator();
+    private static int rippleDuration = 750;
+    private final ValueAnimator rippleAnimator = ValueAnimator.ofFloat(0, 1);
     private int width;
     private int height;
     private int r;
     private int paddingX, paddingY;
-    private float animated_value = 0;
+    private float ripple_animated_value = 0;
     private ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            ripple_animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
             invalidatePoster();
         }
     };
@@ -43,13 +42,12 @@ public class MaterialRippleView extends ViewGroup {
     private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
-            tic = System.currentTimeMillis();
         }
 
         @Override
         public void onAnimationEnd(Animator animator) {
             if (!touchDown)
-                animated_value = 0;
+                ripple_animated_value = 0;
 
             invalidatePoster();
         }
@@ -87,7 +85,7 @@ public class MaterialRippleView extends ViewGroup {
             @Override
             public void run() {
                 if (!touchDown)
-                    animated_value = 0;
+                    ripple_animated_value = 0;
                 invalidatePoster();
             }
         }, delay);
@@ -132,9 +130,9 @@ public class MaterialRippleView extends ViewGroup {
                 clickedY = (int) event.getY();
                 r = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
 
-                if (animator.isRunning() || animator.isStarted())
-                    animator.cancel();
-                animator.start();
+                if (rippleAnimator.isRunning() || rippleAnimator.isStarted())
+                    rippleAnimator.cancel();
+                rippleAnimator.start();
 
                 touchDown = true;
                 break;
@@ -147,8 +145,8 @@ public class MaterialRippleView extends ViewGroup {
 
                 touchDown = false;
 
-                if (!animator.isRunning()) {
-                    animated_value = 0;
+                if (!rippleAnimator.isRunning()) {
+                    ripple_animated_value = 0;
                     invalidatePoster();
                 }
                 break;
@@ -159,25 +157,25 @@ public class MaterialRippleView extends ViewGroup {
     }
 
     public void setRippleColor(int color) {
-        paint.setColor(color);
+        ripplePaint.setColor(color);
     }
 
     public void setRippleAlpha(int alpha) {
-        paint.setAlpha(alpha);
+        ripplePaint.setAlpha(alpha);
     }
 
     private void init() {
         setWillNotDraw(false);
-        animator.setInterpolator(interpolator);
-        animator.addUpdateListener(animatorUpdateListener);
-        animator.addListener(animatorListener);
-        animator.setDuration(duration);
-        paint.setColor(0x25000000);
+        rippleAnimator.setInterpolator(rippleInterpolator);
+        rippleAnimator.addUpdateListener(animatorUpdateListener);
+        rippleAnimator.addListener(animatorListener);
+        rippleAnimator.setDuration(rippleDuration);
+        ripplePaint.setColor(0x25000000);
     }
 
     public void setDuration(int duration) {
-        MaterialRippleView.duration = duration;
-        animator.setDuration(duration);
+        MaterialRippleView.rippleDuration = duration;
+        rippleAnimator.setDuration(duration);
     }
 
     public void setScaleTo(float scaleTo) {
@@ -200,7 +198,7 @@ public class MaterialRippleView extends ViewGroup {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        canvas.drawCircle(clickedX, clickedY, r * animated_value, paint);
+        canvas.drawCircle(clickedX, clickedY, r * ripple_animated_value, ripplePaint);
     }
 
     @Override
