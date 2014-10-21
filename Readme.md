@@ -6,16 +6,16 @@
 
 ##Material Switch:
 
-  #in XML:
-    ``` xml
+#In XML:
+    ```
     <com.micnubinub.materiallibrary.MaterialSwitch
         android:id="@+id/material_switch"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         app:text="Material Switch" />
-
-  #in Java:
-    ``` java
+```
+#in Java:
+    ```
     MaterialSwitch materialSwitch = (MaterialSwitch) findViewById(R.id.material_switch);
     materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedListener() {
         @Override
@@ -23,7 +23,7 @@
                 //Do your stuff here
             }
         });
-
+```
 
 ##Material RadioGroup:
 
