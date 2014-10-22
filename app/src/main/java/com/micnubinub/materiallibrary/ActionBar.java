@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,11 @@ import android.widget.TextView;
  * Created by root on 11/10/14.
  */
 public class ActionBar extends ViewGroup {
-    public static final int MODE_BACK_BUTTON = 0;
-    public static final int MODE_RIBBON_MENU = 1;
     private static final DecelerateInterpolator interpolator = new DecelerateInterpolator();
     private final ValueAnimator animator = ValueAnimator.ofFloat(0.35f, 1);
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int textColor;
     private ImageView search, menu;
-    private int mode;
     private int textSize;
     private String text = "";
     private boolean updating = false, showing = false;
@@ -40,10 +38,15 @@ public class ActionBar extends ViewGroup {
     private final OnClickListener l = new OnClickListener() {
         @Override
         public void onClick(View v) {
+
             showing = !showing;
 
-            if (mode == 1)
-                ((MenuBars) view).animateBars();
+            if (isShowing())
+                setText("view showing and should ellipsize the end of the texts text");
+            else
+                setText("no ellip");
+
+            ((MenuBars) view).animateBars();
 
             if (onMenuBackButtonClicked != null)
                 onMenuBackButtonClicked.viewClicked(showing);
@@ -63,7 +66,6 @@ public class ActionBar extends ViewGroup {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
         text = a.getString(R.styleable.MaterialRadioButton_text);
         textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 22);
-        mode = a.getInt(R.styleable.MaterialRadioButton_mode, 1);
         textColor = getResources().getColor(R.color.white);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
@@ -93,6 +95,7 @@ public class ActionBar extends ViewGroup {
                 textViewRight > searchLeft ? searchLeft : textViewRight,
                 getMeasuredHeight() - ((getMeasuredHeight() - textView.getMeasuredHeight()) / 2));
 
+        checkViewParams(textView);
 
         menu.layout(searchLeft + search.getMeasuredWidth(),
                 getPaddingTop(),
@@ -104,6 +107,27 @@ public class ActionBar extends ViewGroup {
                 searchLeft + search.getMeasuredWidth(),
                 getMeasuredHeight() - getPaddingBottom());
 
+
+    }
+
+    private void checkViewParams(final View view, final int layoutWidth, final int layoutHeight) {
+        Log.e("params", String.format("h, w : %d, %d", view.getLayoutParams().height, view.getLayoutParams().width));
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
+
+        if ((width > layoutWidth) || (height > layoutHeight)) {
+            view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
+            view.invalidate();
+            invalidate();
+        }
+
+    }
+
+    private void checkViewParams(final View view) {
+        final int layoutWidth = view.getRight() - view.getLeft();
+        final int layoutHeight = view.getBottom() - view.getTop();
+
+        checkViewParams(view, layoutWidth, layoutHeight);
 
     }
 
@@ -142,7 +166,7 @@ public class ActionBar extends ViewGroup {
         final int PADDING = dpToPixels(12);
 
         textView = new TextView(getContext());
-        textView.setPadding(PADDING, PADDING, PADDING, PADDING);
+        textView.setPadding(PADDING, PADDING, PADDING / 3, PADDING);
         textView.setTextColor(getResources().getColor(R.color.white));
         textView.setTextSize(textSize);
         textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -185,6 +209,7 @@ public class ActionBar extends ViewGroup {
             public void onAnimationUpdate(ValueAnimator animation) {
                 animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
                 view.invalidate();
+                invalidate();
             }
         });
 
@@ -275,15 +300,10 @@ public class ActionBar extends ViewGroup {
 
 
         public void animateBars() {
-            invalidate();
-            try {
                 if (animator.isRunning())
                     animator.cancel();
-
                 animator.start();
-            } catch (Exception e) {
-            }
-
+            invalidate();
         }
 
         @Override
@@ -294,12 +314,10 @@ public class ActionBar extends ViewGroup {
         }
 
         private void calculateLinePos(int h) {
-
             linePs[0] = h / 4;
             linePs[1] = h / 2;
             linePs[2] = 3 * h / 4;
         }
-
 
         @Override
         protected void onAttachedToWindow() {
@@ -308,6 +326,5 @@ public class ActionBar extends ViewGroup {
                 animated_value = 1;
         }
     }
-
 
 }

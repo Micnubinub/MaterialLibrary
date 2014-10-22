@@ -5,7 +5,6 @@
         <attr name="text" format="string" />
         <attr name="textSize" format="integer" />
         <attr name="direction" format="integer" />
-        <attr name="mode" format="integer" />
         <attr name="textColor" format="integer" />
     </declare-styleable>
 
@@ -16,14 +15,14 @@
 
     <declare-styleable name="RippleView">
         <attr name="rv_alpha" format="integer" />
-        <attr name="rv_framerate" format="integer"/>
-        <attr name="rv_rippleDuration" format="integer"/>
+        <attr name="rv_framerate" format="integer" />
+        <attr name="rv_rippleDuration" format="integer" />
         <attr name="rv_zoomDuration" format="integer" />
         <attr name="rv_color" format="color" />
         <attr name="rv_centered" format="boolean" />
         <attr name="rv_type" format="enum">
-            <enum name="simpleRipple" value="0"/>
-            <enum name="doubleRipple" value="1"/>
+            <enum name="simpleRipple" value="0" />
+            <enum name="doubleRipple" value="1" />
             <enum name="rectangle" value="2" />
         </attr>
         <attr name="rv_ripplePadding" format="dimension" />
@@ -31,7 +30,7 @@
     </declare-styleable>
 
     <declare-styleable name="MaterialTwoLineText">
-    <attr name="secondaryTextColor" format="integer" />
+        <attr name="secondaryTextColor" format="integer" />
         <attr name="primaryTextColor" format="integer" />
         <attr name="secondaryTextSize" format="integer" />
         <attr name="primaryTextSize" format="integer" />

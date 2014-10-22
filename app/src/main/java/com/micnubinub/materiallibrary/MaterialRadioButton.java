@@ -31,7 +31,7 @@ public class MaterialRadioButton extends ViewGroup {
     private int rippleR;
     private float ripple_animated_value = 0;
     private int clickedX, clickedY;
-    private boolean touchDown = false;
+    private boolean touchDown = false, animateRipple;
     private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
@@ -43,6 +43,7 @@ public class MaterialRadioButton extends ViewGroup {
             if (!touchDown)
                 ripple_animated_value = 0;
 
+            animateRipple = false;
             invalidatePoster();
         }
 
@@ -63,9 +64,16 @@ public class MaterialRadioButton extends ViewGroup {
     private int cx, cy, r, width, color_on, color_off, hole_r, inner_hole_r, color_hole;
     private boolean checked = false;
     private float animated_value = 0;
+    private final ValueAnimator.AnimatorUpdateListener updateListener = new ValueAnimator.AnimatorUpdateListener() {
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            ripple_animated_value = animated_value;
+            invalidatePoster();
+        }
+    };
     private OnCheckedChangedListener listener;
     private TextView textView;
-    private boolean viewSizeChanged = false;
 
     public MaterialRadioButton(Context context) {
         super(context);
@@ -109,6 +117,7 @@ public class MaterialRadioButton extends ViewGroup {
         );
 
         final int textViewPaddingTop = ((getMeasuredHeight() - textView.getMeasuredHeight()) / 2);
+
         textView.layout(
                 getPaddingLeft() + radioButton.getMeasuredWidth() + PADDING,
                 textViewPaddingTop,
@@ -132,7 +141,6 @@ public class MaterialRadioButton extends ViewGroup {
             measuredWidth += child.getMeasuredWidth();
         }
 
-
         setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
                 resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
     }
@@ -140,8 +148,26 @@ public class MaterialRadioButton extends ViewGroup {
     private void checkViewParams(final View view, final int layoutWidth, final int layoutHeight) {
         int width = view.getMeasuredWidth();
         int height = view.getMeasuredHeight();
-        if ((width > layoutWidth) || (height > layoutHeight))
+
+        if ((width > layoutWidth) || (height > layoutHeight)) {
             view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
+            view.invalidate();
+        }
+
+    }
+
+    private void checkViewParams(final View view) {
+        final int layoutWidth = view.getLeft() - view.getRight();
+        final int layoutHeight = view.getTop() - view.getBottom();
+
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
+
+        if ((width > layoutWidth) || (height > layoutHeight)) {
+            view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
+            view.invalidate();
+        }
+
     }
 
     public boolean isChecked() {
@@ -156,7 +182,6 @@ public class MaterialRadioButton extends ViewGroup {
 
     public void toggle() {
         setChecked(!isChecked());
-
     }
 
     private void notifyListener() {
@@ -164,10 +189,9 @@ public class MaterialRadioButton extends ViewGroup {
             listener.onCheckedChange(this, isChecked());
     }
 
-
     private void setPaintColor(int color) {
         try {
-            this.paint.setColor(color);
+            paint.setColor(color);
         } catch (Exception e) {
         }
     }
@@ -200,11 +224,10 @@ public class MaterialRadioButton extends ViewGroup {
         setWillNotDraw(false);
 
         ripplePaint.setColor(0x25000000);
-
         width = dpToPixels(32);
-        radioButton = new RadioButton(getContext());
         PADDING = dpToPixels(2);
 
+        radioButton = new RadioButton(getContext());
         radioButton.setLayoutParams(new LayoutParams(width, width));
         radioButton.setPadding(PADDING, PADDING, PADDING, PADDING);
 
@@ -231,23 +254,13 @@ public class MaterialRadioButton extends ViewGroup {
         animator.setInterpolator(interpolator);
         animator.setDuration(duration);
         animator.addListener(animatorListener);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
-                ripple_animated_value = animated_value;
-                Log.e("Animator runin", String.format("val : %f", animated_value));
-                invalidatePoster();
-            }
-        });
-
-
+        animator.addUpdateListener(updateListener);
     }
 
-
     private void animateSwitch() {
-        if (radioButton != null)
-            radioButton.animateSwitch();
+        if (animator.isRunning() || animator.isStarted())
+            animator.cancel();
+        animator.start();
         invalidatePoster();
     }
 
@@ -257,10 +270,7 @@ public class MaterialRadioButton extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-
-
         return false;
-
     }
 
 
@@ -268,21 +278,17 @@ public class MaterialRadioButton extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-
                 clickedX = (int) event.getX();
                 clickedY = (int) event.getY();
                 rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
 
-                if (animator.isRunning() || animator.isStarted())
-                    animator.cancel();
-                animator.start();
                 toggle();
 
                 touchDown = true;
+                animateRipple = true;
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-
                 touchDown = false;
 
                 if (!animator.isRunning()) {
@@ -312,19 +318,24 @@ public class MaterialRadioButton extends ViewGroup {
 
 
     private void invalidatePoster() {
-        this.post(new Runnable() {
+        final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                radioButton.invalidate();
                 invalidate();
             }
-        });
+        };
+        this.post(runnable);
+        if (radioButton != null)
+            radioButton.post(runnable);
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, ripplePaint);
+        if (animateRipple) {
+            canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, ripplePaint);
+            Log.e("animated value", String.format("%f", rippleR * ripple_animated_value));
+        }
     }
 
 
@@ -340,70 +351,45 @@ public class MaterialRadioButton extends ViewGroup {
     }
 
     private class RadioButton extends View {
-
         public RadioButton(Context context) {
             super(context);
-            invalidate();
+
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-
             if (isChecked())
                 animateOn(canvas);
             else
                 animateOff(canvas);
-
-            Log.e("drawing", String.format("isCheced : %b", isChecked()));
-
         }
 
         private void animateOff(Canvas canvas) {
-            //paint.setShadowLayer(7, 0, 0, Color.argb(255, 90, 90, 90));
             setPaintColor(color_hole);
             if (animator.isRunning()) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                // paint.setShadowLayer(0, 0, 0, 0);
                 setPaintColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r * (1 - animated_value), paint);
             } else {
-                //paint.setShadowLayer(0, 0, 0, 0);
                 canvas.drawCircle(cx, cy, hole_r, paint);
             }
+
         }
 
         private void animateOn(Canvas canvas) {
-            //paint.setShadowLayer(7, 0, 0, Color.argb(255, 90, 90, 90));
             setPaintColor(color_hole);
             if (animator.isRunning()) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                //paint.setShadowLayer(0, 0, 0, 0);
                 setPaintColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r * animated_value, paint);
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                // paint.setShadowLayer(0, 0, 0, 0);
                 setPaintColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r, paint);
-
             }
         }
 
-
-        public void animateSwitch() {
-
-            try {
-                if (animator.isRunning())
-                    animator.cancel();
-                    animator.start();
-
-            } catch (Exception e) {
-            }
-
-            invalidate();
-
-        }
 
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
