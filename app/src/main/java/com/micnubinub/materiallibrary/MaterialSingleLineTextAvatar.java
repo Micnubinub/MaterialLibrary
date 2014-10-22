@@ -362,6 +362,31 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
                 getMeasuredWidth() - getPaddingRight(),
                 textView.getMeasuredHeight() - textViewPaddingTop);
 
+        checkViewParams(textView);
+    }
+
+    private void checkViewParams(final View view, final int layoutWidth, final int layoutHeight) {
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
+
+        if ((width > layoutWidth) || (height > layoutHeight)) {
+            view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
+            view.invalidate();
+        }
+
+    }
+
+    private void checkViewParams(final View view) {
+        final int layoutWidth = view.getLeft() - view.getRight();
+        final int layoutHeight = view.getTop() - view.getBottom();
+
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
+
+        if ((width > layoutWidth) || (height > layoutHeight)) {
+            view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
+            view.invalidate();
+        }
 
     }
 

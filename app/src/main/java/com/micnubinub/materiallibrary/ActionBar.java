@@ -185,7 +185,7 @@ public class ActionBar extends ViewGroup {
                         dismiss();
                         break;
                     case R.id.logout:
-                        Toast.makeText(getContext(), "Settings", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Logout", Toast.LENGTH_SHORT).show();
                         dismiss();
                         break;
                     case R.id.menu:
@@ -209,8 +209,8 @@ public class ActionBar extends ViewGroup {
             contentView.findViewById(R.id.logout).setOnClickListener(listener);
             contentView.findViewById(R.id.settings).setOnClickListener(listener);
 
-            this.setWidth(dpToPixels(110));
-            this.setHeight(dpToPixels(56 * 3));
+            this.setWidth(dpToPixels(176));
+            this.setHeight(dpToPixels(56 * 2));
             this.setBackgroundDrawable(getResources().getDrawable(R.drawable.white_background));
             setContentView(contentView);
             this.setOutsideTouchable(true);

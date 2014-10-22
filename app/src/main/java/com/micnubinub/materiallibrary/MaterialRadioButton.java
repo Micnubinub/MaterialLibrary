@@ -123,7 +123,7 @@ public class MaterialRadioButton extends ViewGroup {
                 textViewPaddingTop,
                 getMeasuredWidth() - getPaddingRight(),
                 getMeasuredHeight() - textViewPaddingTop);
-
+        checkViewParams(textView);
 
     }
 
