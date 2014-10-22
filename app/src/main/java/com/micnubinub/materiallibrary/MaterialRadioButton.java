@@ -130,7 +130,6 @@ public class MaterialRadioButton extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         int measuredHeight = 0;
         int measuredWidth = 0;
 
@@ -229,7 +228,7 @@ public class MaterialRadioButton extends ViewGroup {
 
         radioButton = new RadioButton(getContext());
         radioButton.setLayoutParams(new LayoutParams(width, width));
-        radioButton.setPadding(PADDING, PADDING, PADDING, PADDING);
+        //radioButton.setPadding(PADDING, PADDING, PADDING, PADDING);
 
         textView = new TextView(getContext());
         PADDING = dpToPixels(5);
@@ -248,7 +247,6 @@ public class MaterialRadioButton extends ViewGroup {
         setHoleColor(getResources().getColor(R.color.white));
 
         paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setColor(color_off);
 
         animator.setInterpolator(interpolator);
@@ -296,7 +294,6 @@ public class MaterialRadioButton extends ViewGroup {
                     invalidatePoster();
                 }
                 break;
-
         }
         return true;
     }
@@ -365,6 +362,7 @@ public class MaterialRadioButton extends ViewGroup {
                 animateOff(canvas);
         }
 
+
         private void animateOff(Canvas canvas) {
             setPaintColor(color_hole);
             if (animator.isRunning()) {
@@ -374,7 +372,6 @@ public class MaterialRadioButton extends ViewGroup {
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
             }
-
         }
 
         private void animateOn(Canvas canvas) {

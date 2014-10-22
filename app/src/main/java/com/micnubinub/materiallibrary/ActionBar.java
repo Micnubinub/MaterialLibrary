@@ -240,6 +240,7 @@ public class ActionBar extends ViewGroup {
         addView(view);
         view.setOnClickListener(l);
         textView.setOnClickListener(l);
+
     }
 
     public void setOnMenuBackButtonClicked(OnMenuBackButtonClicked onMenuBackButtonClicked) {
@@ -300,9 +301,9 @@ public class ActionBar extends ViewGroup {
 
 
         public void animateBars() {
-                if (animator.isRunning())
-                    animator.cancel();
-                animator.start();
+            if (animator.isRunning())
+                animator.cancel();
+            animator.start();
             invalidate();
         }
 
