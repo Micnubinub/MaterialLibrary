@@ -1,10 +1,6 @@
 package com.micnubinub.materiallibrary;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextUtils;
@@ -13,48 +9,33 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
  * Created by root on 11/10/14.
  */
 public class ActionBar extends ViewGroup {
-    private static final DecelerateInterpolator interpolator = new DecelerateInterpolator();
-    private final ValueAnimator animator = ValueAnimator.ofFloat(0.35f, 1);
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private int textColor;
     private ImageView search, menu;
     private int textSize;
     private String text = "";
     private boolean updating = false, showing = false;
-    private View view;
     private float animated_value = 1, currentBarWidth;
     private TextView textView;
-    private OnMenuBackButtonClicked onMenuBackButtonClicked;
-    private OnClickListener showSideMenu;
-    private final OnClickListener l = new OnClickListener() {
+    private Popup popup;
+    private OnClickListener onClickListener = new OnClickListener() {
         @Override
-        public void onClick(View v) {
-
-            showing = !showing;
-
-            if (isShowing())
-                setText("view showing and should ellipsize the end of the texts text");
-            else
-                setText("no ellip");
-
-            ((MenuBars) view).animateBars();
-
-            if (onMenuBackButtonClicked != null)
-                onMenuBackButtonClicked.viewClicked(showing);
-
-            if (showSideMenu != null)
-                showSideMenu.onClick(menu);
+        public void onClick(View view) {
+            if (popup != null) {
+                popup.show();
+            }
         }
     };
+
 
     public ActionBar(Context context) {
         super(context);
@@ -63,12 +44,6 @@ public class ActionBar extends ViewGroup {
 
     public ActionBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
-        text = a.getString(R.styleable.MaterialRadioButton_text);
-        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 22);
-        textColor = getResources().getColor(R.color.white);
-        a.recycle();
-        textSize = textSize < 20 ? 20 : textSize;
         init();
     }
 
@@ -79,18 +54,10 @@ public class ActionBar extends ViewGroup {
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
         final int searchLeft = getMeasuredWidth() - menu.getMeasuredWidth() - search.getMeasuredWidth();
-
-        view.layout(
-                0,
-                ((getMeasuredHeight() - view.getMeasuredHeight()) / 2),
-                view.getMeasuredWidth(),
-                getMeasuredHeight() - ((getMeasuredHeight() - view.getMeasuredHeight()) / 2)
-        );
-
-        final int textViewRight = view.getMeasuredWidth() + textView.getMeasuredWidth();
+        final int textViewRight = textView.getMeasuredWidth();
 
         textView.layout(
-                view.getMeasuredWidth(),
+                0,
                 ((getMeasuredHeight() - textView.getMeasuredHeight()) / 2),
                 textViewRight > searchLeft ? searchLeft : textViewRight,
                 getMeasuredHeight() - ((getMeasuredHeight() - textView.getMeasuredHeight()) / 2));
@@ -163,31 +130,35 @@ public class ActionBar extends ViewGroup {
     }
 
     private void init() {
-        final int PADDING = dpToPixels(12);
+        int PADDING = dpToPixels(16);
+        popup = new Popup(getContext());
 
         textView = new TextView(getContext());
-        textView.setPadding(PADDING, PADDING, PADDING / 3, PADDING);
-        textView.setTextColor(getResources().getColor(R.color.white));
+        textView.setPadding(PADDING, PADDING, PADDING, PADDING);
         textView.setTextSize(textSize);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTypeface(null, Typeface.BOLD);
         textView.setText(text);
         textView.setMaxLines(1);
         textView.setTextColor(getResources().getColor(R.color.white));
+        textSize = textSize < 22 ? 22 : textSize;
 
-        final LayoutParams params = new LayoutParams(dpToPixels(72), dpToPixels(72));
+        final LayoutParams params = new LayoutParams(dpToPixels(56), dpToPixels(56));
 
         search = new ImageView(getContext());
         search.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        search.setImageDrawable(getResources().getDrawable(R.drawable.back));
+        search.setImageDrawable(getResources().getDrawable(R.drawable.search));
         search.setLayoutParams(params);
+        PADDING = (int) (PADDING / 1.3f);
         search.setPadding(PADDING, PADDING, PADDING, PADDING);
 
         menu = new ImageView(getContext());
         menu.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        menu.setImageDrawable(getResources().getDrawable(R.drawable.block));
+        menu.setImageDrawable(getResources().getDrawable(R.drawable.menu));
         menu.setLayoutParams(params);
+        PADDING = (PADDING * 3) / 2;
         menu.setPadding(PADDING, PADDING, PADDING, PADDING);
+        menu.setOnClickListener(onClickListener);
 
         paint.setStrokeWidth(dpToPixels(4));
 
@@ -195,137 +166,61 @@ public class ActionBar extends ViewGroup {
         addView(menu);
         addView(search);
 
-        setText(text);
+        setText("Need something?");
 
 
-        view = new MenuBars(getContext());
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(getResources().getColor(R.color.white));
 
-        animator.setInterpolator(interpolator);
-        animator.setDuration(450);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+    }
+
+    private class Popup extends PopupWindow {
+        private final OnClickListener listener = new OnClickListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
-                view.invalidate();
-                invalidate();
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.settings:
+                        Toast.makeText(getContext(), "Settings", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                        break;
+                    case R.id.logout:
+                        Toast.makeText(getContext(), "Settings", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                        break;
+                    case R.id.menu:
+                        dismiss();
+                        break;
+                }
             }
-        });
+        };
+        int padding = (int) ((dpToPixels(16) * 3) / 2.6f);
+        private View contentView;
 
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                setUpdating(true);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                setUpdating(false);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                setUpdating(false);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-                setUpdating(true);
-            }
-        });
-        final int width = dpToPixels(45);
-        view.setLayoutParams(new LayoutParams((width * 4) / 7, width));
-
-        addView(view);
-        view.setOnClickListener(l);
-        textView.setOnClickListener(l);
-
-    }
-
-    public void setOnMenuBackButtonClicked(OnMenuBackButtonClicked onMenuBackButtonClicked) {
-        this.onMenuBackButtonClicked = onMenuBackButtonClicked;
-    }
-
-    public void setOnMenuButtonClickedListener(OnClickListener l) {
-        menu.setOnClickListener(l);
-    }
-
-    public void setOnSearchButtonClickedListener(OnClickListener l) {
-        search.setOnClickListener(l);
-    }
-
-    public void setOnSideMenuButtonClickedListener(OnClickListener l) {
-        showSideMenu = l;
-    }
-
-    public interface OnMenuBackButtonClicked {
-        public void viewClicked(boolean show);
-    }
-
-    private class MenuBars extends View {
-        private int width;
-        private int[] linePs = new int[3];
-
-        public MenuBars(Context context) {
+        public Popup(Context context) {
             super(context);
+            contentView = View.inflate(getContext(), R.layout.popup_menu, null);
+            contentView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            final ImageView imageView = (ImageView) contentView.findViewById(R.id.menu);
+            imageView.setPadding(padding, padding, padding, padding);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.menu_selected));
+            imageView.setOnClickListener(listener);
+            contentView.findViewById(R.id.logout).setOnClickListener(listener);
+            contentView.findViewById(R.id.settings).setOnClickListener(listener);
+
+            this.setWidth(dpToPixels(110));
+            this.setHeight(dpToPixels(56 * 3));
+            this.setBackgroundDrawable(getResources().getDrawable(R.drawable.white_background));
+            setContentView(contentView);
+            this.setOutsideTouchable(true);
+
         }
 
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-
-            if (isShowing())
-                show(canvas);
-            else
-                hide(canvas);
-
-            if (updating)
-                invalidate();
-
-        }
-
-        private void hide(Canvas canvas) {
-            currentBarWidth = width * (1 - animated_value + 0.35f);
-            canvas.drawLine(0, linePs[0], currentBarWidth, linePs[0], paint);
-            canvas.drawLine(0, linePs[1], currentBarWidth, linePs[1], paint);
-            canvas.drawLine(0, linePs[2], currentBarWidth, linePs[2], paint);
-        }
-
-        private void show(Canvas canvas) {
-            currentBarWidth = width * animated_value;
-            canvas.drawLine(0, linePs[0], currentBarWidth, linePs[0], paint);
-            canvas.drawLine(0, linePs[1], currentBarWidth, linePs[1], paint);
-            canvas.drawLine(0, linePs[2], currentBarWidth, linePs[2], paint);
+        public void show() {
+            showAsDropDown(menu, 0, -dpToPixels(56));
         }
 
 
-        public void animateBars() {
-            if (animator.isRunning())
-                animator.cancel();
-            animator.start();
-            invalidate();
-        }
-
-        @Override
-        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-            super.onSizeChanged(w, h, oldw, oldh);
-            width = w;
-            calculateLinePos(h);
-        }
-
-        private void calculateLinePos(int h) {
-            linePs[0] = h / 4;
-            linePs[1] = h / 2;
-            linePs[2] = 3 * h / 4;
-        }
-
-        @Override
-        protected void onAttachedToWindow() {
-            super.onAttachedToWindow();
-            if (isShowing())
-                animated_value = 1;
-        }
     }
-
 }

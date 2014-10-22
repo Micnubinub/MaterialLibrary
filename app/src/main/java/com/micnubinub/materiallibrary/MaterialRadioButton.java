@@ -328,10 +328,8 @@ public class MaterialRadioButton extends ViewGroup {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (animateRipple) {
+        if (animateRipple)
             canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, ripplePaint);
-            Log.e("animated value", String.format("%f", rippleR * ripple_animated_value));
-        }
     }
 
 
@@ -349,16 +347,21 @@ public class MaterialRadioButton extends ViewGroup {
     private class RadioButton extends View {
         public RadioButton(Context context) {
             super(context);
-
+            invalidate();
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+            Log.e("Canvas", String.format("w, h : %d, %d", canvas.getWidth(), canvas.getHeight()));
+
             if (isChecked())
                 animateOn(canvas);
             else
                 animateOff(canvas);
+
+            paint.setColor(0x000000);
+            canvas.drawCircle(cx, cy, width, paint);
         }
 
 
@@ -405,4 +408,6 @@ public class MaterialRadioButton extends ViewGroup {
         }
 
     }
+
+
 }
