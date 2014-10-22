@@ -215,7 +215,6 @@ public class MaterialRadioButton extends ViewGroup {
     public void setText(String text) {
         if (textView != null)
             textView.setText(text);
-
         invalidate();
     }
 
