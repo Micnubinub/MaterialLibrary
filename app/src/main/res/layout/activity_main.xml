@@ -15,6 +15,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.micnubinub.materiallibrary.ActionBar
+                android:layout_width="fill_parent"
+                android:layout_height="72dp"
+                android:background="@color/material_blue"
+                app:mode="1"
+                app:text="hellomaniggamsrrwrrwrrwrqrwrwerwerwerwer" />
+
             <com.micnubinub.materiallibrary.MaterialSwitch
                 android:id="@+id/material_switch"
                 android:layout_width="fill_parent"

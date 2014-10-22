@@ -22,9 +22,9 @@ import android.widget.TextView;
 public class MaterialRadioButton extends ViewGroup {
 
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
+    private static final Paint ripplePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static int PADDING = 2;
     private static int duration = 750;
-    private final Paint ripplePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int height;
@@ -65,6 +65,7 @@ public class MaterialRadioButton extends ViewGroup {
     private float animated_value = 0;
     private OnCheckedChangedListener listener;
     private TextView textView;
+    private boolean viewSizeChanged = false;
 
     public MaterialRadioButton(Context context) {
         super(context);
@@ -134,7 +135,13 @@ public class MaterialRadioButton extends ViewGroup {
 
         setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
                 resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
+    }
 
+    private void checkViewParams(final View view, final int layoutWidth, final int layoutHeight) {
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
+        if ((width > layoutWidth) || (height > layoutHeight))
+            view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
     }
 
     public boolean isChecked() {

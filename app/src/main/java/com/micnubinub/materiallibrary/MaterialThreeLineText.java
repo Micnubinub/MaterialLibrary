@@ -81,7 +81,6 @@ public class MaterialThreeLineText extends ViewGroup {
 
     public MaterialThreeLineText(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
@@ -117,10 +116,10 @@ public class MaterialThreeLineText extends ViewGroup {
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
             setSecondaryTextSize(a.getInteger(R.attr.primaryTextSize, 16));
             setSecondaryTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
-
             a.recycle();
         } catch (Exception e) {
         }
+
         if (secondaryText == null)
             secondaryText = "";
 
@@ -258,9 +257,7 @@ public class MaterialThreeLineText extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-
         return false;
-
     }
 
     @Override
