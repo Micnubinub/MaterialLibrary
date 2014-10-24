@@ -4,12 +4,15 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,7 +20,7 @@ import java.util.TimerTask;
 /**
  * Created by root on 17/10/14.
  */
-public class MaterialButton extends ViewGroup {
+public class MaterialButton extends Button {
 
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
@@ -65,6 +68,7 @@ public class MaterialButton extends ViewGroup {
 
         }
     };
+    private RectF backgroundRect = null;
 
     public MaterialButton(Context context) {
         super(context);
@@ -81,6 +85,9 @@ public class MaterialButton extends ViewGroup {
         init();
     }
 
+    public int dpToPixels(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    }
 
     private void postAnimatedValueReset(int delay) {
         final Timer timer = new Timer();
@@ -119,9 +126,66 @@ public class MaterialButton extends ViewGroup {
         }, 175);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
+    public void setRippleColor(int color) {
+        paint.setColor(color);
+    }
 
+    public void setRippleAlpha(int alpha) {
+        paint.setAlpha(alpha);
+    }
+
+    private void init() {
+        setWillNotDraw(false);
+        animator.setInterpolator(interpolator);
+        animator.addUpdateListener(animatorUpdateListener);
+        animator.addListener(animatorListener);
+        animator.setDuration(duration);
+        try {
+            setBackground(new Drg());
+        } catch (Exception e) {
+            setBackgroundDrawable(new Drg());
+        }
+
+    }
+
+
+    public void setDuration(int duration) {
+        MaterialButton.duration = duration;
+        animator.setDuration(duration);
+    }
+
+    public void setScaleTo(float scaleTo) {
+        this.scaleTo = scaleTo;
+    }
+
+    public void setScaleOnTouch(boolean scaleOnTouch) {
+        this.scaleOnTouch = scaleOnTouch;
+    }
+
+    private void invalidatePoster() {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                invalidate();
+            }
+        });
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        paint.setColor(0x25000000);
+        canvas.drawCircle(clickedX, clickedY, r * animated_value, paint);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
@@ -156,88 +220,7 @@ public class MaterialButton extends ViewGroup {
 
         }
         return false;
-
     }
-
-    public void setRippleColor(int color) {
-        paint.setColor(color);
-    }
-
-    public void setRippleAlpha(int alpha) {
-        paint.setAlpha(alpha);
-    }
-
-    private void init() {
-        setWillNotDraw(false);
-        animator.setInterpolator(interpolator);
-        animator.addUpdateListener(animatorUpdateListener);
-        animator.addListener(animatorListener);
-        animator.setDuration(duration);
-        paint.setColor(0x25000000);
-    }
-
-    public void setDuration(int duration) {
-        MaterialButton.duration = duration;
-        animator.setDuration(duration);
-    }
-
-    public void setScaleTo(float scaleTo) {
-        this.scaleTo = scaleTo;
-    }
-
-    public void setScaleOnTouch(boolean scaleOnTouch) {
-        this.scaleOnTouch = scaleOnTouch;
-    }
-
-    private void invalidatePoster() {
-        this.post(new Runnable() {
-            @Override
-            public void run() {
-                invalidate();
-            }
-        });
-    }
-
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-        canvas.drawCircle(clickedX, clickedY, r * animated_value, paint);
-    }
-
-    @Override
-    protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        //getChildAt(0).layout(0, 0, getMeasuredWidth(), getMeasuredHeight());
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        try {
-            final View child = getChildAt(0);
-            measureChild(child, widthMeasureSpec, heightMeasureSpec);
-            final int measuredHeight = child.getMeasuredHeight();
-            final int measuredWidth = child.getMeasuredWidth();
-            setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
-                    resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
-        } catch (Exception e) {
-        }
-
-    }
-
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-    }
-
-    @Override
-    public void addView(View child, int index, LayoutParams params) {
-        if (getChildCount() >= 1)
-            return;
-        super.addView(child, index, params);
-    }
-
 
     @Override
     protected void onSizeChanged(final int w, final int h, int oldw, int oldh) {
@@ -248,6 +231,32 @@ public class MaterialButton extends ViewGroup {
         paddingY = (int) ((h - (h / scaleTo)) / 2);
         this.setPivotX(w / 2);
         this.setPivotY(h / 2);
+        backgroundRect = new RectF(0, 0, w, h);
+    }
+
+    class Drg extends Drawable {
+
+        @Override
+        public void draw(Canvas canvas) {
+            paint.setColor(getResources().getColor(R.color.white));
+            canvas.drawRoundRect(backgroundRect, dpToPixels(5), dpToPixels(5), paint);
+        }
+
+        @Override
+        public void setAlpha(int i) {
+
+        }
+
+        @Override
+        public void setColorFilter(ColorFilter colorFilter) {
+
+        }
+
+        @Override
+        public int getOpacity() {
+            return 0;
+        }
+
     }
 
 }

@@ -13,8 +13,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/material_blue"
             android:orientation="vertical">
 
+            <com.micnubinub.materiallibrary.MaterialButton
+                android:layout_width="120dp"
+                android:layout_height="55dp"
+                android:text="Button" />
 
             <com.micnubinub.materiallibrary.MaterialSwitch
 

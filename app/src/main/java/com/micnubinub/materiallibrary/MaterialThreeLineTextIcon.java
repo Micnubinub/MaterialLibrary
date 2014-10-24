@@ -401,7 +401,7 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
                 getMeasuredHeight() - imageViewPaddingTop
         );
 
-        final int textViewPaddingTop = (getMeasuredHeight() - primaryTextView.getMeasuredHeight()) / 2;
+        final int textViewPaddingTop = (getMeasuredHeight() - primaryTextView.getMeasuredHeight() - secondaryTextView.getMeasuredHeight()) / 2;
         final int secondaryTextViewBottom = textViewPaddingTop + primaryTextView.getMeasuredHeight();
 
         primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),

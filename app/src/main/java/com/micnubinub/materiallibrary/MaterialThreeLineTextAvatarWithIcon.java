@@ -422,7 +422,7 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
                 getMeasuredHeight() - avatarPaddingTop
         );
 
-        final int primaryTextViewPaddingTop = (getMeasuredHeight() - primaryTextView.getMeasuredHeight()) / 2;
+        final int primaryTextViewPaddingTop = (getMeasuredHeight() - primaryTextView.getMeasuredHeight() - secondaryTextView.getMeasuredHeight()) / 2;
         final int iconLeft = getMeasuredWidth() - icon.getMeasuredWidth() - getPaddingRight();
         final int primaryTextBottom = primaryTextView.getMeasuredHeight() + primaryTextViewPaddingTop;
 
