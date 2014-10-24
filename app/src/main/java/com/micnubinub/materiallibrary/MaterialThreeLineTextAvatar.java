@@ -403,17 +403,18 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         imageView.layout(getPaddingLeft(),
                 getPaddingTop(),
                 getPaddingLeft() + imageView.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingBottom()
+                getPaddingTop() + imageView.getMeasuredHeight()
         );
 
-        primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), getPaddingTop(),
+        primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
+                getPaddingTop(),
                 getMeasuredWidth() - getPaddingRight(),
                 primaryTextView.getMeasuredHeight() + getPaddingTop());
 
         checkViewParams(primaryTextView);
 
         secondaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingTop() - secondaryTextView.getMeasuredHeight(),
+                primaryTextView.getMeasuredHeight() + getPaddingTop(),
                 getMeasuredWidth() - getPaddingRight(),
                 getMeasuredHeight() - getPaddingBottom()
         );

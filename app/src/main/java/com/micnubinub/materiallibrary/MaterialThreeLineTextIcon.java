@@ -394,22 +394,27 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
+        final int imageViewPaddingTop = (getMeasuredHeight() - imageView.getMeasuredHeight()) / 2;
         imageView.layout(getPaddingLeft(),
-                getPaddingTop(),
+                imageViewPaddingTop,
                 getPaddingLeft() + imageView.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingBottom()
+                getMeasuredHeight() - imageViewPaddingTop
         );
 
-        primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), getPaddingTop(),
+        final int textViewPaddingTop = (getMeasuredHeight() - primaryTextView.getMeasuredHeight()) / 2;
+        final int secondaryTextViewBottom = textViewPaddingTop + primaryTextView.getMeasuredHeight();
+
+        primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
+                textViewPaddingTop,
                 getMeasuredWidth() - getPaddingRight(),
-                primaryTextView.getMeasuredHeight() + getPaddingTop());
+                secondaryTextViewBottom);
 
         checkViewParams(primaryTextView);
 
         secondaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingTop() - secondaryTextView.getMeasuredHeight(),
+                secondaryTextViewBottom,
                 getMeasuredWidth() - getPaddingRight(),
-                getMeasuredHeight() - getPaddingBottom()
+                secondaryTextViewBottom + secondaryTextView.getMeasuredHeight()
         );
 
         checkViewParams(secondaryTextView);

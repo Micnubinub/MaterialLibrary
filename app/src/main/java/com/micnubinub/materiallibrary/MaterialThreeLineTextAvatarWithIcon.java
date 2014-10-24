@@ -415,27 +415,33 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
+        final int avatarPaddingTop = (getMeasuredHeight() - avatar.getMeasuredHeight()) / 2;
         avatar.layout(getPaddingLeft(),
-                getPaddingTop(),
+                avatarPaddingTop,
                 getPaddingLeft() + avatar.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingBottom()
+                getMeasuredHeight() - avatarPaddingTop
         );
 
-        primaryTextView.layout(getPaddingLeft() + avatar.getMeasuredWidth(), getPaddingTop(),
-                getMeasuredWidth() - getPaddingRight() - icon.getMeasuredWidth(),
-                primaryTextView.getMeasuredHeight() + getPaddingTop());
+        final int primaryTextViewPaddingTop = (getMeasuredHeight() - primaryTextView.getMeasuredHeight()) / 2;
+        final int iconLeft = getMeasuredWidth() - icon.getMeasuredWidth() - getPaddingRight();
+        final int primaryTextBottom = primaryTextView.getMeasuredHeight() + primaryTextViewPaddingTop;
+
+        primaryTextView.layout(getPaddingLeft() + avatar.getMeasuredWidth(),
+                primaryTextViewPaddingTop,
+                iconLeft,
+                primaryTextBottom);
 
         checkViewParams(primaryTextView);
 
         secondaryTextView.layout(getPaddingLeft() + avatar.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingTop() - secondaryTextView.getMeasuredHeight(),
-                getMeasuredWidth() - getPaddingRight() - icon.getMeasuredWidth(),
+                primaryTextBottom,
+                iconLeft,
                 getMeasuredHeight() - getPaddingBottom()
         );
 
         checkViewParams(secondaryTextView);
 
-        icon.layout(getMeasuredWidth() - icon.getMeasuredWidth() - getPaddingRight(),
+        icon.layout(iconLeft,
                 getPaddingTop(),
                 getMeasuredWidth() - getPaddingRight(),
                 getMeasuredHeight() - getPaddingBottom());

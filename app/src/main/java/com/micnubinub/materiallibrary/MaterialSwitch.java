@@ -67,13 +67,13 @@ public class MaterialSwitch extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-
         materialSwitch.layout(
                 getMeasuredWidth() - materialSwitch.getMeasuredWidth() - getPaddingRight(),
                 getPaddingTop() + ((getMeasuredHeight() - materialSwitch.getMeasuredHeight()) / 2),
                 getMeasuredWidth() - getPaddingRight(),
                 getPaddingBottom() + getMeasuredHeight() - ((getMeasuredHeight() - materialSwitch.getMeasuredHeight()) / 2)
         );
+
         if (textView != null) {
             textView.layout(
                     getPaddingLeft(),

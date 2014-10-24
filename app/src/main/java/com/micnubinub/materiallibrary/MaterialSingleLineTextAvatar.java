@@ -151,7 +151,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setPadding(padding, padding / 2, padding, padding / 2);
 
-
         imageView = new ImageView(getContext());
         imageView.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -343,8 +342,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
 
         setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
                 resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
-
-
     }
 
     @Override
@@ -356,7 +353,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
                 getMeasuredHeight() - imageViewPaddingTop
         );
 
-        //Todo check alll the views for t(+get PaddingTiop)
         final int textViewPaddingTop = (getMeasuredHeight() - textView.getMeasuredHeight()) / 2;
         textView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), textViewPaddingTop,
                 getMeasuredWidth() - getPaddingRight(),

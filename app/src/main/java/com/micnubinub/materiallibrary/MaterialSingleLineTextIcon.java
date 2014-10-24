@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -30,11 +29,11 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static int duration = 750;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-    private TextView primaryTextView, secondaryTextView;
+    private TextView textView;
     private ImageView imageView;
     private int secondaryTextSize, primaryTextSize,
             primaryTextColor, secondaryTextColor, secondaryTextMaxLines;
-    private String primaryText, secondaryText;
+    private String text;
     private long tic;
     private int width;
     private int height;
@@ -89,26 +88,18 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
-            setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, getResources().getColor(R.color.dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
-            setSecondaryTextSize(a.getInteger(R.attr.primaryTextSize, 16));
-            setSecondaryTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
-            secondaryText = a.getString(R.attr.secondaryText);
-            primaryText = a.getString(R.attr.primaryText);
+            text = a.getString(R.attr.primaryText);
             a.recycle();
         } catch (Exception e) {
         }
 
-        if (secondaryText == null)
-            secondaryText = "";
-
-        if (primaryText == null)
-            primaryText = "";
+        if (text == null)
+            text = "";
 
         init();
 
-        setPrimaryText(primaryText);
-        setSecondaryText(secondaryText);
+        setText(text);
     }
 
 
@@ -117,35 +108,23 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
-            setSecondaryTextColor(a.getInteger(R.attr.secondaryTextColor, getResources().getColor(R.color.dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
-            setSecondaryTextSize(a.getInteger(R.attr.primaryTextSize, 16));
-            setSecondaryTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
 
             a.recycle();
         } catch (Exception e) {
         }
 
-        if (secondaryText == null)
-            secondaryText = "empty";
-
-        if (primaryText == null)
-            primaryText = "empty";
+        if (text == null)
+            text = "empty";
 
         init();
 
-        setPrimaryText(primaryText);
-        setSecondaryText(secondaryText);
+        setText(text);
     }
 
-    public void setPrimaryText(String text) {
-        primaryText = text;
-        primaryTextView.setText(text);
-    }
-
-    public void setSecondaryText(String text) {
-        secondaryText = text;
-        secondaryTextView.setText(text);
+    public void setText(String text) {
+        this.text = text;
+        textView.setText(text);
     }
 
     public int dpToPixels(int dp) {
@@ -159,22 +138,14 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         final int imageWidth = dpToPixels(72);
         final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-        primaryTextView = new TextView(getContext());
-        primaryTextView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
-        primaryTextView.setTypeface(null, Typeface.BOLD);
-        primaryTextView.setTextSize(18);
-        primaryTextView.setMaxLines(1);
-        primaryTextView.setLayoutParams(params);
-        primaryTextView.setEllipsize(TextUtils.TruncateAt.END);
-        primaryTextView.setPadding(padding, padding / 2, padding, padding / 2);
+        textView = new TextView(getContext());
+        textView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
+        textView.setTextSize(1);
+        textView.setMaxLines(1);
+        textView.setLayoutParams(params);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setPadding(padding, padding, padding, padding);
 
-        secondaryTextView = new TextView(getContext());
-        secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));
-        secondaryTextView.setTextSize(16);
-        secondaryTextView.setMaxLines(1);
-        secondaryTextView.setLayoutParams(params);
-        secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
-        secondaryTextView.setPadding(padding, padding / 2, padding, padding);
 
         imageView = new ImageView(getContext());
         imageView.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
@@ -182,8 +153,7 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         imageView.setPadding(padding, padding, padding, padding);
 
         setIcon(getResources().getDrawable(R.drawable.test));
-        primaryTextView.setText("Primary");
-        secondaryTextView.setText("Secondary");
+        textView.setText("Primary");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);
@@ -193,8 +163,7 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         paint.setColor(0x25000000);
 
 
-        addView(primaryTextView);
-        addView(secondaryTextView);
+        addView(textView);
         addView(imageView);
     }
 
@@ -208,34 +177,17 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
             imageView.setImageBitmap(icon);
     }
 
-    public void setSecondaryTextColor(int color) {
-        secondaryTextColor = color;
-        if (secondaryTextView != null)
-            secondaryTextView.setTextColor(color);
-    }
-
-    public void setSecondaryTextMaxLines(int maxLines) {
-        secondaryTextMaxLines = maxLines;
-        if (secondaryTextView != null)
-            secondaryTextView.setMaxLines(maxLines);
-    }
-
-    public void setSecondaryTextSize(int sp) {
-        secondaryTextSize = sp;
-        if (secondaryTextView != null)
-            secondaryTextView.setTextSize(sp);
-    }
 
     public void setPrimaryTextSize(int sp) {
         primaryTextSize = sp;
-        if (primaryTextView != null)
-            primaryTextView.setTextSize(sp);
+        if (textView != null)
+            textView.setTextSize(sp);
     }
 
     public void setPrimaryTextColor(int color) {
         primaryTextColor = color;
-        if (primaryTextView != null)
-            primaryTextView.setTextColor(color);
+        if (textView != null)
+            textView.setTextColor(color);
     }
 
 
@@ -393,25 +345,19 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        imageView.layout(getPaddingLeft(),
+        final int imageViewPadding = (getMeasuredHeight() - imageView.getMeasuredHeight()) / 2;
+        imageView.layout(imageViewPadding,
                 getPaddingTop(),
                 getPaddingLeft() + imageView.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingBottom()
+                getMeasuredHeight() - imageViewPadding
         );
 
-        primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), getPaddingTop(),
+        final int textViewPadding = (getMeasuredHeight() - textView.getMeasuredHeight()) / 2;
+        textView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), textViewPadding,
                 getMeasuredWidth() - getPaddingRight(),
-                primaryTextView.getMeasuredHeight() + getPaddingTop());
+                getMeasuredHeight() - textViewPadding);
 
-        checkViewParams(primaryTextView);
-
-        secondaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingTop() - secondaryTextView.getMeasuredHeight(),
-                getMeasuredWidth() - getPaddingRight(),
-                getMeasuredHeight() - getPaddingBottom()
-        );
-
-        checkViewParams(secondaryTextView);
+        checkViewParams(textView);
     }
 
     private void checkViewParams(final View view, final int layoutWidth, final int layoutHeight) {

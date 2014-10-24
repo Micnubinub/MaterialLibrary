@@ -366,16 +366,18 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        avatar.layout(getPaddingLeft(),
+        final int avatarPaddingTop = (getMeasuredHeight() - avatar.getMeasuredHeight()) / 2;
+        avatar.layout(avatarPaddingTop,
                 getPaddingTop(),
                 getPaddingLeft() + avatar.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingBottom()
+                getMeasuredHeight() - avatarPaddingTop
         );
 
+        final int textViewPaddingTop = (getMeasuredHeight() - textView.getMeasuredHeight()) / 2;
         textView.layout(getPaddingLeft() + avatar.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingTop() - textView.getMeasuredHeight(),
+                textViewPaddingTop,
                 getMeasuredWidth() - getPaddingRight() - icon.getMeasuredWidth(),
-                getMeasuredHeight() - getPaddingBottom()
+                getMeasuredHeight() - textViewPaddingTop
         );
 
         checkViewParams(textView);

@@ -226,7 +226,7 @@ public class MaterialThreeLineText extends ViewGroup {
         checkViewParams(primaryTextView);
 
         secondaryTextView.layout(getPaddingLeft(),
-                getMeasuredHeight() - getPaddingBottom() - secondaryTextView.getMeasuredHeight(),
+                primaryTextView.getMeasuredHeight() + getPaddingTop(),
                 getMeasuredWidth() - getPaddingRight(),
                 getMeasuredHeight() - getPaddingBottom()
         );
