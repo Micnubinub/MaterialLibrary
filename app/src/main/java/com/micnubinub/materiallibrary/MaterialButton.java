@@ -192,7 +192,6 @@ public class MaterialButton extends Button {
                 if (scaleOnTouch)
                     scaleLater();
 
-
                 clickedX = (int) event.getX();
                 clickedY = (int) event.getY();
                 r = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
