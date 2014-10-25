@@ -64,14 +64,14 @@ public class MainActivity extends Activity {
                 case 1:
                     view = new MaterialTwoLineTextAvatar(context);
                     ((MaterialTwoLineTextAvatar) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineTextAvatar) view).setSecondaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatar) view).setSecondaryText(String.format("Primarysfasf as fas fas fas fa sf asf asf asf asfa sfaf asfsaf asf sf %d", i));
                     ((MaterialTwoLineTextAvatar) view).setIcon(getResources().getDrawable(R.drawable.back));
                     break;
 
                 case 2:
                     view = new MaterialTwoLineTextAvatarWithIcon(context);
                     ((MaterialTwoLineTextAvatarWithIcon) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineTextAvatarWithIcon) view).setSecondaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextAvatarWithIcon) view).setSecondaryText(String.format("Primary as asf as fasf asfsafasfasfasfas fasf as fa sf asf asf sa %d", i));
                     ((MaterialTwoLineTextAvatarWithIcon) view).setLeftIcon(getResources().getDrawable(R.drawable.barcode));
                     ((MaterialTwoLineTextAvatarWithIcon) view).setRightIcon(getResources().getDrawable(R.drawable.cloud_download));
                     break;
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
                 case 3:
                     view = new MaterialTwoLineTextIcon(context);
                     ((MaterialTwoLineTextIcon) view).setPrimaryText(String.format("Primary %d", i));
-                    ((MaterialTwoLineTextIcon) view).setSecondaryText(String.format("Primary %d", i));
+                    ((MaterialTwoLineTextIcon) view).setSecondaryText(String.format("Prim  safasfa sf asfa sfasfas  fasfasfsaf   asf asf asf asf ary %d", i));
                     ((MaterialTwoLineTextIcon) view).setIcon(getResources().getDrawable(R.drawable.block));
                     break;
 

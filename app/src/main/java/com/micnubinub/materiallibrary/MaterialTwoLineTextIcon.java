@@ -392,6 +392,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
     }
 
+
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
         imageView.layout(getPaddingLeft(),
@@ -416,20 +417,21 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
     }
 
     private void checkViewParams(final View view, final int layoutWidth, final int layoutHeight) {
-        int width = view.getMeasuredWidth();
-        int height = view.getMeasuredHeight();
-
+        final int width = view.getMeasuredWidth();
+        final int height = view.getMeasuredHeight();
         if ((width > layoutWidth) || (height > layoutHeight)) {
             view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
+            measureChild(view, MeasureSpec.AT_MOST, MeasureSpec.AT_MOST);
+            view.requestLayout();
             view.invalidate();
             requestLayout();
-        }
 
+        }
     }
 
     private void checkViewParams(final View view) {
-        final int layoutWidth = view.getLeft() - view.getRight();
-        final int layoutHeight = view.getTop() - view.getBottom();
+        final int layoutWidth = view.getRight() - view.getLeft();
+        final int layoutHeight = view.getBottom() - view.getTop();
 
         checkViewParams(view, layoutWidth, layoutHeight);
 

@@ -151,22 +151,24 @@ public class MaterialCheckBox extends View {
     }
 
     private void drawLines(Canvas canvas) {
-        final int segments = outR / 7;
-        canvas.drawLine(
-                rectF.left + (4 * segments),
-                rectF.top + (8 * segments),
-                rectF.left + (6 * segments),
-                rectF.top + (11 * segments),
-                paint
-        );
+        if (animated_value > 0.45f) {
+            final int segments = outR / 7;
+            canvas.drawLine(
+                    rectF.left + (4 * segments),
+                    rectF.top + (8 * segments),
+                    rectF.left + (6 * segments),
+                    rectF.top + (11 * segments),
+                    paint
+            );
 
-        canvas.drawLine(
-                rectF.left + (6 * segments),
-                rectF.top + (11 * segments),
-                rectF.left + (11 * segments),
-                rectF.top + (5 * segments),
-                paint
-        );
+            canvas.drawLine(
+                    rectF.left + (6 * segments),
+                    rectF.top + (11 * segments),
+                    rectF.left + (11 * segments),
+                    rectF.top + (5 * segments),
+                    paint
+            );
+        }
     }
 
     @Override
