@@ -422,6 +422,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         if ((width > layoutWidth) || (height > layoutHeight)) {
             view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
             view.invalidate();
+            requestLayout();
         }
 
     }
@@ -430,13 +431,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         final int layoutWidth = view.getLeft() - view.getRight();
         final int layoutHeight = view.getTop() - view.getBottom();
 
-        int width = view.getMeasuredWidth();
-        int height = view.getMeasuredHeight();
-
-        if ((width > layoutWidth) || (height > layoutHeight)) {
-            view.setLayoutParams(new LayoutParams(layoutWidth, layoutHeight));
-            view.invalidate();
-        }
+        checkViewParams(view, layoutWidth, layoutHeight);
 
     }
 /*

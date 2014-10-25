@@ -28,6 +28,7 @@ public class MaterialSwitch extends ViewGroup {
     private final DecelerateInterpolator interpolator = new DecelerateInterpolator();
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected boolean checked = false;
+    private OnCheckedChangedListener listener;
     private int textSize;
     private String text = "";
     private Switch materialSwitch;
@@ -39,7 +40,7 @@ public class MaterialSwitch extends ViewGroup {
         }
     };
     private float line_pos;
-    private OnCheckedChangedListener listener;
+
     private int r, color_on, color_off, hole_r, color_hole;
     private boolean updating = false;
     private float animated_value = 0;
@@ -116,10 +117,6 @@ public class MaterialSwitch extends ViewGroup {
 
     }
 
-    public void setOnCheckedChangeListener(OnCheckedChangedListener listener) {
-        this.listener = listener;
-    }
-
     public void setText(String text) {
         if (text != null && text.length() > 0) {
 
@@ -147,7 +144,6 @@ public class MaterialSwitch extends ViewGroup {
 
     }
 
-
     public boolean isChecked() {
         return checked;
     }
@@ -156,6 +152,10 @@ public class MaterialSwitch extends ViewGroup {
         this.checked = checked;
         animateSwitch();
         notifyListener();
+    }
+
+    public void setOnCheckedChangeListener(OnCheckedChangedListener listener) {
+        this.listener = listener;
     }
 
     public void toggle() {
