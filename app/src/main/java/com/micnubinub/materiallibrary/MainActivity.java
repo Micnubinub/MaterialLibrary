@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity {
     public Context context;
-    MaterialRippleView materialRippleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

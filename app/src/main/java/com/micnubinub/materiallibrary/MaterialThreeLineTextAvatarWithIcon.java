@@ -33,7 +33,7 @@ import java.util.TimerTask;
 public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
-    private static int duration = 750;
+    private static int duration = 600;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView primaryTextView, secondaryTextView;
     private ImageView avatar, icon;
@@ -46,18 +46,19 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
     private int r;
     private int paddingX, paddingY;
     private float animated_value = 0;
-    private ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
-        @Override
-        public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
-            invalidatePoster();
-        }
-    };
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
     private boolean scaleOnTouch = true;
     private boolean touchDown = false, animateRipple;
     private float ripple_animated_value = 0;
+    private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
+        @Override
+        public void onAnimationUpdate(ValueAnimator animation) {
+            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            ripple_animated_value = animated_value;
+            invalidatePoster();
+        }
+    };
     private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
@@ -155,6 +156,8 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
                 clickedY = (int) event.getY();
                 rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
 
+                animator.start();
+
                 touchDown = true;
                 animateRipple = true;
                 break;
@@ -170,6 +173,7 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
         }
         return true;
     }
+
 
     public void setPrimaryText(String text) {
         primaryText = text;

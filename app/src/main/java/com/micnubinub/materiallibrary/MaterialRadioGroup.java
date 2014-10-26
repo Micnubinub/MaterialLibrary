@@ -15,7 +15,6 @@ public class MaterialRadioGroup extends ViewGroup {
         @Override
         public void onCheckedChange(MaterialRadioButton materialCheckBox, boolean isChecked) {
             final int indexOfChild = indexOfChild(materialCheckBox);
-
             if (isChecked && !(selectedRadioButton == indexOfChild)) {
                 if (selectedRadioButton >= 0) {
                     MaterialRadioButton materialRadioButton = (MaterialRadioButton) getChildAt(selectedRadioButton);

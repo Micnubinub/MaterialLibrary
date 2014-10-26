@@ -378,9 +378,9 @@ public class MaterialCheckBox extends ViewGroup {
             cx = w / 2;
             cy = h / 2;
             outR = Math.min(w - getPaddingLeft() - getPaddingRight(), h - getPaddingTop() - getPaddingBottom()) / 2;
-            inR = (int) (0.9f * outR);
+            inR = (int) (0.88f * outR);
             rectF.set(cx - outR, cy - outR, cx + outR, cy + outR);
-            paint.setStrokeWidth(0.1f * outR);
+            paint.setStrokeWidth(0.12f * outR);
 
             segments = ((int) (rectF.right - rectF.left) / 19);
             leftX = rectF.left + (4 * segments);
