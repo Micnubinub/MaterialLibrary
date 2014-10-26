@@ -212,10 +212,12 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
         avatar.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         avatar.setPadding(padding, padding, padding, padding);
 
+        final int iconPadding = dpToPixels(4);
+        final int iconWidth = dpToPixels(48);
         icon = new ImageView(getContext());
-        icon.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
+        icon.setLayoutParams(new LayoutParams(iconWidth, iconWidth));
         icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        icon.setPadding(padding, padding, padding, padding);
+        icon.setPadding(iconPadding, iconPadding, iconPadding, iconPadding);
 
 
         setWillNotDraw(false);

@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 
     private final View materialSeekBar() {
         final MaterialSeekBar materialSeekBar = new MaterialSeekBar(this);
-        materialSeekBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(35)));
+        materialSeekBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(25)));
         materialSeekBar.setMax(20);
         materialSeekBar.setOnProgressChangedListener(new MaterialSeekBar.OnProgressChangedListener() {
             @Override
