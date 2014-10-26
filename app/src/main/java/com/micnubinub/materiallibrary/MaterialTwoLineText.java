@@ -190,7 +190,7 @@ public class MaterialTwoLineText extends ViewGroup {
         primaryTextView.setMaxLines(1);
         primaryTextView.setLayoutParams(params);
         primaryTextView.setEllipsize(TextUtils.TruncateAt.END);
-        primaryTextView.setPadding(padding, padding / 2, padding, padding / 2);
+        primaryTextView.setPadding(padding, padding, padding, padding / 2);
 
         secondaryTextView = new TextView(getContext());
         secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));

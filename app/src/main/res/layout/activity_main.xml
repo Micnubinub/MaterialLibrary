@@ -1,63 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
     <LinearLayout
+        android:id="@+id/ll"
             android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/material_blue"
             android:orientation="vertical">
 
-            <com.micnubinub.materiallibrary.MaterialCheckBox
-                android:layout_width="fill_parent"
-                android:layout_height="55dp"
-                android:layout_gravity="center_horizontal"
-                app:text="Material Check box" />
 
-            <com.micnubinub.materiallibrary.MaterialButton
-                android:layout_width="120dp"
-                android:layout_height="55dp"
-                android:text="Button" />
-
-            <com.micnubinub.materiallibrary.MaterialSwitch
-
-                android:id="@+id/material_switch"
-                android:layout_width="fill_parent"
-                android:layout_height="60dp"
-                app:text="Material Switch" />
-
-            <com.micnubinub.materiallibrary.MaterialRadioGroup
-                android:id="@+id/material_radio_group"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <com.micnubinub.materiallibrary.MaterialRadioButton
-                    android:layout_width="fill_parent"
-                    android:layout_height="55dp"
-                    app:text="Radio Button1" />
-
-                <com.micnubinub.materiallibrary.MaterialRadioButton
-                    android:layout_width="fill_parent"
-                    android:layout_height="55dp"
-                    app:text="Radio Button2" />
-
-                <com.micnubinub.materiallibrary.MaterialRadioButton
-                    android:layout_width="fill_parent"
-                    android:layout_height="55dp"
-                    app:text="Radio Button2" />
-
-            </com.micnubinub.materiallibrary.MaterialRadioGroup>
-
-            <com.micnubinub.materiallibrary.MaterialSeekBar
-                android:layout_width="fill_parent"
-                android:layout_height="25dp" />
-
-            <com.micnubinub.materiallibrary.MaterialSingleLineTextAvatar
-                android:layout_width="fill_parent"
-                android:layout_height="55dp"
-                app:text="fsdfsdvsdsvsdv" />
 
     </LinearLayout>
 </ScrollView>

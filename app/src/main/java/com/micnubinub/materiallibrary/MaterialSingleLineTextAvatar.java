@@ -36,7 +36,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView textView;
     private ImageView imageView;
-    private String text;
     private int width;
     private int height;
     private float animated_value = 0;
@@ -94,18 +93,12 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
             setTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
             setTextSize(a.getInteger(R.attr.primaryTextSize, 18));
             setTextSize(a.getInteger(R.attr.primaryTextSize, 16));
-            text = a.getString(R.attr.primaryText);
             a.recycle();
         } catch (Exception ignored) {
         }
         init();
 
-        if (text == null)
-            text = "";
 
-        init();
-
-        setText(text);
     }
 
 
@@ -119,12 +112,9 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         } catch (Exception ignored) {
         }
 
-        if (text == null)
-            text = "";
 
         init();
 
-        setText(text);
 
     }
 
@@ -155,8 +145,8 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
     }
 
     public void setText(String text) {
-        this.text = text;
         textView.setText(text);
+        invalidatePoster();
     }
 
     public int dpToPixels(int dp) {

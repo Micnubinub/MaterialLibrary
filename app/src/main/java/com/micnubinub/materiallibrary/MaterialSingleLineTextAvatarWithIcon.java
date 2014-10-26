@@ -147,6 +147,7 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
 
     public void setText(String text) {
         textView.setText(text);
+        invalidatePoster();
     }
 
     public int dpToPixels(int dp) {
@@ -213,16 +214,15 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
     }
 
     public void setTextColor(int color) {
-            textView.setTextColor(color);
+        textView.setTextColor(color);
     }
 
     public void setTextMaxLines(int maxLines) {
-            textView.setMaxLines(maxLines);
+        textView.setMaxLines(maxLines);
     }
 
     public void setTextSize(int sp) {
-        if (textView != null)
-            textView.setTextSize(sp);
+        textView.setTextSize(sp);
     }
 
     private void scale(final float scale) {
@@ -287,6 +287,7 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
             canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, paint);
         }
     }
+
     @Override
     public void addView(View child, int index, LayoutParams params) {
         if (getChildCount() >= 4)

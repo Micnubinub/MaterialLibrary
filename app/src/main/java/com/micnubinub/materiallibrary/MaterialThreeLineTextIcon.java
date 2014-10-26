@@ -193,7 +193,7 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
         primaryTextView.setMaxLines(1);
         primaryTextView.setLayoutParams(params);
         primaryTextView.setEllipsize(TextUtils.TruncateAt.END);
-        primaryTextView.setPadding(padding, padding / 2, padding, padding / 2);
+        primaryTextView.setPadding(padding, padding, padding, padding / 2);
 
         secondaryTextView = new TextView(getContext());
         secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));
@@ -233,23 +233,23 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
     }
 
     public void setSecondaryTextColor(int color) {
-            secondaryTextView.setTextColor(color);
+        secondaryTextView.setTextColor(color);
     }
 
     public void setSecondaryTextMaxLines(int maxLines) {
-            secondaryTextView.setMaxLines(maxLines);
+        secondaryTextView.setMaxLines(maxLines);
     }
 
     public void setSecondaryTextSize(int sp) {
-            secondaryTextView.setTextSize(sp);
+        secondaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextSize(int sp) {
-            primaryTextView.setTextSize(sp);
+        primaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextColor(int color) {
-            primaryTextView.setTextColor(color);
+        primaryTextView.setTextColor(color);
     }
 
     private void scale(final float scale) {

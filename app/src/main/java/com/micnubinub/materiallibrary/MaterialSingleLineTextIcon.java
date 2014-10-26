@@ -141,6 +141,7 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
 
     public void setText(String text) {
         textView.setText(text);
+        invalidatePoster();
     }
 
     public int dpToPixels(int dp) {
@@ -191,11 +192,11 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
     }
 
     public void setPrimaryTextSize(int sp) {
-            textView.setTextSize(sp);
+        textView.setTextSize(sp);
     }
 
     public void setPrimaryTextColor(int color) {
-            textView.setTextColor(color);
+        textView.setTextColor(color);
     }
 
     private void scale(final float scale) {
