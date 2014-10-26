@@ -29,14 +29,9 @@ public class MaterialTwoLineText extends ViewGroup {
     private static int duration = 600;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView primaryTextView, secondaryTextView;
-    private int secondaryTextSize, primaryTextSize,
-            primaryTextColor, secondaryTextColor, secondaryTextMaxLines;
     private String primaryText, secondaryText;
-    private long tic;
     private int width;
     private int height;
-    private int r;
-    private int paddingX, paddingY;
     private float animated_value = 0;
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
@@ -46,13 +41,13 @@ public class MaterialTwoLineText extends ViewGroup {
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             Log.e("ripple val", String.format("%f", ripple_animated_value));
             invalidatePoster();
         }
     };
-    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    private final ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
 
@@ -99,7 +94,7 @@ public class MaterialTwoLineText extends ViewGroup {
             secondaryText = a.getString(R.attr.secondaryText);
             primaryText = a.getString(R.attr.primaryText);
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         if (secondaryText == null)
@@ -126,7 +121,7 @@ public class MaterialTwoLineText extends ViewGroup {
             setSecondaryTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
 
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         if (secondaryText == null)
@@ -221,33 +216,23 @@ public class MaterialTwoLineText extends ViewGroup {
     }
 
     public void setSecondaryTextColor(int color) {
-        secondaryTextColor = color;
-        if (secondaryTextView != null)
-            secondaryTextView.setTextColor(color);
+        secondaryTextView.setTextColor(color);
     }
 
     public void setSecondaryTextMaxLines(int maxLines) {
-        secondaryTextMaxLines = maxLines;
-        if (secondaryTextView != null)
-            secondaryTextView.setMaxLines(maxLines);
+        secondaryTextView.setMaxLines(maxLines);
     }
 
     public void setSecondaryTextSize(int sp) {
-        secondaryTextSize = sp;
-        if (secondaryTextView != null)
-            secondaryTextView.setTextSize(sp);
+        secondaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextSize(int sp) {
-        primaryTextSize = sp;
-        if (primaryTextView != null)
-            primaryTextView.setTextSize(sp);
+        primaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextColor(int color) {
-        primaryTextColor = color;
-        if (primaryTextView != null)
-            primaryTextView.setTextColor(color);
+        primaryTextView.setTextColor(color);
     }
 
     @Override
@@ -357,12 +342,6 @@ public class MaterialTwoLineText extends ViewGroup {
 
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-    }
-
-    @Override
     public void addView(View child, int index, LayoutParams params) {
         if (getChildCount() >= 2)
             return;
@@ -375,10 +354,6 @@ public class MaterialTwoLineText extends ViewGroup {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
         height = h;
-        paddingX = (int) ((w - (w / scaleTo)) / 2);
-        paddingY = (int) ((h - (h / scaleTo)) / 2);
-        this.setPivotX(w / 2);
-        this.setPivotY(h / 2);
     }
 
     @Override

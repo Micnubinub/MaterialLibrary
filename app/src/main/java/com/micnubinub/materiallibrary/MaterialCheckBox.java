@@ -31,7 +31,7 @@ public class MaterialCheckBox extends ViewGroup {
     private float ripple_animated_value = 0;
     private int clickedX, clickedY;
     private boolean touchDown = false, animateRipple;
-    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    private final ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
 
@@ -66,7 +66,7 @@ public class MaterialCheckBox extends ViewGroup {
     private final ValueAnimator.AnimatorUpdateListener updateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             invalidatePoster();
         }
@@ -186,12 +186,12 @@ public class MaterialCheckBox extends ViewGroup {
     private void setPaintColor(int color) {
         try {
             paint.setColor(color);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
     public void setAnimationDuration(int duration) {
-        this.duration = duration;
+        MaterialCheckBox.duration = duration;
         animator.setDuration(duration);
     }
 
@@ -318,10 +318,10 @@ public class MaterialCheckBox extends ViewGroup {
 
     private class CheckBox extends View {
 
+        private final RectF rectF = new RectF(0, 0, 100, 100);
         private int segments;
         private float leftX, leftY, midX, midY, rightX, rightY;
         private int inR, cx, cy, outR;
-        private RectF rectF = new RectF(0, 0, 100, 100);
 
         public CheckBox(Context context) {
             super(context);

@@ -37,29 +37,23 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView primaryTextView, secondaryTextView;
     private ImageView imageView;
-    private int secondaryTextSize, primaryTextSize,
-            primaryTextColor, secondaryTextColor, secondaryTextMaxLines;
     private String primaryText, secondaryText;
-    private long tic;
     private int width;
     private int height;
-    private int r;
-    private int paddingX, paddingY;
     private float animated_value = 0;
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
-    private boolean scaleOnTouch = true;
     private boolean touchDown = false, animateRipple;
     private float ripple_animated_value = 0;
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             invalidatePoster();
         }
     };
-    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    private final ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
 
@@ -106,7 +100,7 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
             secondaryText = a.getString(R.attr.secondaryText);
             primaryText = a.getString(R.attr.primaryText);
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         init();
 
@@ -134,7 +128,7 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
             setSecondaryTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
 
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         if (secondaryText == null)
@@ -221,9 +215,6 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         imageView.setPadding(padding, padding, padding, padding);
 
-        setIcon(getResources().getDrawable(R.drawable.test));
-        primaryTextView.setText("Primary");
-        secondaryTextView.setText("Secondary: this is a two line text test");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);
@@ -249,32 +240,22 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
     }
 
     public void setSecondaryTextColor(int color) {
-        secondaryTextColor = color;
-        if (secondaryTextView != null)
             secondaryTextView.setTextColor(color);
     }
 
     public void setSecondaryTextMaxLines(int maxLines) {
-        secondaryTextMaxLines = maxLines;
-        if (secondaryTextView != null)
             secondaryTextView.setMaxLines(maxLines);
     }
 
     public void setSecondaryTextSize(int sp) {
-        secondaryTextSize = sp;
-        if (secondaryTextView != null)
             secondaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextSize(int sp) {
-        primaryTextSize = sp;
-        if (primaryTextView != null)
             primaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextColor(int color) {
-        primaryTextColor = color;
-        if (primaryTextView != null)
             primaryTextView.setTextColor(color);
     }
 
@@ -319,10 +300,6 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         this.scaleTo = scaleTo;
     }
 
-    public void setScaleOnTouch(boolean scaleOnTouch) {
-        this.scaleOnTouch = scaleOnTouch;
-    }
-
     private void invalidatePoster() {
         this.post(new Runnable() {
             @Override
@@ -347,12 +324,6 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
 
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-    }
-
-    @Override
     public void addView(View child, int index, LayoutParams params) {
         if (getChildCount() >= 3)
             return;
@@ -365,10 +336,6 @@ public class MaterialThreeLineTextAvatar extends ViewGroup {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
         height = h;
-        paddingX = (int) ((w - (w / scaleTo)) / 2);
-        paddingY = (int) ((h - (h / scaleTo)) / 2);
-        this.setPivotX(w / 2);
-        this.setPivotY(h / 2);
     }
 
     @Override

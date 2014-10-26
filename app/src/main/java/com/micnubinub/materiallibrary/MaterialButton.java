@@ -26,27 +26,23 @@ public class MaterialButton extends Button {
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static int duration = 750;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-    private long tic;
+    private final int rippleColor = 0x25000000;
     private int width;
     private int height;
-    private int r;
-    private int paddingX, paddingY;
     private float animated_value = 0;
-
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
-    private boolean scaleOnTouch = true;
     private boolean touchDown = false, animateRipple;
     private float ripple_animated_value = 0;
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             invalidatePoster();
         }
     };
-    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    private final ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
 
@@ -73,7 +69,6 @@ public class MaterialButton extends Button {
         }
     };
     private int rippleR;
-    private int rippleColor = 0x25000000;
     private RectF backgroundRect = null;
 
     public MaterialButton(Context context) {
@@ -149,6 +144,7 @@ public class MaterialButton extends Button {
         try {
             setBackground(new Drg());
         } catch (Exception e) {
+            //noinspection deprecation
             setBackgroundDrawable(new Drg());
         }
 
@@ -162,10 +158,6 @@ public class MaterialButton extends Button {
 
     public void setScaleTo(float scaleTo) {
         this.scaleTo = scaleTo;
-    }
-
-    public void setScaleOnTouch(boolean scaleOnTouch) {
-        this.scaleOnTouch = scaleOnTouch;
     }
 
     private void invalidatePoster() {
@@ -209,8 +201,6 @@ public class MaterialButton extends Button {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
         height = h;
-        paddingX = (int) ((w - (w / scaleTo)) / 2);
-        paddingY = (int) ((h - (h / scaleTo)) / 2);
         this.setPivotX(w / 2);
         this.setPivotY(h / 2);
         backgroundRect = new RectF(0, 0, w, h);

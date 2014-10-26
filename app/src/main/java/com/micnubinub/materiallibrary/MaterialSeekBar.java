@@ -15,25 +15,25 @@ import android.view.View;
 public class MaterialSeekBar extends View {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int lineRight;
-    private float line_pos, shadowRadius, scaleTo = 1.22f;
-    private int r, rDown, rUp, width, scrubberColor, progressColor, shadowColor, progressBackgroundColor;
+    private float line_pos, scaleTo = 1.22f;
+    private int r, rDown, rUp, width, scrubberColor, progressColor, progressBackgroundColor;
     private int max;
     private float progress, scrubberPosition;
     private OnProgressChangedListener listener;
 
     public MaterialSeekBar(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public MaterialSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
     public MaterialSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init();
     }
 
     public int getMax() {
@@ -44,7 +44,7 @@ public class MaterialSeekBar extends View {
         this.max = max;
     }
 
-    private void init(Context context) {
+    private void init() {
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeCap(Paint.Cap.ROUND);
         //setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -116,7 +116,6 @@ public class MaterialSeekBar extends View {
         lineRight = w - rUp;
         r = rDown;
         paint.setStrokeWidth(rDown / 2.3f);
-        shadowRadius = 0.2f * rDown;
         width = w;
 
     }
@@ -129,7 +128,7 @@ public class MaterialSeekBar extends View {
     private void setPaintColor(int color) {
         try {
             this.paint.setColor(color);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -141,14 +140,14 @@ public class MaterialSeekBar extends View {
         return Math.round(progress);
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(float progress) {
+        progress = progress > max ? max : progress;
+        progress = progress < 0 ? 0 : progress;
         this.progress = progress;
         notifyListener();
     }
 
-    public void setProgress(float progress) {
-        progress = progress > max ? max : progress;
-        progress = progress < 0 ? 0 : progress;
+    public void setProgress(int progress) {
         this.progress = progress;
         notifyListener();
     }
@@ -167,10 +166,6 @@ public class MaterialSeekBar extends View {
 
     public void setProgressBackgroundColor(int progressBackgroundColor) {
         this.progressBackgroundColor = progressBackgroundColor;
-    }
-
-    public void setShadowColor(int shadowColor) {
-        this.shadowColor = shadowColor;
     }
 
     public interface OnProgressChangedListener {

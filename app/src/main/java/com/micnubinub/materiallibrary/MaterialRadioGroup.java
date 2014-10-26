@@ -83,7 +83,7 @@ public class MaterialRadioGroup extends ViewGroup {
 
         for (int i = 0; i < getChildCount(); i++) {
             final View child = getChildAt(i);
-            if (child.getVisibility() != GONE && child != null) {
+            if (child.getVisibility() != GONE) {
                 measureChild(child, widthMeasureSpec, heightMeasureSpec);
                 measuredHeight += child.getMeasuredHeight();
                 measuredWidth = Math.max(measuredWidth, child.getMeasuredWidth());
@@ -105,7 +105,7 @@ public class MaterialRadioGroup extends ViewGroup {
         try {
             materialCheckBox.setOnCheckedChangeListener(listener);
             materialCheckBox.setChecked(false);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

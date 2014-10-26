@@ -29,7 +29,7 @@ public class MaterialRadioButton extends ViewGroup {
     private int clickedX, clickedY;
     private boolean touchDown = false, animateRipple;
     private float ripple_animated_value = 0;
-    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    private final ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
 
@@ -65,7 +65,7 @@ public class MaterialRadioButton extends ViewGroup {
     private final ValueAnimator.AnimatorUpdateListener updateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             invalidatePoster();
         }
@@ -221,7 +221,7 @@ public class MaterialRadioButton extends ViewGroup {
     }
 
     public void setAnimationDuration(int duration) {
-        this.duration = duration;
+        MaterialRadioButton.duration = duration;
         animator.setDuration(duration);
     }
 

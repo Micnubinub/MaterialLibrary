@@ -1,19 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/material_blue"
+        android:layout_height="wrap_content"
+        android:background="@color/material_blue"
             android:orientation="vertical">
 
             <com.micnubinub.materiallibrary.MaterialCheckBox
@@ -65,10 +59,6 @@
                 android:layout_height="55dp"
                 app:text="fsdfsdvsdsvsdv" />
 
-            <ListView
-                android:id="@+id/list"
-                android:layout_width="fill_parent"
-                android:layout_height="150dp" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
+

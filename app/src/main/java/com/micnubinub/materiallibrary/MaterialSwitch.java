@@ -18,6 +18,7 @@ import android.widget.TextView;
 /**
  * Created by root on 30/09/14.
  */
+@SuppressWarnings("ALL")
 public class MaterialSwitch extends ViewGroup {
 
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -68,7 +69,7 @@ public class MaterialSwitch extends ViewGroup {
     private final ValueAnimator.AnimatorUpdateListener updateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             invalidatePoster();
         }
@@ -151,7 +152,7 @@ public class MaterialSwitch extends ViewGroup {
                 measuredHeight = Math.max(measuredHeight, child.getMeasuredHeight());
                 measuredWidth += child.getMeasuredWidth();
             }
-        } catch (Exception w) {
+        } catch (Exception ignored) {
         }
 
         setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
@@ -202,7 +203,7 @@ public class MaterialSwitch extends ViewGroup {
     private void setPaintColor(int color) {
         try {
             paint.setColor(color);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -223,7 +224,7 @@ public class MaterialSwitch extends ViewGroup {
     }
 
     public void setAnimationDuration(int duration) {
-        this.duration = duration;
+        MaterialSwitch.duration = duration;
         animator.setDuration(duration);
     }
 
@@ -387,8 +388,7 @@ public class MaterialSwitch extends ViewGroup {
             setPaintColor(color_hole);
             if (updating)
                 canvas.drawCircle((r + (animated_value * (switchWidth - r - r))), line_pos, hole_r * (1 - animated_value), paint);
-            else {
-            }
+
 
         }
 

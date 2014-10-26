@@ -31,29 +31,22 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView textView;
     private ImageView imageView;
-    private int secondaryTextSize, primaryTextSize,
-            primaryTextColor, secondaryTextColor, secondaryTextMaxLines;
-    private String text;
-    private long tic;
     private int width;
     private int height;
-    private int r;
-    private int paddingX, paddingY;
     private float animated_value = 0;
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
-    private boolean scaleOnTouch = true;
     private boolean touchDown = false, animateRipple;
     private float ripple_animated_value = 0;
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             invalidatePoster();
         }
     };
-    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    private final ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
 
@@ -94,17 +87,13 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
-            text = a.getString(R.attr.primaryText);
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
-        if (text == null)
-            text = "";
 
         init();
 
-        setText(text);
     }
 
 
@@ -116,15 +105,11 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
 
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
-
-        if (text == null)
-            text = "empty";
 
         init();
 
-        setText(text);
     }
 
     @Override
@@ -155,7 +140,6 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
 
 
     public void setText(String text) {
-        this.text = text;
         textView.setText(text);
     }
 
@@ -183,8 +167,6 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         imageView.setPadding(padding, padding, padding, padding);
 
-        setIcon(getResources().getDrawable(R.drawable.test));
-        textView.setText("Primary");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);
@@ -209,14 +191,10 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
     }
 
     public void setPrimaryTextSize(int sp) {
-        primaryTextSize = sp;
-        if (textView != null)
             textView.setTextSize(sp);
     }
 
     public void setPrimaryTextColor(int color) {
-        primaryTextColor = color;
-        if (textView != null)
             textView.setTextColor(color);
     }
 
@@ -261,10 +239,6 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         this.scaleTo = scaleTo;
     }
 
-    public void setScaleOnTouch(boolean scaleOnTouch) {
-        this.scaleOnTouch = scaleOnTouch;
-    }
-
     private void invalidatePoster() {
         this.post(new Runnable() {
             @Override
@@ -289,12 +263,6 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
 
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-    }
-
-    @Override
     public void addView(View child, int index, LayoutParams params) {
         if (getChildCount() >= 3)
             return;
@@ -307,10 +275,6 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
         height = h;
-        paddingX = (int) ((w - (w / scaleTo)) / 2);
-        paddingY = (int) ((h - (h / scaleTo)) / 2);
-        this.setPivotX(w / 2);
-        this.setPivotY(h / 2);
     }
 
     @Override

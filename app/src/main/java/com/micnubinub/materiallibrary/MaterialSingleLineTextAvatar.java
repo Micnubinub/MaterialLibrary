@@ -36,28 +36,23 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private TextView textView;
     private ImageView imageView;
-    private int textSize, textColor, secondaryTextMaxLines;
     private String text;
-    private long tic;
     private int width;
     private int height;
-    private int r;
-    private int paddingX, paddingY;
     private float animated_value = 0;
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
-    private boolean scaleOnTouch = true;
     private boolean touchDown = false, animateRipple;
     private float ripple_animated_value = 0;
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
-            animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
+            animated_value = (Float) (animation.getAnimatedValue());
             ripple_animated_value = animated_value;
             invalidatePoster();
         }
     };
-    private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+    private final ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
 
@@ -101,7 +96,7 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
             setTextSize(a.getInteger(R.attr.primaryTextSize, 16));
             text = a.getString(R.attr.primaryText);
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         init();
 
@@ -121,7 +116,7 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
             setTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
             setTextSize(a.getInteger(R.attr.primaryTextSize, 16));
             a.recycle();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         if (text == null)
@@ -186,8 +181,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         imageView.setPadding(padding, padding, padding, padding);
 
-        setIcon(getResources().getDrawable(R.drawable.test));
-        textView.setText("Primary this is a two line text test");
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);
@@ -212,13 +205,11 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
     }
 
     public void setTextSize(int sp) {
-        textSize = sp;
         if (textView != null)
             textView.setTextSize(sp);
     }
 
     public void setTextColor(int color) {
-        textColor = color;
         if (textView != null)
             textView.setTextColor(color);
     }
@@ -264,9 +255,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         this.scaleTo = scaleTo;
     }
 
-    public void setScaleOnTouch(boolean scaleOnTouch) {
-        this.scaleOnTouch = scaleOnTouch;
-    }
 
     private void invalidatePoster() {
         this.post(new Runnable() {
@@ -303,10 +291,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
         height = h;
-        paddingX = (int) ((w - (w / scaleTo)) / 2);
-        paddingY = (int) ((h - (h / scaleTo)) / 2);
-        this.setPivotX(w / 2);
-        this.setPivotY(h / 2);
     }
 
     @Override
