@@ -23,7 +23,7 @@ public class MaterialRadioButton extends ViewGroup {
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static int PADDING = 2;
-    private static int duration = 750;
+    private static int duration = 650;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private int height;
     private int rippleR;
@@ -214,22 +214,23 @@ public class MaterialRadioButton extends ViewGroup {
     private void init() {
         setWillNotDraw(false);
 
-        setOffColor(0xdcdcdc);
-        setOnColor(0x42bd41);
-        setHoleColor(0xffffff);
+        color_off = 0xff0c0c0c;
+        color_on = 0xff42bd41;
+        color_hole = 0xffffffff;
 
-        width = dpToPixels(32);
-        PADDING = dpToPixels(2);
+        width = dpToPixels(28);
+        PADDING = dpToPixels(4);
 
         radioButton = new RadioButton(getContext());
         radioButton.setLayoutParams(new LayoutParams(width, width));
-        //radioButton.setPadding(PADDING, PADDING, PADDING, PADDING);
+        radioButton.setPadding(PADDING, PADDING, PADDING, PADDING);
 
         textView = new TextView(getContext());
         PADDING = dpToPixels(5);
         textView.setPadding(PADDING, PADDING, PADDING, PADDING);
         textView.setTextColor(getResources().getColor(R.color.dark_grey_text));
         textView.setTextSize(textSize);
+        textView.setMaxLines(2);
         textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
         addView(textView);
@@ -314,7 +315,6 @@ public class MaterialRadioButton extends ViewGroup {
         this.post(runnable);
         if (radioButton != null) {
             radioButton.post(runnable);
-            radioButton.invalidate();
         }
     }
 
@@ -342,6 +342,7 @@ public class MaterialRadioButton extends ViewGroup {
     private final class RadioButton extends View {
         public RadioButton(Context context) {
             super(context);
+            invalidate();
         }
 
         @Override
@@ -350,6 +351,7 @@ public class MaterialRadioButton extends ViewGroup {
                 animateOn(canvas);
             else
                 animateOff(canvas);
+
         }
 
 
@@ -381,9 +383,9 @@ public class MaterialRadioButton extends ViewGroup {
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
-            r = Math.min(w, h);
-            cx = getPaddingLeft() + (w / 2);
-            cy = getPaddingTop() + (h / 2);
+            r = Math.min(w - getPaddingLeft() - getPaddingRight(), h - getPaddingTop() - getPaddingBottom()) / 2;
+            cx = (w / 2);
+            cy = (h / 2);
             hole_r = (int) (r * 0.9f);
             inner_hole_r = (int) (r * 0.75f);
         }

@@ -141,11 +141,11 @@ public class MaterialCheckBox extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        paint.setColor(isChecked() ? getResources().getColor(R.color.material_green_light) : getResources().getColor(R.color.white));
+        paint.setColor(isChecked() ? getResources().getColor(R.color.material_green) : getResources().getColor(R.color.material_red));
         final int sweepAngle = (int) ((animated_value < 0.75f ? animated_value / 0.75f : 1) * 360);
         canvas.drawArc(rectF, -90, sweepAngle, true, paint);
 
-        paint.setColor(getResources().getColor(R.color.dark_grey_text));
+        paint.setColor(getResources().getColor(R.color.white));
         canvas.drawCircle(cx, cy, inR, paint);
 
         if (isChecked()) {

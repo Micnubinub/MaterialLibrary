@@ -13,7 +13,6 @@ import android.view.View;
  * Created by root on 24/08/14.
  */
 public class MaterialSeekBar extends View {
-    private static boolean drawShadow;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int lineRight;
     private float line_pos, shadowRadius, scaleTo = 1.22f;
@@ -50,7 +49,6 @@ public class MaterialSeekBar extends View {
         paint.setStrokeCap(Paint.Cap.ROUND);
         //setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setMax(100);
-        drawShadow(true);
         setScrubberColor(getResources().getColor(R.color.material_green_light));
         setProgressColor(getResources().getColor(R.color.material_green_light));
         //setShadowColor(res.getColor(R.color.black));
@@ -143,14 +141,14 @@ public class MaterialSeekBar extends View {
         return Math.round(progress);
     }
 
-    public void setProgress(float progress) {
-        progress = progress > max ? max : progress;
-        progress = progress < 0 ? 0 : progress;
+    public void setProgress(int progress) {
         this.progress = progress;
         notifyListener();
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(float progress) {
+        progress = progress > max ? max : progress;
+        progress = progress < 0 ? 0 : progress;
         this.progress = progress;
         notifyListener();
     }
@@ -169,10 +167,6 @@ public class MaterialSeekBar extends View {
 
     public void setProgressBackgroundColor(int progressBackgroundColor) {
         this.progressBackgroundColor = progressBackgroundColor;
-    }
-
-    public void drawShadow(boolean drawShadow) {
-        this.drawShadow = drawShadow;
     }
 
     public void setShadowColor(int shadowColor) {
