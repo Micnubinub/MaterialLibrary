@@ -60,7 +60,7 @@ public class MaterialCheckBox extends ViewGroup {
     private int textSize;
     private String text = "";
     private CheckBox materialCheckBox;
-    private int width, color_off;
+    private int width;
     private boolean checked = false;
     private float animated_value = 0;
     private final ValueAnimator.AnimatorUpdateListener updateListener = new ValueAnimator.AnimatorUpdateListener() {
@@ -81,10 +81,10 @@ public class MaterialCheckBox extends ViewGroup {
 
     public MaterialCheckBox(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
-        text = a.getString(R.styleable.MaterialCheckBox_text);
-        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
+        text = a.getString(R.styleable.MaterialRadioButton_text);
+        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
@@ -92,10 +92,10 @@ public class MaterialCheckBox extends ViewGroup {
 
     public MaterialCheckBox(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
-        text = a.getString(R.styleable.MaterialCheckBox_text);
-        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
+        text = a.getString(R.styleable.MaterialRadioButton_text);
+        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
@@ -189,9 +189,6 @@ public class MaterialCheckBox extends ViewGroup {
         }
     }
 
-    public void setOffColor(int color_off) {
-        this.color_off = color_off;
-    }
 
     public void setAnimationDuration(int duration) {
         this.duration = duration;
@@ -206,8 +203,6 @@ public class MaterialCheckBox extends ViewGroup {
 
     private void init() {
         setWillNotDraw(false);
-
-        color_off = 0xff0c0c0c;
 
         width = dpToPixels(28);
         PADDING = dpToPixels(4);
@@ -230,7 +225,6 @@ public class MaterialCheckBox extends ViewGroup {
         setText(text);
 
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(color_off);
 
         animator.setInterpolator(interpolator);
         animator.setDuration(duration);
@@ -304,7 +298,7 @@ public class MaterialCheckBox extends ViewGroup {
         };
         this.post(runnable);
         if (materialCheckBox != null) {
-            materialCheckBox.post(runnable);
+            materialCheckBox.invalidate();
         }
     }
 
@@ -338,30 +332,32 @@ public class MaterialCheckBox extends ViewGroup {
 
         public CheckBox(Context context) {
             super(context);
+            invalidate();
         }
 
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+            final int paintColor = isChecked() ? getResources().getColor(R.color.material_green) : getResources().getColor(R.color.material_red);
 
-            paint.setColor(isChecked() ? getResources().getColor(R.color.material_green) : getResources().getColor(R.color.material_red));
+            paint.setColor(paintColor);
             final int sweepAngle = (int) ((animated_value < 0.75f ? animated_value / 0.75f : 1) * 360);
             canvas.drawArc(rectF, -90, sweepAngle, true, paint);
 
             paint.setColor(getResources().getColor(R.color.white));
             canvas.drawCircle(cx, cy, inR, paint);
 
-            if (isChecked()) {
-                paint.setColor(getResources().getColor(R.color.material_green_light));
-                drawLines(canvas);
-            }
+            paint.setColor(paintColor);
+            drawLines(canvas);
+
         }
 
         private void drawLines(Canvas canvas) {
-            if (animated_value > 0.25f) {
+            final float lineValue = isChecked() ? animated_value : 1f - animated_value;
+            if (lineValue > 0.25f) {
 
-                final float leftProg = ((animated_value > 0.5f ? 0.5f : animated_value) - 0.25f) / 0.25f;
+                final float leftProg = ((lineValue > 0.5f ? 0.5f : lineValue) - 0.25f) / 0.25f;
                 canvas.drawLine(
                         leftX,
                         leftY,
@@ -369,8 +365,8 @@ public class MaterialCheckBox extends ViewGroup {
                         leftY + ((midY - leftY) * leftProg),
                         paint
                 );
-                if (animated_value > 0.5) {
-                    final float rightProg = (animated_value - 0.5f) / 0.5f;
+                if (lineValue > 0.5) {
+                    final float rightProg = (lineValue - 0.5f) / 0.5f;
 
                     canvas.drawLine(
                             midX - (paint.getStrokeWidth() / 4),
@@ -388,7 +384,7 @@ public class MaterialCheckBox extends ViewGroup {
             super.onSizeChanged(w, h, oldw, oldh);
             cx = w / 2;
             cy = h / 2;
-            outR = Math.min(w, h) / 2;
+            outR = Math.min(w - getPaddingLeft() - getPaddingRight(), h - getPaddingTop() - getPaddingBottom()) / 2;
             inR = (int) (0.9f * outR);
             rectF.set(cx - outR, cy - outR, cx + outR, cy + outR);
             paint.setStrokeWidth(0.1f * outR);
@@ -405,7 +401,11 @@ public class MaterialCheckBox extends ViewGroup {
 
         }
 
-
+        @Override
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            animated_value = 1;
+        }
     }
 
 

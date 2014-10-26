@@ -11,7 +11,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 
@@ -20,10 +20,10 @@ import android.widget.TextView;
  */
 public class MaterialRadioButton extends ViewGroup {
 
-    private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
+    private static final DecelerateInterpolator interpolator = new DecelerateInterpolator();
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static int PADDING = 2;
-    private static int duration = 650;
+    private static int duration = 600;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private int height;
     private int rippleR;
@@ -80,10 +80,10 @@ public class MaterialRadioButton extends ViewGroup {
 
     public MaterialRadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
-        text = a.getString(R.styleable.MaterialCheckBox_text);
-        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
+        text = a.getString(R.styleable.MaterialRadioButton_text);
+        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
@@ -91,10 +91,10 @@ public class MaterialRadioButton extends ViewGroup {
 
     public MaterialRadioButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
-        text = a.getString(R.styleable.MaterialCheckBox_text);
-        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
+        text = a.getString(R.styleable.MaterialRadioButton_text);
+        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
@@ -181,12 +181,6 @@ public class MaterialRadioButton extends ViewGroup {
             listener.onCheckedChange(this, isChecked());
     }
 
-    private void setPaintColor(int color) {
-        try {
-            paint.setColor(color);
-        } catch (Exception e) {
-        }
-    }
 
     public void setOffColor(int color_off) {
         this.color_off = color_off;
@@ -314,7 +308,7 @@ public class MaterialRadioButton extends ViewGroup {
         };
         this.post(runnable);
         if (radioButton != null) {
-            radioButton.post(runnable);
+            radioButton.invalidate();
         }
     }
 
@@ -359,7 +353,11 @@ public class MaterialRadioButton extends ViewGroup {
             if (animator.isRunning()) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
                 paint.setColor(color_on);
-                canvas.drawCircle(cx, cy, inner_hole_r * (1 - animated_value), paint);
+
+                float circleAnimatedValue = (animated_value / 0.85f);
+                circleAnimatedValue = circleAnimatedValue > 1 ? 1 : circleAnimatedValue;
+
+                canvas.drawCircle(cx, cy, inner_hole_r * (1 - circleAnimatedValue), paint);
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
             }
@@ -370,7 +368,11 @@ public class MaterialRadioButton extends ViewGroup {
             if (animator.isRunning()) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
                 paint.setColor(color_on);
-                canvas.drawCircle(cx, cy, inner_hole_r * animated_value, paint);
+
+                float circleAnimatedValue = (animated_value / 0.85f);
+                circleAnimatedValue = circleAnimatedValue > 1 ? 1 : circleAnimatedValue;
+
+                canvas.drawCircle(cx, cy, inner_hole_r * circleAnimatedValue, paint);
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
                 paint.setColor(color_on);
@@ -383,8 +385,8 @@ public class MaterialRadioButton extends ViewGroup {
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             r = Math.min(w - getPaddingLeft() - getPaddingRight(), h - getPaddingTop() - getPaddingBottom()) / 2;
-            cx = (w / 2);
-            cy = (h / 2);
+            cx = w / 2;
+            cy = h / 2;
             hole_r = (int) (r * 0.9f);
             inner_hole_r = (int) (r * 0.75f);
         }

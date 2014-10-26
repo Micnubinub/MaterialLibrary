@@ -11,16 +11,16 @@ import android.view.ViewGroup;
 public class MaterialRadioGroup extends ViewGroup {
     private int selectedRadioButton = -1;
     private OnSelectionChangedListener selectionChanged;
-    private final MaterialCheckBox.OnCheckedChangedListener listener = new MaterialCheckBox.OnCheckedChangedListener() {
+    private final MaterialRadioButton.OnCheckedChangedListener listener = new MaterialRadioButton.OnCheckedChangedListener() {
         @Override
-        public void onCheckedChange(MaterialCheckBox materialCheckBox, boolean isChecked) {
+        public void onCheckedChange(MaterialRadioButton materialCheckBox, boolean isChecked) {
             final int indexOfChild = indexOfChild(materialCheckBox);
 
             if (isChecked && !(selectedRadioButton == indexOfChild)) {
                 if (selectedRadioButton >= 0) {
-                    MaterialCheckBox materialCheckBox1 = (MaterialCheckBox) getChildAt(selectedRadioButton);
-                    materialCheckBox1.setChecked(false);
-                    materialCheckBox1.invalidate();
+                    MaterialRadioButton materialRadioButton = (MaterialRadioButton) getChildAt(selectedRadioButton);
+                    materialRadioButton.setChecked(false);
+                    materialRadioButton.invalidate();
                 }
             }
             if (selectedRadioButton == indexOfChild) {
@@ -30,7 +30,7 @@ public class MaterialRadioGroup extends ViewGroup {
             }
 
             if (selectionChanged != null)
-                selectionChanged.onSelectionChanged((MaterialCheckBox) getChildAt(selectedRadioButton), selectedRadioButton);
+                selectionChanged.onSelectionChanged((MaterialRadioButton) getChildAt(selectedRadioButton), selectedRadioButton);
         }
     };
 
@@ -98,11 +98,11 @@ public class MaterialRadioGroup extends ViewGroup {
 
     @Override
     public void addView(View child, int index, LayoutParams params) {
-        addListener((MaterialCheckBox) child);
+        addListener((MaterialRadioButton) child);
         super.addView(child, index, params);
     }
 
-    private void addListener(MaterialCheckBox materialCheckBox) {
+    private void addListener(MaterialRadioButton materialCheckBox) {
         try {
             materialCheckBox.setOnCheckedChangeListener(listener);
             materialCheckBox.setChecked(false);
@@ -115,6 +115,6 @@ public class MaterialRadioGroup extends ViewGroup {
     }
 
     public interface OnSelectionChangedListener {
-        public void onSelectionChanged(MaterialCheckBox radioButton, int selectedChild);
+        public void onSelectionChanged(MaterialRadioButton radioButton, int selectedChild);
     }
 }

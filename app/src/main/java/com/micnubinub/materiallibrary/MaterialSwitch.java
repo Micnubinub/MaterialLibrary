@@ -22,7 +22,7 @@ public class MaterialSwitch extends ViewGroup {
 
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static int PADDING = 2;
-    private static int duration = 650;
+    private static int duration = 600;
     private final DecelerateInterpolator interpolator = new DecelerateInterpolator();
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private int height;
@@ -90,10 +90,10 @@ public class MaterialSwitch extends ViewGroup {
 
     public MaterialSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
-        text = a.getString(R.styleable.MaterialCheckBox_text);
-        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
+        text = a.getString(R.styleable.MaterialRadioButton_text);
+        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
@@ -101,10 +101,10 @@ public class MaterialSwitch extends ViewGroup {
 
     public MaterialSwitch(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
-        text = a.getString(R.styleable.MaterialCheckBox_text);
-        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
+        text = a.getString(R.styleable.MaterialRadioButton_text);
+        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
