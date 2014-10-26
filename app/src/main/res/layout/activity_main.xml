@@ -17,8 +17,8 @@
             android:orientation="vertical">
 
             <com.micnubinub.materiallibrary.MaterialCheckBox
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center_horizontal" />
 
             <com.micnubinub.materiallibrary.MaterialButton

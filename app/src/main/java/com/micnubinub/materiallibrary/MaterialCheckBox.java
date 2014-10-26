@@ -86,7 +86,6 @@ public class MaterialCheckBox extends View {
 
     private void init() {
         paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeCap(Paint.Cap.ROUND);
 
         animator.setInterpolator(interpolator);
         setWillNotDraw(false);
@@ -141,18 +140,20 @@ public class MaterialCheckBox extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(getResources().getColor(R.color.white));
+
+        paint.setColor(isChecked() ? getResources().getColor(R.color.material_green_light) : getResources().getColor(R.color.white));
         final int sweepAngle = (int) ((animated_value < 0.75f ? animated_value / 0.75f : 1) * 360);
         canvas.drawArc(rectF, -90, sweepAngle, true, paint);
 
-        paint.setColor(getResources().getColor(R.color.material_blue));
+        paint.setColor(getResources().getColor(R.color.dark_grey_text));
         canvas.drawCircle(cx, cy, inR, paint);
 
-        paint.setColor(getResources().getColor(R.color.white));
-        drawLines(canvas);
+        if (isChecked()) {
+            paint.setColor(getResources().getColor(R.color.material_green_light));
+            drawLines(canvas);
+        }
     }
     private void drawLines(Canvas canvas) {
-
         if (animated_value > 0.25f) {
 
             final float leftProg = ((animated_value > 0.5f ? 0.5f : animated_value) - 0.25f) / 0.25f;
@@ -167,8 +168,8 @@ public class MaterialCheckBox extends View {
                 final float rightProg = (animated_value - 0.5f) / 0.5f;
 
                 canvas.drawLine(
-                        midX,
-                        midY,
+                        midX - (paint.getStrokeWidth() / 4),
+                        midY + (paint.getStrokeWidth() / 4),
                         midX + ((rightX - midX) * rightProg),
                         midY + ((rightY - midY) * rightProg),
                         paint
@@ -187,15 +188,15 @@ public class MaterialCheckBox extends View {
         rectF.set(cx - outR, cy - outR, cx + outR, cy + outR);
         paint.setStrokeWidth(0.1f * outR);
 
-        segments = outR / 7;
+        segments = ((int) (rectF.right - rectF.left) / 19);
         leftX = rectF.left + (4 * segments);
-        leftY = rectF.top + (8 * segments);
+        leftY = rectF.top + (10 * segments);
 
-        midX = rectF.left + (6 * segments);
-        midY = rectF.top + (11 * segments);
+        midX = rectF.left + (8 * segments);
+        midY = rectF.top + (14 * segments);
 
-        rightX = rectF.left + (11 * segments);
-        rightY = rectF.top + (5 * segments);
+        rightX = rectF.left + (15 * segments);
+        rightY = rectF.top + (6 * segments);
 
     }
 

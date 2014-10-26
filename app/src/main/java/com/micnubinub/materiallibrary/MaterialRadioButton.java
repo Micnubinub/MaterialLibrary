@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,11 +21,10 @@ import android.widget.TextView;
 public class MaterialRadioButton extends ViewGroup {
 
     private static final AccelerateInterpolator interpolator = new AccelerateInterpolator();
-    private static final Paint ripplePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static int PADDING = 2;
     private static int duration = 750;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int height;
     private int rippleR;
     private float ripple_animated_value = 0;
@@ -216,7 +214,10 @@ public class MaterialRadioButton extends ViewGroup {
     private void init() {
         setWillNotDraw(false);
 
-        ripplePaint.setColor(0x25000000);
+        setOffColor(0xdcdcdc);
+        setOnColor(0x42bd41);
+        setHoleColor(0xffffff);
+
         width = dpToPixels(32);
         PADDING = dpToPixels(2);
 
@@ -236,9 +237,6 @@ public class MaterialRadioButton extends ViewGroup {
 
         setText(text);
 
-        setOffColor(0xdcdcdc);
-        setOnColor(0x42bd41);
-        setHoleColor(0xffffff);
 
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(color_off);
@@ -293,12 +291,11 @@ public class MaterialRadioButton extends ViewGroup {
 
 
     public void setRippleColor(int color) {
-        ripplePaint.setColor(color);
+        paint.setColor(color);
     }
 
-
     public void setRippleAlpha(int alpha) {
-        ripplePaint.setAlpha(alpha);
+        paint.setAlpha(alpha);
     }
 
     public void setDuration(int duration) {
@@ -324,8 +321,10 @@ public class MaterialRadioButton extends ViewGroup {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (animateRipple)
-            canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, ripplePaint);
+        if (animateRipple) {
+            paint.setColor(0x25000000);
+            canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, paint);
+        }
     }
 
 
@@ -347,7 +346,6 @@ public class MaterialRadioButton extends ViewGroup {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
             if (isChecked())
                 animateOn(canvas);
             else
@@ -356,27 +354,25 @@ public class MaterialRadioButton extends ViewGroup {
 
 
         private void animateOff(Canvas canvas) {
-            setPaintColor(color_hole);
-            Log.w("cx, cy, r", String.format("%d, %d, %d", cx, cy, r));
+            paint.setColor(color_hole);
             if (animator.isRunning()) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                setPaintColor(color_on);
+                paint.setColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r * (1 - animated_value), paint);
-
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
             }
         }
 
         private void animateOn(Canvas canvas) {
-            setPaintColor(color_hole);
+            paint.setColor(color_hole);
             if (animator.isRunning()) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                setPaintColor(color_on);
+                paint.setColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r * animated_value, paint);
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
-                setPaintColor(color_on);
+                paint.setColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r, paint);
             }
         }
@@ -399,10 +395,6 @@ public class MaterialRadioButton extends ViewGroup {
                 animated_value = 1;
         }
 
-        @Override
-        public void invalidate() {
-            super.invalidate();
-        }
     }
 
 
