@@ -59,13 +59,7 @@ public class MaterialSwitch extends ViewGroup {
     private int textSize;
     private String text = "";
     private Switch materialSwitch;
-    private final OnClickListener l = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (materialSwitch != null)
-                toggle();
-        }
-    };
+
     private float line_pos;
     private int r, color_on, color_off, hole_r, color_hole;
     private boolean updating = false;
@@ -82,6 +76,7 @@ public class MaterialSwitch extends ViewGroup {
     private OnCheckedChangedListener listener;
     private TextView textView;
     private int width;
+    private int rippleColor = 0x25000000;
 
     public MaterialSwitch(Context context) {
         super(context);
@@ -273,36 +268,8 @@ public class MaterialSwitch extends ViewGroup {
 
         animator.setInterpolator(interpolator);
         animator.setDuration(duration);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                animated_value = ((Float) (animation.getAnimatedValue())).floatValue();
-                materialSwitch.invalidate();
-            }
-        });
-
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                setUpdating(true);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                setUpdating(false);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                setUpdating(false);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-                setUpdating(true);
-            }
-        });
-        setOnClickListener(l);
+        animator.addListener(animatorListener);
+        animator.addUpdateListener(updateListener);
     }
 
     private void animateSwitch() {
@@ -347,11 +314,7 @@ public class MaterialSwitch extends ViewGroup {
     }
 
     public void setRippleColor(int color) {
-        paint.setColor(color);
-    }
-
-    public void setRippleAlpha(int alpha) {
-        paint.setAlpha(alpha);
+        rippleColor = color;
     }
 
     public void setDuration(int duration) {
@@ -368,7 +331,7 @@ public class MaterialSwitch extends ViewGroup {
         };
         this.post(runnable);
         if (materialSwitch != null) {
-            materialSwitch.post(runnable);
+            materialSwitch.invalidate();
         }
     }
 
@@ -376,7 +339,7 @@ public class MaterialSwitch extends ViewGroup {
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         if (animateRipple) {
-            paint.setColor(0x25000000);
+            paint.setColor(rippleColor);
             canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, paint);
         }
     }

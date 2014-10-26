@@ -56,18 +56,20 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
     private float scaleTo = 1.065f;
     private int clickedX, clickedY;
     private boolean scaleOnTouch = true;
-    private boolean touchDown = false;
+    private boolean touchDown = false, animateRipple;
+    private float ripple_animated_value = 0;
     private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
-            tic = System.currentTimeMillis();
+
         }
 
         @Override
         public void onAnimationEnd(Animator animator) {
             if (!touchDown)
-                animated_value = 0;
+                ripple_animated_value = 0;
 
+            animateRipple = false;
             invalidatePoster();
         }
 
@@ -82,6 +84,8 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
 
         }
     };
+    private int rippleR;
+    private int rippleColor = 0x25000000;
 
     public MaterialThreeLineTextAvatarWithIcon(Context context) {
         super(context);
@@ -143,6 +147,30 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
         setSecondaryText(secondaryText);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                clickedX = (int) event.getX();
+                clickedY = (int) event.getY();
+                rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
+
+                touchDown = true;
+                animateRipple = true;
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                touchDown = false;
+
+                if (!animator.isRunning()) {
+                    ripple_animated_value = 0;
+                    invalidatePoster();
+                }
+                break;
+        }
+        return true;
+    }
+
     public void setPrimaryText(String text) {
         primaryText = text;
         primaryTextView.setText(text);
@@ -156,7 +184,6 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
     public int dpToPixels(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
-
 
     private void init() {
         //Todo consider 16 and 14 (in the guidelines)
@@ -261,7 +288,6 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
             primaryTextView.setTextColor(color);
     }
 
-
     private void scale(final float scale) {
         post(new Runnable() {
             @Override
@@ -294,51 +320,18 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
 
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-
-                if (scaleOnTouch)
-                    scaleLater();
-
-                clickedX = (int) event.getX();
-                clickedY = (int) event.getY();
-                r = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
-
-                if (animator.isRunning())
-                    animator.cancel();
-                animator.start();
-
-                touchDown = true;
-                break;
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-
-                if (scaleOnTouch)
-                    scale(1);
-
-                touchDown = false;
-
-                if (!animator.isRunning()) {
-                    animated_value = 0;
-                    invalidatePoster();
-                }
-                break;
-
-        }
-        return true;
-    }
-
-
     public void setRippleColor(int color) {
-        paint.setColor(color);
+        rippleColor = color;
     }
 
-    public void setRippleAlpha(int alpha) {
-        paint.setAlpha(alpha);
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        if (animateRipple) {
+            paint.setColor(rippleColor);
+            canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, paint);
+        }
     }
-
 
     public void setDuration(int duration) {
         MaterialThreeLineTextAvatarWithIcon.duration = duration;
@@ -361,13 +354,6 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
             }
         });
     }
-
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-        canvas.drawCircle(clickedX, clickedY, r * animated_value, paint);
-    }
-
 
     @Override
     protected void onAttachedToWindow() {

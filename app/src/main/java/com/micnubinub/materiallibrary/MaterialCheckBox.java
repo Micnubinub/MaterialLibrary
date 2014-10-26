@@ -73,6 +73,7 @@ public class MaterialCheckBox extends ViewGroup {
     };
     private OnCheckedChangedListener listener;
     private TextView textView;
+    private int rippleColor = 0x25000000;
 
     public MaterialCheckBox(Context context) {
         super(context);
@@ -189,7 +190,6 @@ public class MaterialCheckBox extends ViewGroup {
         }
     }
 
-
     public void setAnimationDuration(int duration) {
         this.duration = duration;
         animator.setDuration(duration);
@@ -247,7 +247,6 @@ public class MaterialCheckBox extends ViewGroup {
         return false;
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -274,20 +273,10 @@ public class MaterialCheckBox extends ViewGroup {
         return true;
     }
 
-
-    public void setRippleColor(int color) {
-        paint.setColor(color);
-    }
-
-    public void setRippleAlpha(int alpha) {
-        paint.setAlpha(alpha);
-    }
-
     public void setDuration(int duration) {
         MaterialCheckBox.duration = duration;
         animator.setDuration(duration);
     }
-
 
     private void invalidatePoster() {
         final Runnable runnable = new Runnable() {
@@ -302,11 +291,15 @@ public class MaterialCheckBox extends ViewGroup {
         }
     }
 
+    public void setRippleColor(int color) {
+        rippleColor = color;
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         if (animateRipple) {
-            paint.setColor(0x25000000);
+            paint.setColor(rippleColor);
             canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, paint);
         }
     }

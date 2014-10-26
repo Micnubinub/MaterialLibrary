@@ -26,10 +26,9 @@ public class MaterialRadioButton extends ViewGroup {
     private static int duration = 600;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private int height;
-    private int rippleR;
-    private float ripple_animated_value = 0;
     private int clickedX, clickedY;
     private boolean touchDown = false, animateRipple;
+    private float ripple_animated_value = 0;
     private ValueAnimator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animator) {
@@ -56,6 +55,7 @@ public class MaterialRadioButton extends ViewGroup {
 
         }
     };
+    private int rippleR;
     private int textSize;
     private String text = "";
     private RadioButton radioButton;
@@ -72,6 +72,7 @@ public class MaterialRadioButton extends ViewGroup {
     };
     private OnCheckedChangedListener listener;
     private TextView textView;
+    private int rippleColor = 0x25000000;
 
     public MaterialRadioButton(Context context) {
         super(context);
@@ -98,6 +99,32 @@ public class MaterialRadioButton extends ViewGroup {
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                clickedX = (int) event.getX();
+                clickedY = (int) event.getY();
+                rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
+
+                toggle();
+
+                touchDown = true;
+                animateRipple = true;
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                touchDown = false;
+
+                if (!animator.isRunning()) {
+                    ripple_animated_value = 0;
+                    invalidatePoster();
+                }
+                break;
+        }
+        return true;
     }
 
     private int dpToPixels(int dp) {
@@ -181,7 +208,6 @@ public class MaterialRadioButton extends ViewGroup {
             listener.onCheckedChange(this, isChecked());
     }
 
-
     public void setOffColor(int color_off) {
         this.color_off = color_off;
     }
@@ -257,47 +283,10 @@ public class MaterialRadioButton extends ViewGroup {
         return false;
     }
 
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                clickedX = (int) event.getX();
-                clickedY = (int) event.getY();
-                rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
-
-                toggle();
-
-                touchDown = true;
-                animateRipple = true;
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                touchDown = false;
-
-                if (!animator.isRunning()) {
-                    ripple_animated_value = 0;
-                    invalidatePoster();
-                }
-                break;
-        }
-        return true;
-    }
-
-
-    public void setRippleColor(int color) {
-        paint.setColor(color);
-    }
-
-    public void setRippleAlpha(int alpha) {
-        paint.setAlpha(alpha);
-    }
-
     public void setDuration(int duration) {
         MaterialRadioButton.duration = duration;
         animator.setDuration(duration);
     }
-
 
     private void invalidatePoster() {
         final Runnable runnable = new Runnable() {
@@ -312,11 +301,15 @@ public class MaterialRadioButton extends ViewGroup {
         }
     }
 
+    public void setRippleColor(int color) {
+        rippleColor = color;
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         if (animateRipple) {
-            paint.setColor(0x25000000);
+            paint.setColor(rippleColor);
             canvas.drawCircle(clickedX, clickedY, rippleR * ripple_animated_value, paint);
         }
     }
