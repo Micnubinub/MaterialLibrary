@@ -21,6 +21,8 @@ public class MaterialCheckBox extends View {
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     protected boolean checked = false;
+    int segments;
+    float leftX, leftY, midX, midY, rightX, rightY;
     private int inR, cx, cy, outR;
     private RectF rectF = new RectF(0, 0, 100, 100);
     private float animated_value = 1;
@@ -149,25 +151,29 @@ public class MaterialCheckBox extends View {
         paint.setColor(getResources().getColor(R.color.white));
         drawLines(canvas);
     }
-
     private void drawLines(Canvas canvas) {
-        if (animated_value > 0.45f) {
-            final int segments = outR / 7;
-            canvas.drawLine(
-                    rectF.left + (4 * segments),
-                    rectF.top + (8 * segments),
-                    rectF.left + (6 * segments),
-                    rectF.top + (11 * segments),
-                    paint
-            );
 
+        if (animated_value > 0.25f) {
+
+            final float leftProg = ((animated_value > 0.5f ? 0.5f : animated_value) - 0.25f) / 0.25f;
             canvas.drawLine(
-                    rectF.left + (6 * segments),
-                    rectF.top + (11 * segments),
-                    rectF.left + (11 * segments),
-                    rectF.top + (5 * segments),
+                    leftX,
+                    leftY,
+                    leftX + ((midX - leftX) * leftProg),
+                    leftY + ((midY - leftY) * leftProg),
                     paint
             );
+            if (animated_value > 0.5) {
+                final float rightProg = (animated_value - 0.5f) / 0.5f;
+
+                canvas.drawLine(
+                        midX,
+                        midY,
+                        midX + ((rightX - midX) * rightProg),
+                        midY + ((rightY - midY) * rightProg),
+                        paint
+                );
+            }
         }
     }
 
@@ -180,6 +186,16 @@ public class MaterialCheckBox extends View {
         inR = (int) (0.9f * outR);
         rectF.set(cx - outR, cy - outR, cx + outR, cy + outR);
         paint.setStrokeWidth(0.1f * outR);
+
+        segments = outR / 7;
+        leftX = rectF.left + (4 * segments);
+        leftY = rectF.top + (8 * segments);
+
+        midX = rectF.left + (6 * segments);
+        midY = rectF.top + (11 * segments);
+
+        rightX = rectF.left + (11 * segments);
+        rightY = rectF.top + (5 * segments);
 
     }
 

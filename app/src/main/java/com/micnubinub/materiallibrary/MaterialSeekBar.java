@@ -143,14 +143,14 @@ public class MaterialSeekBar extends View {
         return Math.round(progress);
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(float progress) {
+        progress = progress > max ? max : progress;
+        progress = progress < 0 ? 0 : progress;
         this.progress = progress;
         notifyListener();
     }
 
-    public void setProgress(float progress) {
-        progress = progress > max ? max : progress;
-        progress = progress < 0 ? 0 : progress;
+    public void setProgress(int progress) {
         this.progress = progress;
         notifyListener();
     }

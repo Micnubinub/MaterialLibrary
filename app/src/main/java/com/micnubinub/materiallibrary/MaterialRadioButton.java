@@ -117,7 +117,6 @@ public class MaterialRadioButton extends ViewGroup {
         );
 
         final int textViewPaddingTop = ((getMeasuredHeight() - textView.getMeasuredHeight()) / 2);
-
         textView.layout(
                 getPaddingLeft() + radioButton.getMeasuredWidth() + PADDING,
                 textViewPaddingTop,
@@ -237,9 +236,9 @@ public class MaterialRadioButton extends ViewGroup {
 
         setText(text);
 
-        setOffColor(getResources().getColor(R.color.lite_grey));
-        setOnColor(getResources().getColor(R.color.material_green_light));
-        setHoleColor(getResources().getColor(R.color.white));
+        setOffColor(0xdcdcdc);
+        setOnColor(0x42bd41);
+        setHoleColor(0xffffff);
 
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(color_off);
@@ -254,7 +253,6 @@ public class MaterialRadioButton extends ViewGroup {
         if (animator.isRunning() || animator.isStarted())
             animator.cancel();
         animator.start();
-        invalidatePoster();
     }
 
     public void setOnCheckedChangeListener(OnCheckedChangedListener listener) {
@@ -317,8 +315,10 @@ public class MaterialRadioButton extends ViewGroup {
             }
         };
         this.post(runnable);
-        if (radioButton != null)
+        if (radioButton != null) {
             radioButton.post(runnable);
+            radioButton.invalidate();
+        }
     }
 
     @Override
@@ -340,33 +340,29 @@ public class MaterialRadioButton extends ViewGroup {
         public void onCheckedChange(MaterialRadioButton materialRadioButton, boolean isChecked);
     }
 
-    private class RadioButton extends View {
+    private final class RadioButton extends View {
         public RadioButton(Context context) {
             super(context);
-            invalidate();
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            Log.e("Canvas", String.format("w, h : %d, %d", canvas.getWidth(), canvas.getHeight()));
-
             if (isChecked())
                 animateOn(canvas);
             else
                 animateOff(canvas);
-
-            paint.setColor(0x000000);
-            canvas.drawCircle(cx, cy, width, paint);
         }
 
 
         private void animateOff(Canvas canvas) {
             setPaintColor(color_hole);
+            Log.w("cx, cy, r", String.format("%d, %d, %d", cx, cy, r));
             if (animator.isRunning()) {
                 canvas.drawCircle(cx, cy, hole_r, paint);
                 setPaintColor(color_on);
                 canvas.drawCircle(cx, cy, inner_hole_r * (1 - animated_value), paint);
+
             } else {
                 canvas.drawCircle(cx, cy, hole_r, paint);
             }
@@ -389,9 +385,9 @@ public class MaterialRadioButton extends ViewGroup {
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
-            r = (int) (0.7f * (Math.min((width - getPaddingLeft() - getPaddingRight()), (width - getPaddingBottom() - getPaddingTop())) / 2));
-            cx = getPaddingLeft() + (width / 2);
-            cy = getPaddingTop() + (width / 2);
+            r = Math.min(w, h);
+            cx = getPaddingLeft() + (w / 2);
+            cy = getPaddingTop() + (h / 2);
             hole_r = (int) (r * 0.9f);
             inner_hole_r = (int) (r * 0.75f);
         }
@@ -403,6 +399,10 @@ public class MaterialRadioButton extends ViewGroup {
                 animated_value = 1;
         }
 
+        @Override
+        public void invalidate() {
+            super.invalidate();
+        }
     }
 
 
