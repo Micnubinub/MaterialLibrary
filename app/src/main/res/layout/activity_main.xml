@@ -17,9 +17,10 @@
             android:orientation="vertical">
 
             <com.micnubinub.materiallibrary.MaterialCheckBox
-                android:layout_width="35dp"
+                android:layout_width="fill_parent"
                 android:layout_height="35dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                app:text="Material Check box" />
 
             <com.micnubinub.materiallibrary.MaterialButton
                 android:layout_width="120dp"
@@ -38,17 +39,17 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-                <com.micnubinub.materiallibrary.MaterialRadioButton
+                <com.micnubinub.materiallibrary.MaterialCheckBox
                     android:layout_width="fill_parent"
                     android:layout_height="55dp"
                     app:text="Radio Button1" />
 
-                <com.micnubinub.materiallibrary.MaterialRadioButton
+                <com.micnubinub.materiallibrary.MaterialCheckBox
                     android:layout_width="fill_parent"
                     android:layout_height="55dp"
                     app:text="Radio Button2" />
 
-                <com.micnubinub.materiallibrary.MaterialRadioButton
+                <com.micnubinub.materiallibrary.MaterialCheckBox
                     android:layout_width="fill_parent"
                     android:layout_height="55dp"
                     app:text="Radio Button2" />

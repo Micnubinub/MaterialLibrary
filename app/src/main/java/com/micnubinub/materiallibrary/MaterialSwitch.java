@@ -90,10 +90,10 @@ public class MaterialSwitch extends ViewGroup {
 
     public MaterialSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
-        text = a.getString(R.styleable.MaterialRadioButton_text);
-        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
+        text = a.getString(R.styleable.MaterialCheckBox_text);
+        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
@@ -101,10 +101,10 @@ public class MaterialSwitch extends ViewGroup {
 
     public MaterialSwitch(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialRadioButton, 0, 0);
-        setChecked(a.getBoolean(R.styleable.MaterialRadioButton_checked, false));
-        text = a.getString(R.styleable.MaterialRadioButton_text);
-        textSize = a.getInt(R.styleable.MaterialRadioButton_textSize, 20);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialCheckBox, 0, 0);
+        setChecked(a.getBoolean(R.styleable.MaterialCheckBox_checked, false));
+        text = a.getString(R.styleable.MaterialCheckBox_text);
+        textSize = a.getInt(R.styleable.MaterialCheckBox_textSize, 20);
         a.recycle();
         textSize = textSize < 20 ? 20 : textSize;
         init();
@@ -252,7 +252,7 @@ public class MaterialSwitch extends ViewGroup {
 
         materialSwitch = new Switch(getContext());
 
-        materialSwitch.setLayoutParams(new LayoutParams(dpToPixels(35), dpToPixels(20)));
+        materialSwitch.setLayoutParams(new LayoutParams(dpToPixels(35), dpToPixels(18)));
         setPadding(PADDING, PADDING, PADDING, PADDING);
 
         textView = new TextView(getContext());
