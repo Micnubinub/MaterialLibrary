@@ -215,7 +215,7 @@ public class MaterialCheckBox extends ViewGroup {
         PADDING = dpToPixels(5);
         textView.setPadding(PADDING, PADDING, PADDING, PADDING);
         textView.setTextColor(getResources().getColor(R.color.dark_grey_text));
-        textView.setTextSize(textSize);
+        textView.setTextSize(18);
         textView.setMaxLines(2);
         textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
@@ -378,9 +378,9 @@ public class MaterialCheckBox extends ViewGroup {
             cx = w / 2;
             cy = h / 2;
             outR = Math.min(w - getPaddingLeft() - getPaddingRight(), h - getPaddingTop() - getPaddingBottom()) / 2;
-            inR = (int) (0.88f * outR);
+            inR = (int) (0.875f * outR);
             rectF.set(cx - outR, cy - outR, cx + outR, cy + outR);
-            paint.setStrokeWidth(0.12f * outR);
+            paint.setStrokeWidth(0.125f * outR);
 
             segments = ((int) (rectF.right - rectF.left) / 19);
             leftX = rectF.left + (4 * segments);

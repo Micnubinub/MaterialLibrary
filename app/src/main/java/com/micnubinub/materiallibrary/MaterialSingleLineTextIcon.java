@@ -152,22 +152,19 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
         //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
-        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         textView = new TextView(getContext());
         textView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
-        textView.setTextSize(1);
+        textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        textView.setTextSize(18);
         textView.setMaxLines(1);
-        textView.setLayoutParams(params);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setPadding(padding, padding, padding, padding);
-
 
         imageView = new ImageView(getContext());
         imageView.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         imageView.setPadding(padding, padding, padding, padding);
-
 
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);

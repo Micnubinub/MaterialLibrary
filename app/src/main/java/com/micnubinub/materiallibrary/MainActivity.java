@@ -16,12 +16,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
-
-        ll.addView(materialButton());
-        ll.addView(materialCheckBox());
-        ll.addView(materialSwitch());
-        ll.addView(materialSeekBar());
-        ll.addView(materialRadioGroup());
+        ll.addView(new DeathScreen(this), new ViewGroup.LayoutParams(dpToPixels(250), dpToPixels(250)));
+     /* //  ll.addView(materialButton());
+       // ll.addView(materialCheckBox());
+       // ll.addView(materialSwitch());
+      //  ll.addView(materialSeekBar());
+       // ll.addView(materialRadioGroup());
         ll.addView(materialSingleLineTextIcon());
         ll.addView(materialSingleLineTextAvatar());
         ll.addView(materialSingleLineTextAvatarWithIcon());
@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
         ll.addView(materialThreeLineTextIcon());
         ll.addView(materialThreeLineTextAvatar());
         ll.addView(materialThreeLineTextAvatarWithIcon());
-
+*/
     }
 
     public int dpToPixels(int dp) {
@@ -44,7 +44,6 @@ public class MainActivity extends Activity {
         final MaterialButton button = new MaterialButton(this);
         button.setText("Material Button");
         button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
         return button;
     }
 

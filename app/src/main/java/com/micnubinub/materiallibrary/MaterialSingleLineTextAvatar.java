@@ -156,13 +156,12 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
     private void init() {
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
-        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         textView = new TextView(getContext());
         textView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
         textView.setTextSize(18);
+        textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textView.setMaxLines(1);
-        textView.setLayoutParams(params);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setPadding(padding, padding / 2, padding, padding / 2);
 
@@ -178,7 +177,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         animator.addListener(animatorListener);
         animator.setDuration(duration);
         paint.setColor(0x25000000);
-
 
         addView(textView);
         addView(imageView);

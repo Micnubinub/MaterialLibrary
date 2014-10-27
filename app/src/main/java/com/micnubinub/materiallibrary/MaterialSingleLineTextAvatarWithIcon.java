@@ -158,14 +158,13 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
         //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
-        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 
         textView = new TextView(getContext());
         textView.setTextColor(getResources().getColor(R.color.dark_grey));
-        textView.setTextSize(16);
-        textView.setMaxLines(2);
-        textView.setLayoutParams(params);
+        textView.setTextSize(18);
+        textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        textView.setMaxLines(1);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setPadding(padding, padding, padding, padding);
 
