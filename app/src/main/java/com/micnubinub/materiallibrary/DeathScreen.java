@@ -21,12 +21,12 @@ public class DeathScreen extends ViewGroup {
     private static final Random rand = new Random();
     private static final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static final DecelerateInterpolator interpolator = new DecelerateInterpolator();
+    private static final int[] particle1StopPos = new int[2], particle3StopPos = new int[2], particle2StopPos = new int[2];
     private static int duration = 1200;
     private final ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-    private int width, height, r;
-    //int[]= {startX, startY, r}
-    private int[] particle1StartPos, particle1StopPos = new int[2], particle2StartPos, particle2StopPos = new int[2],
-            particle3StartPos, particle3StopPos = new int[2];
+    private int width, height;
+    private int[] particle1StartPos, particle2StartPos,
+            particle3StartPos;
     private float animated_value;
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
@@ -84,7 +84,6 @@ public class DeathScreen extends ViewGroup {
 
         setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
                 resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
-
 
     }
 
