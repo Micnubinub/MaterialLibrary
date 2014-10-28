@@ -7,6 +7,7 @@
 ![Alt text](pic2.png?raw=true "Screen shot 2")
 
 ##How to use:
+
 ###Note that the recommended layout params are in the main activity
 
 ###Material Switch:
