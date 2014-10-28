@@ -2,6 +2,8 @@
 
 ##Credit : Robin Chutaux (traex : https://github.com/traex)
 
+###This library is made with most of the design guidelines in mind : http://www.google.com/design/spec/components/lists.html#lists-behavior
+
 ![Alt text](pic1.png?raw=true "Screen shot 1")
 
 ![Alt text](pic2.png?raw=true "Screen shot 2")
