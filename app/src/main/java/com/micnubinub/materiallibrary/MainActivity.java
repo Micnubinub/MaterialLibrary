@@ -16,7 +16,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
-        ll.addView(new DeathScreen(this), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(450)));
         ll.addView(materialButton());
         ll.addView(materialCheckBox());
         ll.addView(materialSwitch());
