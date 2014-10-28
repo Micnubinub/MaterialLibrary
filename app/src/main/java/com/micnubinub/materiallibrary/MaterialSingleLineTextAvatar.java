@@ -92,7 +92,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
             setTextSize(a.getInteger(R.attr.primaryTextSize, 18));
-            setTextSize(a.getInteger(R.attr.primaryTextSize, 16));
             a.recycle();
         } catch (Exception ignored) {
         }
@@ -170,7 +169,6 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         imageView.setPadding(padding, padding, padding, padding);
 
-
         setWillNotDraw(false);
         animator.setInterpolator(interpolator);
         animator.addUpdateListener(animatorUpdateListener);
@@ -183,23 +181,19 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
     }
 
     public void setIcon(Drawable icon) {
-        if (imageView != null)
-            imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
+        imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
     }
 
     public void setIcon(Bitmap icon) {
-        if (imageView != null)
-            imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
+        imageView.setImageBitmap(getCircleBitmap(icon, dpToPixels(40)));
     }
 
     public void setTextSize(int sp) {
-        if (textView != null)
-            textView.setTextSize(sp);
+        textView.setTextSize(sp);
     }
 
     public void setTextColor(int color) {
-        if (textView != null)
-            textView.setTextColor(color);
+        textView.setTextColor(color);
     }
 
     private void scale(final float scale) {
@@ -310,7 +304,7 @@ public class MaterialSingleLineTextAvatar extends ViewGroup {
         final int textViewPaddingTop = (getMeasuredHeight() - textView.getMeasuredHeight()) / 2;
         textView.layout(getPaddingLeft() + imageView.getMeasuredWidth(), textViewPaddingTop,
                 getMeasuredWidth() - getPaddingRight(),
-                textView.getMeasuredHeight() - textViewPaddingTop);
+                getMeasuredHeight() - textViewPaddingTop);
 
         checkViewParams(textView);
     }

@@ -16,12 +16,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
-        ll.addView(new DeathScreen(this), new ViewGroup.LayoutParams(dpToPixels(250), dpToPixels(250)));
-     /* //  ll.addView(materialButton());
-       // ll.addView(materialCheckBox());
-       // ll.addView(materialSwitch());
-      //  ll.addView(materialSeekBar());
-       // ll.addView(materialRadioGroup());
+        ll.addView(new DeathScreen(this), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(450)));
+        ll.addView(materialButton());
+        ll.addView(materialCheckBox());
+        ll.addView(materialSwitch());
+        ll.addView(materialSeekBar());
+        ll.addView(materialRadioGroup());
         ll.addView(materialSingleLineTextIcon());
         ll.addView(materialSingleLineTextAvatar());
         ll.addView(materialSingleLineTextAvatarWithIcon());
@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
         ll.addView(materialThreeLineTextIcon());
         ll.addView(materialThreeLineTextAvatar());
         ll.addView(materialThreeLineTextAvatarWithIcon());
-*/
+
     }
 
     public int dpToPixels(int dp) {
@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
 
     private final View materialThreeLineTextIcon() {
         final MaterialThreeLineTextIcon materialThreeLineTextIcon = new MaterialThreeLineTextIcon(this);
-        materialThreeLineTextIcon.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(72)));
+        materialThreeLineTextIcon.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineTextIcon.setPrimaryText("Primary Text");
         materialThreeLineTextIcon.setSecondaryText("Material Three line text with Icon test, making sure it spans over two lines");
         materialThreeLineTextIcon.setIcon(getResources().getDrawable(R.drawable.test));
@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
 
     private final View materialThreeLineTextAvatar() {
         final MaterialThreeLineTextAvatar materialThreeLineTextAvatar = new MaterialThreeLineTextAvatar(this);
-        materialThreeLineTextAvatar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(72)));
+        materialThreeLineTextAvatar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineTextAvatar.setPrimaryText("Primary text");
         materialThreeLineTextAvatar.setSecondaryText("Material Three line text with Avatar test, making sure it spans over two lines");
         materialThreeLineTextAvatar.setIcon(getResources().getDrawable(R.drawable.test));
@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
 
     private final View materialThreeLineTextAvatarWithIcon() {
         final MaterialThreeLineTextAvatarWithIcon materialThreeLineTextAvatarWithIcon = new MaterialThreeLineTextAvatarWithIcon(this);
-        materialThreeLineTextAvatarWithIcon.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(72)));
+        materialThreeLineTextAvatarWithIcon.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineTextAvatarWithIcon.setPrimaryText("Primary text");
         materialThreeLineTextAvatarWithIcon.setSecondaryText("Material Three line text with Avatar and Icon test, making sure it spans over two lines");
         materialThreeLineTextAvatarWithIcon.setLeftIcon(getResources().getDrawable(R.drawable.test));
@@ -205,7 +205,7 @@ public class MainActivity extends Activity {
 
     private final View materialThreeLineText() {
         final MaterialThreeLineText materialThreeLineText = new MaterialThreeLineText(this);
-        materialThreeLineText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(72)));
+        materialThreeLineText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineText.setPrimaryText("Primary Text");
         materialThreeLineText.setSecondaryText("Material Three line text with no icon test, making sure it spans over two lines");
         return materialThreeLineText;

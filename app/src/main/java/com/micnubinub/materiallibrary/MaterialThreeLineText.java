@@ -174,7 +174,6 @@ public class MaterialThreeLineText extends ViewGroup {
     }
 
     private void init() {
-        //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
@@ -232,17 +231,17 @@ public class MaterialThreeLineText extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        primaryTextView.layout(getPaddingLeft(), getPaddingTop(),
+        final int textViewPadding = ((getMeasuredHeight() - primaryTextView.getMeasuredHeight() - secondaryTextView.getMeasuredHeight()) / 2);
+        primaryTextView.layout(getPaddingLeft(), textViewPadding,
                 getMeasuredWidth() - getPaddingRight(),
-                primaryTextView.getMeasuredHeight() + getPaddingTop());
+                primaryTextView.getMeasuredHeight() + textViewPadding);
 
         checkViewParams(primaryTextView);
 
         secondaryTextView.layout(getPaddingLeft(),
-                primaryTextView.getMeasuredHeight() + getPaddingTop(),
+                getMeasuredHeight() - textViewPadding - secondaryTextView.getMeasuredHeight(),
                 getMeasuredWidth() - getPaddingRight(),
-                getMeasuredHeight() - getPaddingBottom()
-        );
+                getMeasuredHeight() - textViewPadding);
 
         checkViewParams(secondaryTextView);
     }

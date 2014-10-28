@@ -248,7 +248,7 @@ public class MaterialSwitch extends ViewGroup {
 
         materialSwitch = new Switch(getContext());
 
-        materialSwitch.setLayoutParams(new LayoutParams(dpToPixels(35), dpToPixels(18)));
+        materialSwitch.setLayoutParams(new LayoutParams(dpToPixels(35), dpToPixels(20)));
         setPadding(PADDING, PADDING, PADDING, PADDING);
 
         textView = new TextView(getContext());

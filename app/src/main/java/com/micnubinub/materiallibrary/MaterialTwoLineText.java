@@ -237,16 +237,17 @@ public class MaterialTwoLineText extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        primaryTextView.layout(getPaddingLeft(), getPaddingTop(),
+        final int textViewPadding = ((getMeasuredHeight() - primaryTextView.getMeasuredHeight() - secondaryTextView.getMeasuredHeight()) / 2);
+        primaryTextView.layout(getPaddingLeft(), textViewPadding,
                 getMeasuredWidth() - getPaddingRight(),
-                primaryTextView.getMeasuredHeight() + getPaddingTop());
+                primaryTextView.getMeasuredHeight() + textViewPadding);
 
         checkViewParams(primaryTextView);
 
         secondaryTextView.layout(getPaddingLeft(),
-                getMeasuredHeight() - getPaddingBottom() - secondaryTextView.getMeasuredHeight(),
+                getMeasuredHeight() - textViewPadding - secondaryTextView.getMeasuredHeight(),
                 getMeasuredWidth() - getPaddingRight(),
-                getMeasuredHeight() - getPaddingBottom()
+                getMeasuredHeight() - textViewPadding
         );
 
         checkViewParams(secondaryTextView);

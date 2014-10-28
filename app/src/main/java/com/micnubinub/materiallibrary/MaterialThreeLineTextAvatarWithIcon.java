@@ -373,36 +373,35 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
 
     @Override
     protected void onLayout(boolean b, int i, int i2, int i3, int i4) {
-        final int avatarPaddingTop = (getMeasuredHeight() - avatar.getMeasuredHeight()) / 2;
+        final int imageViewPaddingTop = getPaddingTop();
         avatar.layout(getPaddingLeft(),
-                avatarPaddingTop,
+                imageViewPaddingTop,
                 getPaddingLeft() + avatar.getMeasuredWidth(),
-                getMeasuredHeight() - avatarPaddingTop
+                getMeasuredHeight() - imageViewPaddingTop
         );
 
-        final int primaryTextViewPaddingTop = (getMeasuredHeight() - primaryTextView.getMeasuredHeight() - secondaryTextView.getMeasuredHeight()) / 2;
         final int iconLeft = getMeasuredWidth() - icon.getMeasuredWidth() - getPaddingRight();
-        final int primaryTextBottom = primaryTextView.getMeasuredHeight() + primaryTextViewPaddingTop;
+
+        final int textViewPadding = (getMeasuredHeight() - (primaryTextView.getMeasuredHeight() + secondaryTextView.getMeasuredHeight())) / 2;
 
         primaryTextView.layout(getPaddingLeft() + avatar.getMeasuredWidth(),
-                primaryTextViewPaddingTop,
+                textViewPadding,
                 iconLeft,
-                primaryTextBottom);
+                getPaddingTop() + textViewPadding + primaryTextView.getMeasuredHeight());
 
         checkViewParams(primaryTextView);
 
         secondaryTextView.layout(getPaddingLeft() + avatar.getMeasuredWidth(),
-                primaryTextBottom,
+                getMeasuredHeight() - secondaryTextView.getMeasuredHeight() - textViewPadding,
                 iconLeft,
-                getMeasuredHeight() - getPaddingBottom()
+                getMeasuredHeight() - textViewPadding
         );
 
         checkViewParams(secondaryTextView);
 
-        icon.layout(iconLeft,
-                getPaddingTop(),
+        icon.layout(iconLeft, getPaddingTop(),
                 getMeasuredWidth() - getPaddingRight(),
-                getMeasuredHeight() - getPaddingBottom());
+                getPaddingTop() + icon.getMeasuredHeight());
 
 
     }

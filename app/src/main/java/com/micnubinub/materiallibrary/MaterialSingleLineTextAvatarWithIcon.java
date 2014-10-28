@@ -109,7 +109,6 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
             setTextColor(a.getInteger(R.attr.secondaryTextColor, getResources().getColor(R.color.dark_grey)));
             setTextSize(a.getInteger(R.attr.primaryTextSize, 16));
             setTextMaxLines(a.getInteger(R.attr.secondaryTextMaxLines, 1));
-
             a.recycle();
         } catch (Exception ignored) {
         }
@@ -155,10 +154,9 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
     }
 
     private void init() {
-        //Todo consider 16 and 14 (in the guidelines)
+        setWillNotDraw(false);
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
-
 
         textView = new TextView(getContext());
         textView.setTextColor(getResources().getColor(R.color.dark_grey));
@@ -167,7 +165,6 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
         textView.setMaxLines(1);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setPadding(padding, padding, padding, padding);
-
 
         avatar = new ImageView(getContext());
         avatar.setLayoutParams(new LayoutParams(imageWidth, imageWidth));
@@ -181,7 +178,7 @@ public class MaterialSingleLineTextAvatarWithIcon extends ViewGroup {
         icon.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         icon.setPadding(iconPadding, iconPadding, iconPadding, iconPadding);
 
-        setWillNotDraw(false);
+
         animator.setInterpolator(interpolator);
         animator.addUpdateListener(animatorUpdateListener);
         animator.addListener(animatorListener);

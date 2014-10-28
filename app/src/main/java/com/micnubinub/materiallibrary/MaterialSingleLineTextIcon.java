@@ -82,7 +82,6 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
 
     public MaterialSingleLineTextIcon(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         try {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
@@ -103,7 +102,6 @@ public class MaterialSingleLineTextIcon extends ViewGroup {
             final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaterialTwoLineText, 0, 0);
             setPrimaryTextColor(a.getInteger(R.attr.primaryTextColor, getResources().getColor(R.color.dark_dark_grey)));
             setPrimaryTextSize(a.getInteger(R.attr.primaryTextSize, 18));
-
             a.recycle();
         } catch (Exception ignored) {
         }
