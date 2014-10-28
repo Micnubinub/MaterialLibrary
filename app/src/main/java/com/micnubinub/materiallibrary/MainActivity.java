@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
     private final View materialButton() {
         final MaterialButton button = new MaterialButton(this);
         button.setText("Material Button");
-        button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dpToPixels(50)));
         return button;
     }
 
