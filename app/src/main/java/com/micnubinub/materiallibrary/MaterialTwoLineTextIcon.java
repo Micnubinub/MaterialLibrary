@@ -137,31 +137,7 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
         setSecondaryText(secondaryText);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                clickedX = (int) event.getX();
-                clickedY = (int) event.getY();
-                rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
 
-                animator.start();
-
-                touchDown = true;
-                animateRipple = true;
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                touchDown = false;
-
-                if (!animator.isRunning()) {
-                    ripple_animated_value = 0;
-                    invalidatePoster();
-                }
-                break;
-        }
-        return true;
-    }
 
 
     public void setPrimaryText(String text) {
@@ -276,9 +252,33 @@ public class MaterialTwoLineTextIcon extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-
         return false;
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                clickedX = (int) event.getX();
+                clickedY = (int) event.getY();
+                rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
+
+                animator.start();
+
+                touchDown = true;
+                animateRipple = true;
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                touchDown = false;
+
+                if (!animator.isRunning()) {
+                    ripple_animated_value = 0;
+                    invalidatePoster();
+                }
+                break;
+        }
+        return true;
     }
 
     public void setDuration(int duration) {

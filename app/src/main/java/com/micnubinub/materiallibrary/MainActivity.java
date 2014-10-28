@@ -176,7 +176,7 @@ public class MainActivity extends Activity {
         final MaterialThreeLineTextIcon materialThreeLineTextIcon = new MaterialThreeLineTextIcon(this);
         materialThreeLineTextIcon.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineTextIcon.setPrimaryText("Primary Text");
-        materialThreeLineTextIcon.setSecondaryText("Material Three line text with Icon test, making sure it spans over two lines");
+        materialThreeLineTextIcon.setSecondaryText("Material Three line text with Icon test, making sure it spans over two lines so i can show case the 3 lines in the three line text'");
         materialThreeLineTextIcon.setIcon(getResources().getDrawable(R.drawable.test));
 
         return materialThreeLineTextIcon;
@@ -186,7 +186,7 @@ public class MainActivity extends Activity {
         final MaterialThreeLineTextAvatar materialThreeLineTextAvatar = new MaterialThreeLineTextAvatar(this);
         materialThreeLineTextAvatar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineTextAvatar.setPrimaryText("Primary text");
-        materialThreeLineTextAvatar.setSecondaryText("Material Three line text with Avatar test, making sure it spans over two lines");
+        materialThreeLineTextAvatar.setSecondaryText("Material Three line text with Avatar test, making sure it spans over two lines so i can show case the 3 lines in the three line text");
         materialThreeLineTextAvatar.setIcon(getResources().getDrawable(R.drawable.test));
 
         return materialThreeLineTextAvatar;
@@ -196,7 +196,7 @@ public class MainActivity extends Activity {
         final MaterialThreeLineTextAvatarWithIcon materialThreeLineTextAvatarWithIcon = new MaterialThreeLineTextAvatarWithIcon(this);
         materialThreeLineTextAvatarWithIcon.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineTextAvatarWithIcon.setPrimaryText("Primary text");
-        materialThreeLineTextAvatarWithIcon.setSecondaryText("Material Three line text with Avatar and Icon test, making sure it spans over two lines");
+        materialThreeLineTextAvatarWithIcon.setSecondaryText("Material Three line text with Avatar and Icon test, making sure it spans over two lines so i can show case the 3 lines in the three line text");
         materialThreeLineTextAvatarWithIcon.setLeftIcon(getResources().getDrawable(R.drawable.test));
         materialThreeLineTextAvatarWithIcon.setRightIcon(getResources().getDrawable(R.drawable.block));
 
@@ -207,7 +207,7 @@ public class MainActivity extends Activity {
         final MaterialThreeLineText materialThreeLineText = new MaterialThreeLineText(this);
         materialThreeLineText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
         materialThreeLineText.setPrimaryText("Primary Text");
-        materialThreeLineText.setSecondaryText("Material Three line text with no icon test, making sure it spans over two lines");
+        materialThreeLineText.setSecondaryText("Material Three line text with no icon test, making sure it spans over two lines so i can show case the 3 lines in the three line text");
         return materialThreeLineText;
     }
 

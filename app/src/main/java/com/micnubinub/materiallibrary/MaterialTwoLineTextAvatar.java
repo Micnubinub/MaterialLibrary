@@ -143,12 +143,19 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
     }
 
     @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        return false;
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 clickedX = (int) event.getX();
                 clickedY = (int) event.getY();
                 rippleR = (int) (Math.sqrt(Math.pow(Math.max(width - clickedX, clickedX), 2) + Math.pow(Math.max(height - clickedY, clickedY), 2)) * 1.15);
+
+                animator.start();
 
                 touchDown = true;
                 animateRipple = true;
@@ -276,12 +283,7 @@ public class MaterialTwoLineTextAvatar extends ViewGroup {
         }, 175);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
 
-        return false;
-
-    }
 
     public void setDuration(int duration) {
         MaterialTwoLineTextAvatar.duration = duration;

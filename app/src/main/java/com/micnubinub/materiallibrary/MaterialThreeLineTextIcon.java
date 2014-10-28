@@ -184,7 +184,7 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
         //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
-        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        final LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         primaryTextView = new TextView(getContext());
         primaryTextView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
@@ -198,7 +198,7 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
         secondaryTextView = new TextView(getContext());
         secondaryTextView.setTextColor(getResources().getColor(R.color.dark_grey));
         secondaryTextView.setTextSize(16);
-        secondaryTextView.setMaxLines(1);
+        secondaryTextView.setMaxLines(2);
         secondaryTextView.setLayoutParams(params);
         secondaryTextView.setEllipsize(TextUtils.TruncateAt.END);
         secondaryTextView.setPadding(padding, padding / 2, padding, padding);
@@ -345,7 +345,6 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
 
         final int measuredHeight = Math.max(primaryTextView.getMeasuredHeight() + secondaryTextView.getMeasuredHeight(), imageView.getMeasuredHeight());
 
-
         setMeasuredDimension(resolveSizeAndState(measuredWidth, widthMeasureSpec, 0),
                 resolveSizeAndState(measuredHeight, heightMeasureSpec, 0));
 
@@ -362,11 +361,10 @@ public class MaterialThreeLineTextIcon extends ViewGroup {
         );
 
         final int textViewPadding = (getMeasuredHeight() - (primaryTextView.getMeasuredHeight() + secondaryTextView.getMeasuredHeight())) / 2;
-
         primaryTextView.layout(getPaddingLeft() + imageView.getMeasuredWidth(),
                 textViewPadding,
                 getMeasuredWidth() - getPaddingRight(),
-                getPaddingTop() + textViewPadding + primaryTextView.getMeasuredHeight());
+                textViewPadding + primaryTextView.getMeasuredHeight());
 
         checkViewParams(primaryTextView);
 

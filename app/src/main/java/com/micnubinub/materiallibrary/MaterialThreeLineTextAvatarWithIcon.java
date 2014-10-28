@@ -187,7 +187,7 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
         //Todo consider 16 and 14 (in the guidelines)
         final int padding = dpToPixels(16);
         final int imageWidth = dpToPixels(72);
-        final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        final LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         primaryTextView = new TextView(getContext());
         primaryTextView.setTextColor(getResources().getColor(R.color.dark_dark_grey));
@@ -255,23 +255,23 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
     }
 
     public void setSecondaryTextColor(int color) {
-            secondaryTextView.setTextColor(color);
+        secondaryTextView.setTextColor(color);
     }
 
     public void setSecondaryTextMaxLines(int maxLines) {
-            secondaryTextView.setMaxLines(maxLines);
+        secondaryTextView.setMaxLines(maxLines);
     }
 
     public void setSecondaryTextSize(int sp) {
-            secondaryTextView.setTextSize(sp);
+        secondaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextSize(int sp) {
-            primaryTextView.setTextSize(sp);
+        primaryTextView.setTextSize(sp);
     }
 
     public void setPrimaryTextColor(int color) {
-            primaryTextView.setTextColor(color);
+        primaryTextView.setTextColor(color);
     }
 
     private void scale(final float scale) {
@@ -399,9 +399,10 @@ public class MaterialThreeLineTextAvatarWithIcon extends ViewGroup {
 
         checkViewParams(secondaryTextView);
 
-        icon.layout(iconLeft, getPaddingTop(),
+        final int iconPadding = (getMeasuredHeight() - icon.getMeasuredHeight()) / 2;
+        icon.layout(iconLeft, iconPadding,
                 getMeasuredWidth() - getPaddingRight(),
-                getPaddingTop() + icon.getMeasuredHeight());
+                getMeasuredHeight() - iconPadding);
 
 
     }
