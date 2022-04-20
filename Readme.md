@@ -1,21 +1,21 @@
-###Credit : Lindelwe Michael Ncube (micnubinub : https://github.com/Micnubinub/)
+**Credit : Lindelwe Michael Ncube (micnubinub : https://github.com/Micnubinub/)**
 
-###Credit : Robin Chutaux (traex : https://github.com/traex)
+**Credit : Robin Chutaux (traex : https://github.com/traex)**
 
-####This library is made with most of the design guidelines by google in mind : http://www.google.com/design/spec/components/lists.html#lists-behavior
+**This library is made with most of the design guidelines by google in mind : http://www.google.com/design/spec/components/lists.html#lists-behavior**
 
-####Sample app link : https://play.google.com/store/apps/details?id=com.micnubinub.materiallibrary
+*Sample app link : https://play.google.com/store/apps/details?id=com.micnubinub.materiallibrary*
 ![Alt text](pic1.png?raw=true "Screen shot 1")
 
 ![Alt text](pic2.png?raw=true "Screen shot 2")
 
-###How to use:
+**How to use:**
 
-####Note that the recommended layout params are in the main activity
+**Note that the recommended layout params are in the main activity**
 
-####Material Switch:
+**Material Switch:**
 
-#####In XML:
+**In XML:**
 ```xml
 <com.micnubinub.materiallibrary.MaterialSwitch
     android:id="@+id/material_switch"
@@ -23,7 +23,7 @@
     android:layout_height="60dp"
     app:text="Material Switch" />
 ```
-#####in Java:
+**in Java:**
 ```java
 MaterialSwitch materialSwitch = (MaterialSwitch) findViewById(R.id.material_switch);
 materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedListener() {
@@ -34,9 +34,9 @@ materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedLis
 });
 ```
 
-####Material RadioGroup:
+**Material RadioGroup:**
 
-#####in XML:
+**in XML:**
 ```xml
 <com.micnubinub.materiallibrary.MaterialRadioGroup
     android:id="@+id/material_radio_group"
@@ -60,7 +60,7 @@ materialSwitch.setOnCheckedChangeListener(new MaterialSwitch.OnCheckedChangedLis
 </com.micnubinub.materiallibrary.MaterialRadioGroup>
 ```
 
-#####in Java:
+**in Java:**
 ```java
 MaterialRadioGroup materialRadioGroup = (MaterialRadioGroup) findViewById(R.id.material_radio_group);
 materialRadioGroup.setOnSelectionChanged(new MaterialRadioGroup.OnSelectionChangedListener() {
@@ -71,16 +71,16 @@ materialRadioGroup.setOnSelectionChanged(new MaterialRadioGroup.OnSelectionChang
 });
 ```
 
-####Material Single Line Text View with Icon/Avatar:
+**Material Single Line Text View with Icon/Avatar:**
 
-#####In XML:
+**In XML:**
 ```xml
 <com.micnubinub.materiallibrary.MaterialSingleLineTextAvatar
     android:id="@+id/material_single_line_avatar"
     android:layout_width="fill_parent"
     android:layout_height="60dp" />
 ```
-#####in Java:
+**in Java:**
 ```java
 MaterialSingleLineTextAvatar materialSingleLineTextAvatar = (MaterialSingleLineTextAvatar) findViewById(R.id.material_single_line_avatar);
 materialSingleLineTextAvatar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(56)));
@@ -88,16 +88,16 @@ materialSingleLineTextAvatar.setText("Material Single line text with avatar");
 materialSingleLineTextAvatar.setIcon(getResources().getDrawable(R.drawable.icon));
 ```
 
-####Material Two/Three Line Text View with Icon/Avatar/AvatarWithIcon:
+**Material Two/Three Line Text View with Icon/Avatar/AvatarWithIcon:**
 
-#####In XML:
+**In XML:**
 ```xml
 <com.micnubinub.materiallibrary.MaterialSingleLineTextAvatar
     android:id="@+id/material_avatar_icon"
     android:layout_width="fill_parent"
     android:layout_height="60dp" />
 ```
-#####in Java:
+**in Java:**
 ```java
 MaterialThreeLineTextAvatarWithIcon materialThreeLineTextAvatarWithIcon = (MaterialThreeLineTextAvatarWithIcon) findViewById(R.id.material_avatar_icon);
 materialThreeLineTextAvatarWithIcon.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(88)));
