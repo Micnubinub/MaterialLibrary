@@ -1,6 +1,6 @@
 **Credit : Lindelwe Michael Ncube (micnubinub : https://github.com/Micnubinub/)**
 
-**Credit : Robin Chutaux (traex : https://github.com/traex)**
+**Credit : Robin Chutaux (traex : https://github.com/traex) > ripple effect library**
 
 **This library is made with most of the design guidelines by google in mind : http://www.google.com/design/spec/components/lists.html#lists-behavior**
 
