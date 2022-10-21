@@ -1,4 +1,4 @@
-* Old library, please use the official material library from google now
+*Old library, please use the official material library from google now
 
 **Credit : Lindelwe Michael Ncube (micnubinub : https://github.com/Micnubinub/)**
 
